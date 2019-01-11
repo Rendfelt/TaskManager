@@ -1,6 +1,7 @@
 package org.dragard;
 
 import javafx.util.Pair;
+import org.dragard.Exceptions.NotUniqueUserException;
 
 import java.util.Scanner;
 
@@ -66,7 +67,12 @@ public class ConsoleGui
 
     private void createNewUser() {
         final Pair<String, String> userData = readUserData();
-        projectManager.addNewUser(userData);
+        try {
+            projectManager.addNewUser(userData);
+        } catch (NotUniqueUserException e) {
+            System.out.println("Not unique login. Please try again");
+        }
+        showMenuLoggedOut();
     }
 
     @Override

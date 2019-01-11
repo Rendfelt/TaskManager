@@ -8,25 +8,38 @@ import java.util.Objects;
 public class User
         implements Serializable {
 
-    private final long iserId;
+    private final long userId;
     private final String login;
     private final String password;
-    private final List<Task> taskList;
     private boolean isAdmin;
-
     private final List<Project> projectList;
 
-    public User(long iserId, String login, String password, List<Task> taskList) {
-        this.iserId = iserId;
-        this.login = login;
-        this.password = password;
-        this.taskList = taskList;
-        this.isAdmin = false;
-        projectList = new ArrayList<>();
+    public long getUserId() {
+        return userId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public List<Project> getProjectList() {
+        return projectList;
     }
 
     public User(long userId, String login, String password) {
-        this(userId, login, password, new ArrayList<Task>());
+        this.userId = userId;
+        this.login = login;
+        this.password = password;
+        this.isAdmin = false;
+        projectList = new ArrayList<>();
     }
 
     @Override
@@ -45,11 +58,11 @@ public class User
     @Override
     public String toString() {
         return "User{" +
-                "iserId=" + iserId +
+                "userId=" + userId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", taskList=" + taskList +
                 ", isAdmin=" + isAdmin +
+                ", projectList=" + projectList +
                 '}';
     }
 }

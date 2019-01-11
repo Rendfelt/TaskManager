@@ -1,13 +1,17 @@
 package org.dragard;
 
+import javafx.util.Pair;
+
 import java.util.Scanner;
 
 public class ConsoleGui
     implements GuiInterface{
 
-    private Scanner scanner;
+    private final Scanner scanner;
+    private final ProjectManager projectManager;
 
-    public ConsoleGui() {
+    public ConsoleGui(final ProjectManager projectManager) {
+        this.projectManager = projectManager;
         scanner = new Scanner(System.in);
     }
 
@@ -35,13 +39,8 @@ public class ConsoleGui
             System.out.println("enter number 1-2");
         }
 
-        System.out.println(choice);
         if (choice == 1){
-            try {
-                loggingIn();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            loggingIn();
         } else {
             createNewUser();
         }
@@ -49,17 +48,25 @@ public class ConsoleGui
     }
 
     private void loggingIn(){
+
+        final Pair<String, String> userData = readUserData();
+        System.out.printf("%s - %s", userData.getKey(), userData.getValue());
+        showMenuLoggedIn();
+
+    }
+
+    private Pair<String, String> readUserData(){
         scanner.nextLine();
         System.out.println("Enter login:");
         final String tempLogin = scanner.nextLine();
         System.out.println("Enter password:");
         final String tempPassword = scanner.nextLine();
-        System.out.printf("%s - %s", tempLogin, tempPassword);
-        showMenuLoggedIn();
+        return new Pair<>(tempLogin, tempPassword);
     }
 
     private void createNewUser() {
-
+        final Pair<String, String> userData = readUserData();
+        projectManager.addNewUser(userData);
     }
 
     @Override

@@ -14,6 +14,21 @@ public class User
     private final List<Task> taskList;
     private boolean isAdmin;
 
+    private final List<Project> projectList;
+
+    public User(long iserId, String login, String password, List<Task> taskList) {
+        this.iserId = iserId;
+        this.login = login;
+        this.password = password;
+        this.taskList = taskList;
+        this.isAdmin = false;
+        projectList = new ArrayList<>();
+    }
+
+    public User(long userId, String login, String password) {
+        this(userId, login, password, new ArrayList<Task>());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,17 +51,5 @@ public class User
                 ", taskList=" + taskList +
                 ", isAdmin=" + isAdmin +
                 '}';
-    }
-
-    public User(long iserId, String login, String password, List<Task> taskList) {
-        this.iserId = iserId;
-        this.login = login;
-        this.password = password;
-        this.taskList = taskList;
-        this.isAdmin = false;
-    }
-
-    public User(long userId, String login, String password) {
-        this(userId, login, password, new ArrayList<Task>());
     }
 }

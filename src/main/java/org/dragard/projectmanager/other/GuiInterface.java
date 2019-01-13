@@ -1,4 +1,4 @@
-package org.dragard;
+package org.dragard.projectmanager.other;
 
 public interface GuiInterface {
 

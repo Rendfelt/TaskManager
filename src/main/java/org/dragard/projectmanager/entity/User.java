@@ -1,4 +1,4 @@
-package org.dragard;
+package org.dragard.projectmanager.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class User
     private final String login;
     private final String password;
     private boolean isAdmin;
-    private final List<Project> projectList;
+    private final List<org.dragard.projectmanager.entity.Project> projectList;
 
     public long getUserId() {
         return userId;
@@ -30,7 +30,7 @@ public class User
         return isAdmin;
     }
 
-    public List<Project> getProjectList() {
+    public List<org.dragard.projectmanager.entity.Project> getProjectList() {
         return projectList;
     }
 

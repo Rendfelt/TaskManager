@@ -1,8 +1,9 @@
-package org.dragard;
+package org.dragard.projectmanager.other;
 
 
 import javafx.util.Pair;
-import org.dragard.Exceptions.NotUniqueUserException;
+import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.exception.NotUniqueUserException;
 
 import java.io.*;
 import java.net.URISyntaxException;

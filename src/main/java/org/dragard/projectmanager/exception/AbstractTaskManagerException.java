@@ -1,4 +1,4 @@
-package org.dragard.Exceptions;
+package org.dragard.projectmanager.exception;
 
 public abstract class AbstractTaskManagerException extends Exception{
 

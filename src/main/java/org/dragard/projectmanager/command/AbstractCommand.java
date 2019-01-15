@@ -1,13 +1,12 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Bootstrap;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 
 public abstract class AbstractCommand implements Command {
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private ServiceLocator serviceLocator;
 
     public String getName() {
@@ -26,13 +25,9 @@ public abstract class AbstractCommand implements Command {
         this.serviceLocator = serviceLocator;
     }
 
-    public AbstractCommand() {
-    }
-
-    public AbstractCommand(String name, String description, ServiceLocator serviceLocator) {
+    public AbstractCommand(String name, String description) {
         this.name = name;
         this.description = description;
-        this.serviceLocator = serviceLocator;
     }
 
     @Override

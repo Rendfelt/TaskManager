@@ -1,13 +1,11 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Bootstrap;
-import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.entity.Project;
 
 public class ShowProjectsCommand extends AbstractCommand {
 
-    public ShowProjectsCommand(ServiceLocator serviceLocator) {
-        super("show_projects", "Show list of projects", serviceLocator);
+    public ShowProjectsCommand() {
+        super("show_projects", "Show list of projects");
     }
 
     @Override

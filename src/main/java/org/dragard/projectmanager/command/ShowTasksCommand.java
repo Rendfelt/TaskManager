@@ -1,12 +1,11 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.entity.Task;
 
 public class ShowTasksCommand extends AbstractCommand {
 
-    public ShowTasksCommand(ServiceLocator serviceLocator) {
-        super("show_tasks", "Show list of tasks", serviceLocator);
+    public ShowTasksCommand() {
+        super("show_tasks", "Show list of tasks");
     }
 
     @Override

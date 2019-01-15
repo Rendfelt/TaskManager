@@ -1,7 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.api.ServiceLocator;
-import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
@@ -10,8 +8,8 @@ import java.util.Scanner;
 
 public class UpdateTaskCommand extends AbstractCommand{
 
-    public UpdateTaskCommand(ServiceLocator serviceLocator) {
-        super("update_task", "Update active task", serviceLocator);
+    public UpdateTaskCommand() {
+        super("update_task", "Update active task");
     }
 
     @Override

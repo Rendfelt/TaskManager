@@ -16,8 +16,6 @@ import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
-    private final static Class[] clazzes = {ShowTasksCommand.class,};
-
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final ProjectService projectService;
@@ -32,36 +30,20 @@ public class Bootstrap implements ServiceLocator {
         taskService = new TaskServiceImpl(taskRepository, projectRepository);
         projectService = new ProjectServiceImpl(projectRepository);
         commandList = new HashMap<>();
-        commandList.put(new ShowTasksCommand(this).getName(), new ShowTasksCommand(this));
-        commandList.put(new ShowProjectsCommand(this).getName(), new ShowProjectsCommand(this));
-        commandList.put(new CreateProjectCommand(this).getName(), new CreateProjectCommand(this));
-        commandList.put(new UpdateProjectCommand(this).getName(), new UpdateProjectCommand(this));
-        commandList.put(new DeleteProjectCommand(this).getName(), new DeleteProjectCommand(this));
-        commandList.put(new CreateTaskCommand(this).getName(), new CreateTaskCommand(this));
-        commandList.put(new UpdateTaskCommand(this).getName(), new UpdateTaskCommand(this));
-        commandList.put(new DeleteTaskCommand(this).getName(), new DeleteTaskCommand(this));
-        commandList.put(new ExitCommand(this).getName(), new ExitCommand(this));
-        commandList.put(new HelpCommand(this).getName(), new HelpCommand(this));
-
         scanner = new Scanner(System.in);
-//        initializeTestData();
     }
 
-/*    private void initializeTestData(){
-        projectRepository.create("ProjectName1", "Description1");
-        projectRepository.create("ProjectName2", "Description2");
-        projectRepository.create("ProjectName3", "Description3");
-        Project project = projectRepository.getElements().values().iterator().next();
-        Project project2 = projectRepository.getElements().values().iterator().next();
-        taskRepository.create(project.getId(), "TaskName1", "Description1");
-        taskRepository.create(project.getId(), "TaskName2", "Description2");
-        taskRepository.create(project2.getId(), "TaskName3", "Description3");
-        taskRepository.create(project2.getId(), "TaskName5", "Description6");
-    }*/
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
         AbstractCommand command = (AbstractCommand) clazz.newInstance();
         command.setServiceLocator(this);
         commandList.put(command.getName(), command);
+    }
+
+    public void registry(Class[] clazzes) throws IllegalAccessException, InstantiationException {
+        for (Class clazz:
+             clazzes) {
+            registry(clazz);
+        }
     }
 
     public void run(){

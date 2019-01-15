@@ -8,8 +8,8 @@ import java.util.Collection;
 
 public class HelpCommand extends AbstractCommand{
 
-    public HelpCommand(ServiceLocator serviceLocator) {
-        super("help", "Show all commands with description", serviceLocator);
+    public HelpCommand() {
+        super("help", "Show all commands with description");
     }
 
     @Override

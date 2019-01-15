@@ -1,7 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Bootstrap;
-import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
@@ -9,8 +7,8 @@ import java.util.Scanner;
 
 public class CreateTaskCommand extends AbstractCommand{
 
-    public CreateTaskCommand(ServiceLocator serviceLocator) {
-        super("create_task", "Create new task", serviceLocator);
+    public CreateTaskCommand() {
+        super("create_task", "Create new task");
     }
 
     @Override

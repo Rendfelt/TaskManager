@@ -1,14 +1,13 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 
 import java.util.Scanner;
 
 public class DeleteProjectCommand extends AbstractCommand{
 
-    public DeleteProjectCommand(ServiceLocator serviceLocator) {
-        super("delete_project", "Delete active project", serviceLocator);
+    public DeleteProjectCommand() {
+        super("delete_project", "Delete active project");
     }
 
     @Override

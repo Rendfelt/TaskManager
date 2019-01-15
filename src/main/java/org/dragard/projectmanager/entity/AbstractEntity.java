@@ -1,12 +1,14 @@
 package org.dragard.projectmanager.entity;
 
+import java.util.UUID;
+
 public abstract class AbstractEntity {
 
-    private final long id;
+    private final String id;
     private final String name;
     private final String description;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -18,7 +20,7 @@ public abstract class AbstractEntity {
         return description;
     }
 
-    public AbstractEntity(long id, String name, String description) {
+    protected AbstractEntity(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

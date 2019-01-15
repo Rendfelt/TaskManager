@@ -1,26 +1,33 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Application;
+import org.dragard.projectmanager.Bootstrap;
+import org.dragard.projectmanager.api.ServiceLocator;
+import org.dragard.projectmanager.exception.NoElementWithIdException;
+import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.Scanner;
 
 public class CreateTaskCommand extends AbstractCommand{
 
-    public CreateTaskCommand(Application application) {
-        super("create_task", "Create new task and make it active", application);
+    public CreateTaskCommand(ServiceLocator serviceLocator) {
+        super("create_task", "Create new task", serviceLocator);
     }
 
     @Override
     public void execute() {
-        if (getApplication().getProjectRepository().getActive() == null){
-            System.out.println(Application.NO_ACTIVE_PROJECT_MESSAGE);
-            return;
-        }
-        Scanner scanner = getApplication().getScanner();
+        Scanner scanner = getServiceLocator().getScanner();
+        System.out.println("Enter project id: ");
+        final String projectId = scanner.nextLine();
         System.out.println("Enter task name: ");
         final String name = scanner.nextLine();
         System.out.println("Enter task description: ");
         final String description = scanner.nextLine();
-        getApplication().getTaskRepository().create(name, description);
+        try {
+            getServiceLocator().getTaskService().create(name, description, projectId);
+        } catch (NoNameException e) {
+            e.printStackTrace();
+        } catch (NoElementWithIdException e) {
+            e.printStackTrace();
+        }
     }
 }

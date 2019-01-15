@@ -1,21 +1,23 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Application;
+import org.dragard.projectmanager.Bootstrap;
+import org.dragard.projectmanager.api.ServiceLocator;
+import org.dragard.projectmanager.api.command.Command;
 
-import java.util.List;
+import java.util.Collection;
 
 public class HelpCommand extends AbstractCommand{
 
-    public HelpCommand(Application application) {
-        super("help", "Show all commands with description", application);
+    public HelpCommand(ServiceLocator serviceLocator) {
+        super("help", "Show all commands with description", serviceLocator);
     }
 
     @Override
     public void execute() {
-        List<AbstractCommand> acList = getApplication().getCommandList();
-        for (AbstractCommand ac :
-               acList ) {
-            System.out.printf("%-20s%s\n", ac.getName(), ac.getDescription());
+        Collection<Command> commandList = getServiceLocator().getCommandList().values();
+        for (Command command :
+               commandList ) {
+            System.out.printf("%-20s%s\n", command.getName(), command.getDescription());
         }
     }
 }

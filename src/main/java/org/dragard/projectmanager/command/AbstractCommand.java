@@ -1,12 +1,14 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Application;
+import org.dragard.projectmanager.Bootstrap;
+import org.dragard.projectmanager.api.ServiceLocator;
+import org.dragard.projectmanager.api.command.Command;
 
-public abstract class AbstractCommand implements CommandInterface {
+public abstract class AbstractCommand implements Command {
 
-    private final String name;
-    private final String description;
-    private final Application application;
+    private String name;
+    private String description;
+    private ServiceLocator serviceLocator;
 
     public String getName() {
         return name;
@@ -16,14 +18,21 @@ public abstract class AbstractCommand implements CommandInterface {
         return description;
     }
 
-    protected Application getApplication() {
-        return application;
+    public ServiceLocator getServiceLocator() {
+        return serviceLocator;
     }
 
-    public AbstractCommand(String name, String description, Application application) {
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        this.serviceLocator = serviceLocator;
+    }
+
+    public AbstractCommand() {
+    }
+
+    public AbstractCommand(String name, String description, ServiceLocator serviceLocator) {
         this.name = name;
         this.description = description;
-        this.application = application;
+        this.serviceLocator = serviceLocator;
     }
 
     @Override

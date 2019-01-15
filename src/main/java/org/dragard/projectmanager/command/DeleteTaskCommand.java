@@ -1,21 +1,24 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.Application;
-import org.dragard.projectmanager.exception.NoActiveElementException;
+import org.dragard.projectmanager.api.ServiceLocator;
+import org.dragard.projectmanager.exception.NoElementWithIdException;
+
+import java.util.Scanner;
 
 public class DeleteTaskCommand extends AbstractCommand{
 
-    public DeleteTaskCommand(Application application) {
-        super("delete_task", "Delete active task", application);
+    public DeleteTaskCommand(ServiceLocator serviceLocator) {
+        super("delete_task", "Delete active task", serviceLocator);
     }
 
     @Override
     public void execute() {
+        Scanner scanner = getServiceLocator().getScanner();
+        System.out.println("Enter task id:");
         try {
-            getApplication().getTaskRepository().delete();
-            getApplication().getTaskRepository().clearActive();
-        } catch (NoActiveElementException e) {
-            System.out.println(Application.NO_ACTIVE_PROJECT_MESSAGE);
+            getServiceLocator().getTaskService().delete(scanner.nextLine());
+        } catch (NoElementWithIdException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,11 +1,13 @@
 package org.dragard.projectmanager.command;
 
 import org.dragard.projectmanager.Application;
+import org.dragard.projectmanager.Bootstrap;
+import org.dragard.projectmanager.api.ServiceLocator;
 
 public class ExitCommand extends AbstractCommand{
 
-    public ExitCommand(Application application) {
-        super("exit", "Close application", application);
+    public ExitCommand(ServiceLocator serviceLocator) {
+        super("exit", "Close application", serviceLocator);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 public class DataLoadCommand extends AbstractCommand {
 
     public DataLoadCommand() {
-        super("load", "Load entities from file");
+        super("load", "Load entities from file", true);
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ProjectCreateCommand extends AbstractCommand{
 
     public ProjectCreateCommand() {
-        super("create_project", "Create new project");
+        super("create_project", "Create new project", true);
     }
 
     @Override

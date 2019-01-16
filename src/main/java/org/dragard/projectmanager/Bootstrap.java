@@ -4,36 +4,59 @@ import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
+import org.dragard.projectmanager.api.repository.UserRepository;
+import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
-import org.dragard.projectmanager.command.*;
+import org.dragard.projectmanager.api.service.UserService;
+import org.dragard.projectmanager.domain.DomainImpl;
 import org.dragard.projectmanager.entity.Project;
-import org.dragard.projectmanager.exception.NoNameException;
 import org.dragard.projectmanager.repository.ProjectRepositoryImpl;
 import org.dragard.projectmanager.repository.TaskRepositoryImpl;
+import org.dragard.projectmanager.repository.UserRepositoryImpl;
+import org.dragard.projectmanager.service.AuthorizationServiceImpl;
 import org.dragard.projectmanager.service.ProjectServiceImpl;
 import org.dragard.projectmanager.service.TaskServiceImpl;
+import org.dragard.projectmanager.service.UserServiceImpl;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final UserService userService;
 
+    public AuthorizationService getAuthorizationService() {
+        return authorizationService;
+    }
+
+    private final AuthorizationService authorizationService;
     private final Map<String, Command> commandList;
     private final Scanner scanner;
+    public UserService getUserService() {
+        return userService;
+    }
 
     public Bootstrap() {
         projectRepository = new ProjectRepositoryImpl();
         taskRepository = new TaskRepositoryImpl();
         taskService = new TaskServiceImpl(taskRepository);
         projectService = new ProjectServiceImpl(projectRepository);
+        userRepository = new UserRepositoryImpl();
+        userService = new UserServiceImpl(userRepository);
+        authorizationService = new AuthorizationServiceImpl(userService);
+
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
-        initializeTestData();
     }
 
     private void initializeTestData(){
@@ -50,13 +73,17 @@ public class Bootstrap implements ServiceLocator {
             taskService.create("TaskName3", "TaskDescription3", project1.getId());
             taskService.create("TaskName4", "TaskDescription4", project2.getId());
             taskService.create("TaskName5", "TaskDescription5", project2.getId());
+            final byte[] testPassword = MessageDigest.getInstance("MD5").digest("test".getBytes(StandardCharsets.UTF_8));
+            userService.create("test", testPassword);
+            final byte[] rootPassword = MessageDigest.getInstance("MD5").digest("root".getBytes(StandardCharsets.UTF_8));
+            userService.create("root", rootPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
-        AbstractCommand command = (AbstractCommand) clazz.newInstance();
+        Command command = (Command) clazz.newInstance();
         command.setServiceLocator(this);
         commandList.put(command.getName(), command);
     }
@@ -68,12 +95,23 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    public void run(){
+    public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException {
+        initializeTestData();
+        try {
+            new DomainImpl(this).loadUserList();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         while (true) {
             System.out.println("\nEnter your command (enter \"help\" for list of commands)");
             final String input = scanner.nextLine().toLowerCase();
-            if (commandList.containsKey(input)){
-                commandList.get(input).execute();
+            Command command = commandList.get(input);
+            if ((command != null) && ((!command.isSecure()) || (authorizationService.isLogged()))){
+                command.execute();
             } else {
                 System.out.println("Command not recognized. Try again, please");
             }

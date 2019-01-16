@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class TaskDeleteCommand extends AbstractCommand{
 
     public TaskDeleteCommand() {
-        super("delete_task", "Delete active task");
+        super("delete_task", "Delete active task", true);
     }
 
     @Override

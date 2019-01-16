@@ -35,6 +35,6 @@ public abstract class AbstractRepository<E extends AbstractEntity>
 
     @Override
     public void update(E element) {
-        elements.put(element.getId(), element);
+        create(element);
     }
 }

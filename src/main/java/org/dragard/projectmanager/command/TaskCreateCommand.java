@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class TaskCreateCommand extends AbstractCommand{
 
     public TaskCreateCommand() {
-        super("create_task", "Create new task");
+        super("create_task", "Create new task", true);
     }
 
     @Override

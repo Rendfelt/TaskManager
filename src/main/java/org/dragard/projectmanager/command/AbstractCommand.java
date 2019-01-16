@@ -10,6 +10,7 @@ public abstract class AbstractCommand implements Command {
     private final String name;
     private final String description;
     private ServiceLocator serviceLocator;
+    private final boolean isSecure;
 
     public String getName() {
         return name;
@@ -27,9 +28,14 @@ public abstract class AbstractCommand implements Command {
         this.serviceLocator = serviceLocator;
     }
 
-    public AbstractCommand(String name, String description) {
+    public AbstractCommand(String name, String description, boolean isSecure) {
         this.name = name;
         this.description = description;
+        this.isSecure = isSecure;
+    }
+
+    public boolean isSecure() {
+        return isSecure;
     }
 
     @Override

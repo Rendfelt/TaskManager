@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ProjectDeleteCommand extends AbstractCommand{
 
     public ProjectDeleteCommand() {
-        super("delete_project", "Delete active project");
+        super("delete_project", "Delete active project", true);
     }
 
     @Override

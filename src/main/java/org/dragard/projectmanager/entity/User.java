@@ -1,45 +1,31 @@
 package org.dragard.projectmanager.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class User
         implements Serializable {
 
-    private final long userId;
+    private final String id;
     private final String login;
-    private final String password;
-    private boolean isAdmin;
-    private final List<org.dragard.projectmanager.entity.Project> projectList;
+    private final byte[] password;
 
-    public long getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public List<org.dragard.projectmanager.entity.Project> getProjectList() {
-        return projectList;
-    }
-
-    public User(long userId, String login, String password) {
-        this.userId = userId;
+    public User(String id, String login, byte[] password) {
+        this.id = id;
         this.login = login;
         this.password = password;
-        this.isAdmin = false;
-        projectList = new ArrayList<>();
     }
 
     @Override
@@ -58,11 +44,9 @@ public class User
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", projectList=" + projectList +
                 '}';
     }
 }

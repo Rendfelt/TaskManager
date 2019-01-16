@@ -5,7 +5,7 @@ import org.dragard.projectmanager.entity.Task;
 public class TaskShowAllCommand extends AbstractCommand {
 
     public TaskShowAllCommand() {
-        super("show_tasks", "Show list of tasks");
+        super("show_tasks", "Show list of tasks", true);
     }
 
     @Override

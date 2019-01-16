@@ -5,7 +5,7 @@ import org.dragard.projectmanager.entity.Project;
 public class ProjectShowAllCommand extends AbstractCommand {
 
     public ProjectShowAllCommand() {
-        super("show_projects", "Show list of projects");
+        super("show_projects", "Show list of projects", true);
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class TaskUpdateCommand extends AbstractCommand{
 
     public TaskUpdateCommand() {
-        super("update_task", "Update active task");
+        super("update_task", "Update active task", true);
     }
 
     @Override

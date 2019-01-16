@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ProjectUpdateCommand extends AbstractCommand{
 
     public ProjectUpdateCommand() {
-        super("update_project", "Update active project");
+        super("update_project", "Update active project", true);
     }
 
     @Override

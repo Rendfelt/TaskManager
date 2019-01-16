@@ -3,6 +3,8 @@ package org.dragard.projectmanager.command;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 
+import java.util.Objects;
+
 public abstract class AbstractCommand implements Command {
 
     private final String name;
@@ -33,5 +35,18 @@ public abstract class AbstractCommand implements Command {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractCommand command = (AbstractCommand) o;
+        return Objects.equals(name, command.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

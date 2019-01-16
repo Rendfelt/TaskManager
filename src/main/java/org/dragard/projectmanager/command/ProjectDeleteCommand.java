@@ -4,9 +4,9 @@ import org.dragard.projectmanager.exception.NoElementWithIdException;
 
 import java.util.Scanner;
 
-public class DeleteProjectCommand extends AbstractCommand{
+public class ProjectDeleteCommand extends AbstractCommand{
 
-    public DeleteProjectCommand() {
+    public ProjectDeleteCommand() {
         super("delete_project", "Delete active project");
     }
 

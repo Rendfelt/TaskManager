@@ -5,9 +5,9 @@ import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.Scanner;
 
-public class CreateTaskCommand extends AbstractCommand{
+public class TaskCreateCommand extends AbstractCommand{
 
-    public CreateTaskCommand() {
+    public TaskCreateCommand() {
         super("create_task", "Create new task");
     }
 

@@ -2,9 +2,9 @@ package org.dragard.projectmanager.command;
 
 import org.dragard.projectmanager.entity.Project;
 
-public class ShowProjectsCommand extends AbstractCommand {
+public class ProjectShowAllCommand extends AbstractCommand {
 
-    public ShowProjectsCommand() {
+    public ProjectShowAllCommand() {
         super("show_projects", "Show list of projects");
     }
 

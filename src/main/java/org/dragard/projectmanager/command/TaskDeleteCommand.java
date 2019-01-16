@@ -4,9 +4,9 @@ import org.dragard.projectmanager.exception.NoElementWithIdException;
 
 import java.util.Scanner;
 
-public class DeleteTaskCommand extends AbstractCommand{
+public class TaskDeleteCommand extends AbstractCommand{
 
-    public DeleteTaskCommand() {
+    public TaskDeleteCommand() {
         super("delete_task", "Delete active task");
     }
 

@@ -1,39 +1,41 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.entity.Task;
+import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.Scanner;
 
-public class UpdateTaskCommand extends AbstractCommand{
+public class ProjectUpdateCommand extends AbstractCommand{
 
-    public UpdateTaskCommand() {
-        super("update_task", "Update active task");
+    public ProjectUpdateCommand() {
+        super("update_project", "Update active project");
     }
 
     @Override
     public void execute() {
         try {
             Scanner scanner = getServiceLocator().getScanner();
-            System.out.println("Enter task id");
-            Task task = getServiceLocator().getTaskService().getElementById(scanner.nextLine());
-            if (task == null){
+            System.out.println("Enter project id");
+            Project project = getServiceLocator().getProjectService().getElementById(scanner.nextLine());
+            if (project == null){
                 throw new NoElementWithIdException();
             }
 
-            System.out.println("Enter task name:");
+            System.out.println("Enter project name:");
             final String name = scanner.nextLine();
             if (name.isEmpty()){
                 throw new NoNameException();
             }
-            System.out.println("Enter task description");
+            System.out.println("Enter project description");
             final String description = scanner.nextLine();
-            getServiceLocator().getTaskService().update(task.getId(), name, description);
+            getServiceLocator().getProjectService().update(project.getId(), name, description);
         } catch (NoNameException e) {
             e.printStackTrace();
         } catch (NoElementWithIdException e) {
             e.printStackTrace();
         }
     }
+
+
 }

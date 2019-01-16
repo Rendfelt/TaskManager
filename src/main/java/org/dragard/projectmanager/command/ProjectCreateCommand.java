@@ -4,9 +4,9 @@ import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.Scanner;
 
-public class CreateProjectCommand extends AbstractCommand{
+public class ProjectCreateCommand extends AbstractCommand{
 
-    public CreateProjectCommand() {
+    public ProjectCreateCommand() {
         super("create_project", "Create new project");
     }
 

@@ -14,13 +14,19 @@ public class TaskCreateCommand extends AbstractCommand{
     @Override
     public void execute() {
         Scanner scanner = getServiceLocator().getScanner();
-        System.out.println("Enter project id: ");
-        final String projectId = scanner.nextLine();
-        System.out.println("Enter task name: ");
-        final String name = scanner.nextLine();
-        System.out.println("Enter task description: ");
-        final String description = scanner.nextLine();
         try {
+            System.out.println("Enter project id: ");
+            final String projectId = scanner.nextLine();
+            if (getServiceLocator().getProjectService().getElementById(projectId) == null){
+                throw new NoElementWithIdException();
+            }
+            System.out.println("Enter task name: ");
+            final String name = scanner.nextLine();
+            if (name.isEmpty()){
+                throw new NoNameException();
+            }
+            System.out.println("Enter task description: ");
+            final String description = scanner.nextLine();
             getServiceLocator().getTaskService().create(name, description, projectId);
         } catch (NoNameException e) {
             e.printStackTrace();

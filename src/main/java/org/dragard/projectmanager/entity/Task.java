@@ -1,8 +1,5 @@
 package org.dragard.projectmanager.entity;
 
-
-import java.util.UUID;
-
 public class Task extends AbstractEntity{
 
     private final String projectId;

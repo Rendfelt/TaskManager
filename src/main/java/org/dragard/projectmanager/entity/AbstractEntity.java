@@ -1,8 +1,9 @@
 package org.dragard.projectmanager.entity;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-public abstract class AbstractEntity {
+public abstract class AbstractEntity
+    implements Serializable {
 
     private final String id;
     private final String name;

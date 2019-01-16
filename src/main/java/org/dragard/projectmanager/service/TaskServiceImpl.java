@@ -1,32 +1,24 @@
 package org.dragard.projectmanager.service;
 
-import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.api.service.TaskService;
-import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 
 public class TaskServiceImpl extends AbstractService<Task>
         implements TaskService {
 
-    private final ProjectRepository projectRepository;
-
-    public TaskServiceImpl(TaskRepository repository, ProjectRepository projectRepository) {
+    public TaskServiceImpl(TaskRepository repository) {
         super(repository);
-        this.projectRepository = projectRepository;
     }
 
     @Override
-    public void create(String name, String description, String projectId) throws NoNameException, NoElementWithIdException {
-        if (projectRepository.getElementById(projectId) == null){
-            throw new NoElementWithIdException();
-        }
+    public void create(String name, String description, String projectId) throws NoNameException {
+        //TODO: Ask projectId validation
         if (name == null || name.isEmpty()){
             throw new NoNameException();
         }

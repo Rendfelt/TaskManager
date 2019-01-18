@@ -22,6 +22,20 @@
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
+  <developers>
+    <developer>
+      <id>dragard</id>
+      <name>Viktor Teslin</name>
+      <email>viktorteslin@gmail.com</email>
+      <url>http://www.dragard.org</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Russia/Moscow</timezone>
+    </developer>
+  </developers>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

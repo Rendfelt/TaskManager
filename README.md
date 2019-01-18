@@ -1,19 +1,18 @@
-project-manager
+# project-manager
 
 
-Technologies:
+## Technologies:
 
 Java 1.7
 Maven 4.0.0
 
 
-Project base structure:
+## Project base structure:
 
 Application: class with entry point;
 Bootstrap: class with main application loop;
 
 api: package with base interfaces;
-
 command: package with command classes;
 exception: package with exceptions;
 
@@ -32,6 +31,7 @@ ProjectServiceImpl: Class presents project data;
 TaskServiceImpl: Class presents task data;
 UserServiceImpl: Class presents user data;
 
+```
 project-manager
 ──src
   └───main
@@ -49,20 +49,24 @@ project-manager
                       ├───exception
                       ├───repository
                       └───service
+```
 
 
-Base functions:
+## Base functions:
 
-to see base function type: /help;
-to login type: /login or /reg (if no login);
-to exit from application type: /exit.
+to see base functions type "help";
+to login type: "login" or "create_user" (if no login);
+to exit from application type "exit".
 
 
-Build:
+## Build:
 
+```
 mvn clean install
+```
 
+## Deployment:
 
-Deployment:
-
-java -jar ./task-manager.jar
+```
+java -jar ./project-manager.jar
+```

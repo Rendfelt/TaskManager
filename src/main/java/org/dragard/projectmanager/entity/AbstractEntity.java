@@ -5,8 +5,19 @@ import java.io.Serializable;
 public abstract class AbstractEntity
     implements Serializable {
 
-    private final String id;
-    private final String name;
+    private String id;
+    private String name;
+
+    public AbstractEntity() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getId() {
         return id;

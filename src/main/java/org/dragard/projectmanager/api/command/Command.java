@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 public interface Command {
 
-    void execute() throws NoSuchAlgorithmException, URISyntaxException, IOException;
+    void execute() throws NoSuchAlgorithmException, URISyntaxException, IOException, ClassNotFoundException;
 
     String getName();
 

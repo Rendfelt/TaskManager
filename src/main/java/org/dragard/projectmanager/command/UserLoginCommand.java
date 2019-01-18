@@ -32,7 +32,7 @@ public class UserLoginCommand extends AbstractCommand {
             System.out.println("Enter password:");
             final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
             getServiceLocator().getAuthorizationService().login(login, password);
-            new DomainServiceImpl(getServiceLocator()).load();
+            new DomainServiceImpl(getServiceLocator()).loadSerialization();
         } catch (NoNameException | ClassNotFoundException | AbstractTaskManagerExceptionImpl | URISyntaxException | IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,10 @@
 package org.dragard.projectmanager.command;
 
+import org.dragard.projectmanager.service.DomainServiceImpl;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 public class DataXMLSaveCommand extends AbstractCommand {
 
     public DataXMLSaveCommand() {
@@ -7,7 +12,7 @@ public class DataXMLSaveCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() {
-
+    public void execute() throws IOException, URISyntaxException {
+            new DomainServiceImpl(getServiceLocator()).saveXML();
     }
 }

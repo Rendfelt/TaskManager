@@ -21,7 +21,7 @@ public abstract class AbstractRepository<E extends AbstractEntity>
 
     @Override
     public Collection<E> getElements() {
-        return Collections.unmodifiableCollection(elements.values());
+        return new ArrayList<>(elements.values());
     }
 
     @Override

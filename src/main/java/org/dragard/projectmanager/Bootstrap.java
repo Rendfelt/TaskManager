@@ -88,7 +88,7 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException {
+    public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
         initializeTestData();
         try {
             new DomainServiceImpl(this).loadUserList();

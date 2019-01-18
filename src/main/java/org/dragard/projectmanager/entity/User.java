@@ -5,15 +5,18 @@ import java.util.Objects;
 
 public class User extends AbstractEntity{
 
-    private final byte[] password;
+    private byte[] password;
 
-    public byte[] getPassword() {
-        return password;
+    public User() {
     }
 
     public User(String id, String name, byte[] password) {
         super(id, name);
         this.password = password;
+    }
+
+    public byte[] getPassword() {
+        return password;
     }
 
     @Override

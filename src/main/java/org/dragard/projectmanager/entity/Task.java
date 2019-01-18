@@ -2,7 +2,10 @@ package org.dragard.projectmanager.entity;
 
 public class Task extends AbstractJobEntity {
 
-    private final String projectId;
+    public Task() {
+    }
+
+    private String projectId;
 
     public Task(String id, String name, String description, String projectId) {
         super(id, name, description);

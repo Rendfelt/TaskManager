@@ -6,5 +6,6 @@ public class Project extends AbstractJobEntity {
         super(id, name, description);
     }
 
-
+    public Project() {
+    }
 }

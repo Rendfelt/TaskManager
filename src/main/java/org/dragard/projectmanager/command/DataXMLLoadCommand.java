@@ -5,14 +5,14 @@ import org.dragard.projectmanager.service.DomainServiceImpl;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class DataSaveCommand extends AbstractCommand {
+public class DataXMLLoadCommand extends AbstractCommand {
 
-    public DataSaveCommand() {
-        super("save", "Save entities to file", true);
+    public DataXMLLoadCommand() {
+        super("load_xml", "Load entities from xml-file", true);
     }
 
     @Override
     public void execute() throws IOException, URISyntaxException {
-        new DomainServiceImpl(getServiceLocator()).saveSerialization();
+        new DomainServiceImpl(getServiceLocator()).loadXML();
     }
 }

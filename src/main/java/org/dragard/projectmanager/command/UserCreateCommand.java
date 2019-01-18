@@ -1,8 +1,11 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.domain.DomainImpl;
+import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
+import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.exception.NoNameException;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,12 +29,8 @@ public class UserCreateCommand extends AbstractCommand{
             System.out.println("Enter password:");
             final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
             getServiceLocator().getUserService().create(login, password);
-            new DomainImpl(getServiceLocator()).saveUserList();
-        } catch (NoNameException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+            new DomainServiceImpl(getServiceLocator()).saveUserList();
+        } catch (NoNameException | AbstractTaskManagerExceptionImpl | URISyntaxException | IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }

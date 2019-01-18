@@ -9,7 +9,7 @@ import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.api.service.UserService;
-import org.dragard.projectmanager.domain.DomainImpl;
+import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.repository.ProjectRepositoryImpl;
 import org.dragard.projectmanager.repository.TaskRepositoryImpl;
@@ -28,9 +28,6 @@ import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
-    private final ProjectRepository projectRepository;
-    private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
     private final ProjectService projectService;
     private final TaskService taskService;
     private final UserService userService;
@@ -42,19 +39,15 @@ public class Bootstrap implements ServiceLocator {
     private final AuthorizationService authorizationService;
     private final Map<String, Command> commandList;
     private final Scanner scanner;
-    public UserService getUserService() {
-        return userService;
-    }
 
     public Bootstrap() {
-        projectRepository = new ProjectRepositoryImpl();
-        taskRepository = new TaskRepositoryImpl();
+        final ProjectRepository projectRepository = new ProjectRepositoryImpl();
+        final TaskRepository taskRepository = new TaskRepositoryImpl();
+        final UserRepository userRepository = new UserRepositoryImpl();
         taskService = new TaskServiceImpl(taskRepository);
         projectService = new ProjectServiceImpl(projectRepository);
-        userRepository = new UserRepositoryImpl();
         userService = new UserServiceImpl(userRepository);
         authorizationService = new AuthorizationServiceImpl(userService);
-
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
     }
@@ -65,7 +58,7 @@ public class Bootstrap implements ServiceLocator {
             projectService.create("ProjectName2", "Description2");
             projectService.create("ProjectName3", "Description3");
             projectService.create("ProjectName4", "Description4");
-            Iterator<Project> iterator = projectService.getElements().values().iterator();
+            Iterator<Project> iterator = projectService.getElements().iterator();
             final Project project1 = iterator.next();
             final Project project2 = iterator.next();
             taskService.create("TaskName1", "TaskDescription1", project1.getId());
@@ -98,7 +91,7 @@ public class Bootstrap implements ServiceLocator {
     public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException {
         initializeTestData();
         try {
-            new DomainImpl(this).loadUserList();
+            new DomainServiceImpl(this).loadUserList();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -110,7 +103,7 @@ public class Bootstrap implements ServiceLocator {
             System.out.println("\nEnter your command (enter \"help\" for list of commands)");
             final String input = scanner.nextLine().toLowerCase();
             Command command = commandList.get(input);
-            if ((command != null) && ((!command.isSecure()) || (authorizationService.isLogged()))){
+            if (command != null && (!command.isSecure() || authorizationService.isLogged())){
                 command.execute();
             } else {
                 System.out.println("Command not recognized. Try again, please");
@@ -119,13 +112,17 @@ public class Bootstrap implements ServiceLocator {
     }
 
     @Override
+    public UserService getUserService() {
+        return userService;
+    }
+
+    @Override
     public Scanner getScanner() {
         return scanner;
     }
 
-    @Override
-    public Map<String, Command> getCommandList() {
-        return commandList;
+    public Collection<Command> getCommandList() {
+        return Collections.unmodifiableCollection(commandList.values());
     }
 
     @Override

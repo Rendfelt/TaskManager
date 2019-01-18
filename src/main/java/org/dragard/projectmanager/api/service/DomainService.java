@@ -1,11 +1,9 @@
-package org.dragard.projectmanager.api.domain;
-
-import org.dragard.projectmanager.entity.User;
+package org.dragard.projectmanager.api.service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public interface Domain {
+public interface DomainService extends Service {
 
     void saveUserList() throws URISyntaxException, IOException;
 

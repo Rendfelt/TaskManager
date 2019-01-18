@@ -3,7 +3,6 @@ package org.dragard.projectmanager.command;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
-
 import java.util.Scanner;
 
 public class ProjectUpdateCommand extends AbstractCommand{
@@ -15,13 +14,12 @@ public class ProjectUpdateCommand extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            Scanner scanner = getServiceLocator().getScanner();
+            final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter project id");
-            Project project = getServiceLocator().getProjectService().getElementById(scanner.nextLine());
+            final Project project = getServiceLocator().getProjectService().getElementById(scanner.nextLine());
             if (project == null){
                 throw new NoElementWithIdException();
             }
-
             System.out.println("Enter project name:");
             final String name = scanner.nextLine();
             if (name.isEmpty()){

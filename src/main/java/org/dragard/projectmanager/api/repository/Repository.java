@@ -2,17 +2,17 @@ package org.dragard.projectmanager.api.repository;
 
 import org.dragard.projectmanager.entity.AbstractEntity;
 
-import java.util.Map;
+import java.util.Collection;
 
 public interface Repository<E extends AbstractEntity> {
 
     E getElementById(final String id);
 
-    void create(E element);
+    void merge(E element);
 
-    void update(E element);
+    void clearElements();
 
-    Map<String, E> getElements();
+    Collection<E> getElements();
 
     void delete(String id);
 }

@@ -4,6 +4,9 @@ import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class TaskUpdateCommand extends AbstractCommand{
@@ -15,13 +18,12 @@ public class TaskUpdateCommand extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            Scanner scanner = getServiceLocator().getScanner();
+            final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter task id");
-            Task task = getServiceLocator().getTaskService().getElementById(scanner.nextLine());
+            final Task task = getServiceLocator().getTaskService().getElementById(scanner.nextLine());
             if (task == null){
                 throw new NoElementWithIdException();
             }
-
             System.out.println("Enter task name:");
             final String name = scanner.nextLine();
             if (name.isEmpty()){
@@ -30,9 +32,7 @@ public class TaskUpdateCommand extends AbstractCommand{
             System.out.println("Enter task description");
             final String description = scanner.nextLine();
             getServiceLocator().getTaskService().update(task.getId(), name, description);
-        } catch (NoNameException e) {
-            e.printStackTrace();
-        } catch (NoElementWithIdException e) {
+        } catch (NoNameException | NoElementWithIdException e) {
             e.printStackTrace();
         }
     }

@@ -9,7 +9,7 @@ public class UserLogoutCommand extends AbstractCommand{
     @Override
     public void execute() {
         getServiceLocator().getAuthorizationService().logout();
-        getServiceLocator().getProjectService().getElements().clear();
-        getServiceLocator().getTaskService().getElements().clear();
+        getServiceLocator().getProjectService().clearElements();
+        getServiceLocator().getTaskService().clearElements();
     }
 }

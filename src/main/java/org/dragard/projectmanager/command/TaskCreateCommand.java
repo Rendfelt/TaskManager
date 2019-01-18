@@ -3,6 +3,9 @@ package org.dragard.projectmanager.command;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class TaskCreateCommand extends AbstractCommand{
@@ -12,7 +15,7 @@ public class TaskCreateCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws NoSuchAlgorithmException, URISyntaxException, IOException {
         Scanner scanner = getServiceLocator().getScanner();
         try {
             System.out.println("Enter project id: ");

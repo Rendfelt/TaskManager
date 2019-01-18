@@ -1,30 +1,18 @@
 package org.dragard.projectmanager.entity;
 
-import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
-public class User
-        implements Serializable {
+public class User extends AbstractEntity{
 
-    private final String id;
-    private final String login;
     private final byte[] password;
-
-    public String getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
 
     public byte[] getPassword() {
         return password;
     }
 
-    public User(String id, String login, byte[] password) {
-        this.id = id;
-        this.login = login;
+    public User(String id, String name, byte[] password) {
+        super(id, name);
         this.password = password;
     }
 
@@ -32,21 +20,19 @@ public class User
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(login, user.login);
+        final User user = (User) o;
+        return Objects.equals(getName(), user.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login);
+        return Objects.hashCode(getName());
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
+        return super.toString() +
+                ", password='" + Arrays.toString(password) + '\'' +
                 '}';
     }
 }

@@ -6,10 +6,11 @@ import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class TaskServiceImpl extends AbstractService<Task>
+public class TaskServiceImpl extends AbstractJobEntityService<Task>
         implements TaskService {
 
     public TaskServiceImpl(TaskRepository repository) {
@@ -25,7 +26,7 @@ public class TaskServiceImpl extends AbstractService<Task>
         if (description == null){
             description = "";
         }
-        getRepository().create(new Task(UUID.randomUUID().toString(), name, description, projectId));
+        getRepository().merge(new Task(UUID.randomUUID().toString(), name, description, projectId));
     }
 
     @Override
@@ -39,16 +40,15 @@ public class TaskServiceImpl extends AbstractService<Task>
         if (description == null){
             description = "";
         }
-        getRepository().update(new Task(id, name, description, getRepository().getElementById(id).getProjectId()));
+        getRepository().merge(new Task(id, name, description, getRepository().getElementById(id).getProjectId()));
     }
 
     @Override
     public void deleteTasksByProjectId(String projectId) {
-        Iterator<Task> iterator = getRepository().getElements().values().iterator();
-        while (iterator.hasNext()){
-            Task task = iterator.next();
+        final List<Task> taskList = new ArrayList<>(getRepository().getElements());
+        for (Task task : taskList){
             if (task.getProjectId().equals(projectId)){
-                iterator.remove();
+                getRepository().delete(task.getId());
             }
         }
     }

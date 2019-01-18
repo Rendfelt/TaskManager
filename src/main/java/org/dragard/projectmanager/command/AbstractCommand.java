@@ -47,7 +47,7 @@ public abstract class AbstractCommand implements Command {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractCommand command = (AbstractCommand) o;
+        final AbstractCommand command = (AbstractCommand) o;
         return Objects.equals(name, command.name);
     }
 

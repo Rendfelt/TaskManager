@@ -4,7 +4,7 @@ import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
-public interface TaskService extends Service<Task> {
+public interface TaskService extends EntityService<Task> {
 
     void create(String name, String description, String projectId) throws NoNameException, NoElementWithIdException;
 

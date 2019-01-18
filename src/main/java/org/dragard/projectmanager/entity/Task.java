@@ -1,6 +1,6 @@
 package org.dragard.projectmanager.entity;
 
-public class Task extends AbstractEntity{
+public class Task extends AbstractJobEntity {
 
     private final String projectId;
 

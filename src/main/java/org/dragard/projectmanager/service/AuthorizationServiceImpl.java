@@ -3,6 +3,7 @@ package org.dragard.projectmanager.service;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
 
 import java.util.Arrays;
 
@@ -17,10 +18,10 @@ public class AuthorizationServiceImpl
     }
 
     @Override
-    public void login(String login, byte[] password) throws Exception {
-        User user = userService.getElementByLogin(login);
+    public void login(String login, byte[] password) throws AbstractTaskManagerExceptionImpl {
+        final User user = userService.getElementByLogin(login);
         if (user == null || !Arrays.equals(user.getPassword(), password)){
-            throw new Exception("Bad login or password");
+            throw new AbstractTaskManagerExceptionImpl("Bad login or password");
         }
         activeUser = user;
     }

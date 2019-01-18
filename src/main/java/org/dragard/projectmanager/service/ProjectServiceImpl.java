@@ -8,7 +8,7 @@ import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.UUID;
 
-public class ProjectServiceImpl extends AbstractService<Project>
+public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
     public ProjectServiceImpl(Repository<Project> repository) {
@@ -24,7 +24,7 @@ public class ProjectServiceImpl extends AbstractService<Project>
             description = "";
         }
 
-        getRepository().create(new Project(UUID.randomUUID().toString(), name, description));
+        getRepository().merge(new Project(UUID.randomUUID().toString(), name, description));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ProjectServiceImpl extends AbstractService<Project>
         if (description == null){
             description = "";
         }
-        getRepository().update(new Project(id, name, description));
+        getRepository().merge(new Project(id, name, description));
     }
 
 }

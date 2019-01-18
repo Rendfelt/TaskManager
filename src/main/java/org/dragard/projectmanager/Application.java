@@ -19,6 +19,7 @@ public class Application {
         final Bootstrap bootstrap = new Bootstrap();
         bootstrap.registry(clazzes);
         bootstrap.run();
+
     }
 
 }

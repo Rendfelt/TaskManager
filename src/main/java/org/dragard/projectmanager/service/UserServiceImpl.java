@@ -3,10 +3,11 @@ package org.dragard.projectmanager.service;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
-import java.util.Map;
+import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
+
 import java.util.UUID;
 
-public class UserServiceImpl
+public class UserServiceImpl extends AbstractEntityService<User>
     implements UserService {
 
     private final UserRepository repository;
@@ -15,38 +16,38 @@ public class UserServiceImpl
         this.repository = repository;
     }
 
+    protected UserRepository getRepository() {
+        return repository;
+    }
 
     @Override
-    public void create(String login, byte[] password) throws Exception {
-        if (login == null || login.isEmpty()){
-            throw new Exception("Login is empty");
+    public void create(String name, byte[] password) throws AbstractTaskManagerExceptionImpl {
+        if (name == null || name.isEmpty()){
+            throw new AbstractTaskManagerExceptionImpl("Login is empty");
         }
         if (password == null || password.length == 0){
-            throw new Exception("Password is empty");
+            throw new AbstractTaskManagerExceptionImpl("Password is empty");
         }
-        if (getElementByLogin(login) != null){
-            throw new Exception("Login is occupied");
+        if (getElementByLogin(name) != null){
+            throw new AbstractTaskManagerExceptionImpl("Login is occupied");
         }
-        repository.create(new User(UUID.randomUUID().toString(), login, password));
+        getRepository().merge(new User(UUID.randomUUID().toString(), name, password));
     }
 
     @Override
     public User getElementByLogin(String login) {
-        return repository.getElementByLogin(login);
+        if (login == null || login.isEmpty()){
+            return null;
+        }
+        return getRepository().getElementByLogin(login);
     }
 
     @Override
-    public void changePassword(byte[] password, User user) {
-        repository.update( new User(user.getId(), user.getLogin(), password));
+    public void changePassword(byte[] password, User user) throws AbstractTaskManagerExceptionImpl {
+        if (password == null || password.length == 0){
+            throw new AbstractTaskManagerExceptionImpl("Password is empty");
+        }
+        getRepository().merge( new User(user.getId(), user.getName(), password));
     }
 
-    @Override
-    public Map<String, User> getElements() {
-        return repository.getElements();
-    }
-
-    @Override
-    public void delete(String login) {
-        repository.delete(login);
-    }
 }

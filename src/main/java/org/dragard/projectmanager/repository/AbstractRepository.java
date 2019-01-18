@@ -10,12 +10,18 @@ public abstract class AbstractRepository<E extends AbstractEntity>
 
     private final Map<String, E> elements;
 
-    public Map<String, E> getElements() {
-        return elements;
-    }
-
     protected AbstractRepository() {
         elements = new HashMap<>();
+    }
+
+    @Override
+    public void clearElements(){
+        elements.clear();
+    }
+
+    @Override
+    public Collection<E> getElements() {
+        return Collections.unmodifiableCollection(elements.values());
     }
 
     @Override
@@ -29,12 +35,8 @@ public abstract class AbstractRepository<E extends AbstractEntity>
     }
 
     @Override
-    public void create(E element) {
+    public void merge(E element) {
         elements.put(element.getId(), element);
     }
 
-    @Override
-    public void update(E element) {
-        create(element);
-    }
 }

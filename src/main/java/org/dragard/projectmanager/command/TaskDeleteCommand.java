@@ -1,7 +1,8 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.exception.NoElementWithIdException;
-
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class TaskDeleteCommand extends AbstractCommand{
@@ -11,13 +12,9 @@ public class TaskDeleteCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
-        Scanner scanner = getServiceLocator().getScanner();
+    public void execute() throws NoSuchAlgorithmException, URISyntaxException, IOException {
+        final Scanner scanner = getServiceLocator().getScanner();
         System.out.println("Enter task id:");
-        try {
-            getServiceLocator().getTaskService().delete(scanner.nextLine());
-        } catch (NoElementWithIdException e) {
-            e.printStackTrace();
-        }
+        getServiceLocator().getTaskService().delete(scanner.nextLine());
     }
 }

@@ -6,9 +6,4 @@ import org.dragard.projectmanager.entity.Project;
 public class ProjectRepositoryImpl extends AbstractRepository<Project>
     implements ProjectRepository {
 
-    public ProjectRepositoryImpl() {
-        super();
-    }
-
-
 }

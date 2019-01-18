@@ -12,10 +12,10 @@ public class UserShowAllCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        Collection<User> users = getServiceLocator().getUserService().getElements().values();
+        final Collection<User> users = getServiceLocator().getUserService().getElements();
         for (User user :
                 users) {
-            System.out.println(user.getLogin());
+            System.out.println(user.getName());
         }
     }
 }

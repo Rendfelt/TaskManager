@@ -1,6 +1,6 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.domain.DomainImpl;
+import org.dragard.projectmanager.service.DomainServiceImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,7 +14,7 @@ public class DataLoadCommand extends AbstractCommand {
     @Override
     public void execute() {
         try {
-            new DomainImpl(getServiceLocator()).load();
+            new DomainServiceImpl(getServiceLocator()).load();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {

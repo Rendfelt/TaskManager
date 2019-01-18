@@ -1,19 +1,13 @@
 package org.dragard.projectmanager.api.service;
 
 import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
 
-import java.util.Map;
+public interface UserService extends EntityService<User>{
 
-public interface UserService {
+    void create(String name, byte[] password) throws AbstractTaskManagerExceptionImpl;
 
-    void create(String login, byte[] password) throws Exception;
+    User getElementByLogin(String login);
 
-    User getElementByLogin(final String login);
-
-    void changePassword(byte[] password, User user);
-
-    Map<String, User> getElements();
-
-    void delete(String login);
-
+    void changePassword(byte[] password, User user) throws AbstractTaskManagerExceptionImpl;
 }

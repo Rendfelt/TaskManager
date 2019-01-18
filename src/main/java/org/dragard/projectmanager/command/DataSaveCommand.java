@@ -1,9 +1,10 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.domain.DomainImpl;
+import org.dragard.projectmanager.service.DomainServiceImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 
 public class DataSaveCommand extends AbstractCommand {
 
@@ -14,7 +15,7 @@ public class DataSaveCommand extends AbstractCommand {
     @Override
     public void execute() {
         try {
-            new DomainImpl(getServiceLocator()).save();
+            new DomainServiceImpl(getServiceLocator()).save();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {

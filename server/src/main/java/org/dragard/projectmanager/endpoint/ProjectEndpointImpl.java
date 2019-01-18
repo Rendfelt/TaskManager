@@ -2,8 +2,6 @@ package org.dragard.projectmanager.endpoint;
 
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.endpoint.ProjectEndpoint;
-import org.dragard.projectmanager.api.repository.Repository;
-import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 

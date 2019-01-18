@@ -13,6 +13,6 @@ public class DataJSONLoadCommand extends AbstractCommand {
 
     @Override
     public void execute() throws IOException, URISyntaxException {
-        new DomainServiceImpl(getServiceLocator()).loadJSON();
+        getServiceLocator().getDomainService().loadJSON();
     }
 }

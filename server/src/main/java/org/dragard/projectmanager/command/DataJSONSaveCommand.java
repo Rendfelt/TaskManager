@@ -13,6 +13,6 @@ public class DataJSONSaveCommand extends AbstractCommand {
 
     @Override
     public void execute() throws IOException, URISyntaxException {
-        new DomainServiceImpl(getServiceLocator()).saveJSON();
+        getServiceLocator().getDomainService().saveJSON();
     }
 }

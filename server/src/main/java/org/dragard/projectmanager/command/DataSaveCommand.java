@@ -13,6 +13,6 @@ public class DataSaveCommand extends AbstractCommand {
 
     @Override
     public void execute() throws IOException, URISyntaxException {
-        new DomainServiceImpl(getServiceLocator()).saveSerialization();
+        getServiceLocator().getDomainService().saveSerialization();
     }
 }

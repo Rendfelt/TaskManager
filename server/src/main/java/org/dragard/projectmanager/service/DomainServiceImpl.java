@@ -18,16 +18,15 @@ public class DomainServiceImpl
     implements DomainService {
 
     private final ServiceLocator serviceLocator;
-    private DomainEntity domainEntity;
 
     public DomainServiceImpl(ServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
-        domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
-                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
     }
 
     @Override
     public void saveUserList() throws URISyntaxException, IOException {
+        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
         final File saveFile = getUserListSaveFile();
         saveFile.createNewFile();
         final ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
@@ -71,8 +70,8 @@ public class DomainServiceImpl
             throw new IOException("No saved data");
         }
         final ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveFile));
-        domainEntity = (DomainEntity) ois.readObject();
-        loadInMemory();
+        DomainEntity domainEntity = (DomainEntity) ois.readObject();
+        loadInMemory(domainEntity);
     }
 
     @Override
@@ -89,11 +88,11 @@ public class DomainServiceImpl
         if (!saveFile.exists()){
             throw new IOException("No saved data");
         }
-        domainEntity = objectMapper.readValue(saveFile, domainEntity.getClass());
-        loadInMemory();
+        DomainEntity domainEntity = objectMapper.readValue(saveFile, DomainEntity.class);
+        loadInMemory(domainEntity);
     }
 
-    private void loadInMemory(){
+    private void loadInMemory(DomainEntity domainEntity){
         serviceLocator.getProjectService().clearElements();
         serviceLocator.getProjectService().persist(domainEntity.getProjectList());
         serviceLocator.getTaskService().clearElements();
@@ -104,6 +103,8 @@ public class DomainServiceImpl
 
     @Override
     public void saveSerialization() throws IOException, URISyntaxException {
+        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
         final File saveFile = getSaveFile();
         saveFile.createNewFile();
         final ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
@@ -121,6 +122,8 @@ public class DomainServiceImpl
     }
 
     private void saveMapper(ObjectWriter objectWriter, File saveFile) throws IOException {
+        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
         saveFile.createNewFile();
         objectWriter.writeValue(new FileOutputStream(saveFile), domainEntity);
     }

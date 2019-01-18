@@ -5,10 +5,7 @@ import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.api.repository.UserRepository;
-import org.dragard.projectmanager.api.service.AuthorizationService;
-import org.dragard.projectmanager.api.service.ProjectService;
-import org.dragard.projectmanager.api.service.TaskService;
-import org.dragard.projectmanager.api.service.UserService;
+import org.dragard.projectmanager.api.service.*;
 import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.repository.ProjectRepositoryImpl;
@@ -31,11 +28,7 @@ public class Bootstrap implements ServiceLocator {
     private final ProjectService projectService;
     private final TaskService taskService;
     private final UserService userService;
-
-    public AuthorizationService getAuthorizationService() {
-        return authorizationService;
-    }
-
+    private final DomainService domainService;
     private final AuthorizationService authorizationService;
     private final Map<String, Command> commandList;
     private final Scanner scanner;
@@ -50,6 +43,7 @@ public class Bootstrap implements ServiceLocator {
         authorizationService = new AuthorizationServiceImpl(userService);
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
+        domainService = new DomainServiceImpl(this);
     }
 
     private void initializeTestData(){
@@ -92,14 +86,11 @@ public class Bootstrap implements ServiceLocator {
     public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
         initializeTestData();
         try {
-            new DomainServiceImpl(this).loadUserList();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            domainService.loadUserList();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         while (true) {
             System.out.println("\nEnter your command (enter \"help\" for list of commands)");
             final String input = scanner.nextLine().toLowerCase();
@@ -134,5 +125,14 @@ public class Bootstrap implements ServiceLocator {
     @Override
     public TaskService getTaskService() {
         return taskService;
+    }
+
+    @Override
+    public DomainService getDomainService() {
+        return domainService;
+    }
+
+    public AuthorizationService getAuthorizationService() {
+        return authorizationService;
     }
 }

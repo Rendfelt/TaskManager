@@ -1,6 +1,6 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
+import org.dragard.projectmanager.exception.TaskManagerException;
 import org.dragard.projectmanager.service.DomainServiceImpl;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class UserChangePasswordCommand extends AbstractCommand{
         final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
         try {
             getServiceLocator().getUserService().changePassword(password, getServiceLocator().getAuthorizationService().getActiveUser());
-        } catch (AbstractTaskManagerExceptionImpl abstractTaskManagerException) {
+        } catch (TaskManagerException abstractTaskManagerException) {
             abstractTaskManagerException.printStackTrace();
         }
         new DomainServiceImpl(getServiceLocator()).saveUserList();

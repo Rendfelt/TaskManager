@@ -1,6 +1,6 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.exception.AbstractTaskManagerExceptionImpl;
+import org.dragard.projectmanager.exception.TaskManagerException;
 import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.exception.NoNameException;
 
@@ -22,7 +22,7 @@ public class UserLoginCommand extends AbstractCommand {
         try {
             final Scanner scanner = getServiceLocator().getScanner();
             if (getServiceLocator().getAuthorizationService().isLogged()) {
-                throw new AbstractTaskManagerExceptionImpl("Logout first");
+                throw new TaskManagerException("Logout first");
             }
             System.out.println("Enter user login:");
             final String login = scanner.nextLine();
@@ -33,7 +33,7 @@ public class UserLoginCommand extends AbstractCommand {
             final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
             getServiceLocator().getAuthorizationService().login(login, password);
             new DomainServiceImpl(getServiceLocator()).loadSerialization();
-        } catch (NoNameException | ClassNotFoundException | AbstractTaskManagerExceptionImpl | URISyntaxException | IOException | NoSuchAlgorithmException e) {
+        } catch (NoNameException | ClassNotFoundException | TaskManagerException | URISyntaxException | IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }

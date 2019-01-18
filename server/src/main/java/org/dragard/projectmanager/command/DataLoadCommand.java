@@ -13,6 +13,6 @@ public class DataLoadCommand extends AbstractCommand {
 
     @Override
     public void execute() throws URISyntaxException, IOException, ClassNotFoundException {
-        new DomainServiceImpl(getServiceLocator()).loadSerialization();
+        getServiceLocator().getDomainService().loadSerialization();
     }
 }

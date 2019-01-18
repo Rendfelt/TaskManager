@@ -55,7 +55,9 @@ project-manager
 ## Base functions:
 
 to see base functions type "help";
+
 to login type: "login" or "create_user" (if no login);
+
 to exit from application type "exit".
 
 

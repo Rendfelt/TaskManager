@@ -10,25 +10,37 @@ Maven 4.0.0
 ## Project base structure:
 
 Application: class with entry point;
+
 Bootstrap: class with main application loop;
 
 api: package with base interfaces;
+
 command: package with command classes;
+
 exception: package with exceptions;
 
 DomainEntity: Class-entity contains temp data for save/load;
+
 Project: Class-entity contains project data;
+
 Task: Class-entity contains task data;
+
 User: Class-entity contains user data;
 
 ProjectRepositoryImpl: Class provides project data;
+
 TaskRepositoryImpl: Class provides task data;
+
 UserRepositoryImpl: Class provides user data;
 
 AuthorizationServiceImpl: Class presents authorization service;
+
 DomainServiceImpl: Class presents save/load service;
+
 ProjectServiceImpl: Class presents project data;
+
 TaskServiceImpl: Class presents task data;
+
 UserServiceImpl: Class presents user data;
 
 ```

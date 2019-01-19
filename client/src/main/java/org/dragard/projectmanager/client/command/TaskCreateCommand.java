@@ -1,10 +1,5 @@
 package org.dragard.projectmanager.client.command;
 
-import org.dragard.projectmanager.server.exception.NoElementWithIdException;
-import org.dragard.projectmanager.server.exception.NoNameException;
-
-import java.util.Scanner;
-
 public class TaskCreateCommand extends AbstractCommand{
 
     public TaskCreateCommand() {
@@ -13,24 +8,6 @@ public class TaskCreateCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        Scanner scanner = getServiceLocator().getScanner();
-        try {
-            System.out.println("Enter project id: ");
-            final String projectId = scanner.nextLine();
-            if (getServiceLocator().getProjectService().getElementById(projectId) == null){
-                throw new NoElementWithIdException();
-            }
-            System.out.println("Enter task name: ");
-            final String name = scanner.nextLine();
-            if (name.isEmpty()){
-                throw new NoNameException();
-            }
-            System.out.println("Enter task description: ");
-            final String description = scanner.nextLine();
-            getServiceLocator().getTaskService().create(name, description, projectId,
-                    getServiceLocator().getAuthorizationService().getActiveUser().getId());
-        } catch (NoNameException | NoElementWithIdException e) {
-            e.printStackTrace();
-        }
+
     }
 }

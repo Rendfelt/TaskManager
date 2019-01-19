@@ -1,8 +1,5 @@
 package org.dragard.projectmanager.client.command;
 
-import org.dragard.projectmanager.client
-entity.Task;
-
 public class TaskShowAllCommand extends AbstractCommand {
 
     public TaskShowAllCommand() {
@@ -11,10 +8,6 @@ public class TaskShowAllCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        System.out.printf("\n%-40s%-40s%-40s%-100s\n", "uid", "project id", "name", "description");
-        for (Task task :
-                getServiceLocator().getTaskService().getElements()) {
-            System.out.printf("%-40s%-40s%-40s%-100s\n", task.getId(), task.getProjectId(),task.getName(), task.getDescription());
-        }
+
     }
 }

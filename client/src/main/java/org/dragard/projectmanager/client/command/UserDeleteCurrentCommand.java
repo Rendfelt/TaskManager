@@ -1,10 +1,5 @@
 package org.dragard.projectmanager.client.command;
 
-import org.dragard.projectmanager.server.service.DomainServiceImpl;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class UserDeleteCurrentCommand extends AbstractCommand{
 
     public UserDeleteCurrentCommand() {
@@ -12,9 +7,7 @@ public class UserDeleteCurrentCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() throws URISyntaxException, IOException {
-        getServiceLocator().getUserService().delete(getServiceLocator().getAuthorizationService().getActiveUser().getId());
-        new DomainServiceImpl(getServiceLocator()).saveUserList();
-        getServiceLocator().getAuthorizationService().logout();
+    public void execute() {
+
     }
 }

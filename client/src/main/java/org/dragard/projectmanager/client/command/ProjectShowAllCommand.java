@@ -1,7 +1,5 @@
 package org.dragard.projectmanager.client.command;
 
-import org.dragard.projectmanager.server.entity.Project;
-
 public class ProjectShowAllCommand extends AbstractCommand {
 
     public ProjectShowAllCommand() {
@@ -10,10 +8,6 @@ public class ProjectShowAllCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        System.out.printf("\n%-40s%-40s%-100s\n", "uid", "name", "description");
-        for (Project project :
-                getServiceLocator().getProjectService().getElements()) {
-            System.out.printf("%-40s%-40s%-100s\n", project.getId(),project.getName(), project.getDescription());
-        }
+
     }
 }

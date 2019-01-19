@@ -2,6 +2,7 @@ package org.dragard.projectmanager.client.command;
 
 import org.dragard.projectmanager.client.api.ServiceLocator;
 import org.dragard.projectmanager.client.api.command.Command;
+import java.util.Objects;
 
 public abstract class AbstractCommand implements Command {
 

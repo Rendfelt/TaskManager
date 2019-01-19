@@ -5,4 +5,6 @@ public interface AuthorizationService extends Service{
     String login(String login, byte[] password);
 
     String logout();
+
+    boolean isLogged();
 }

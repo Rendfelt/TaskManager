@@ -1,7 +1,5 @@
 package org.dragard.projectmanager.client.command;
 
-import java.util.Scanner;
-
 public class ProjectDeleteCommand extends AbstractCommand{
 
     public ProjectDeleteCommand() {
@@ -10,10 +8,6 @@ public class ProjectDeleteCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        Scanner scanner = getServiceLocator().getScanner();
-        System.out.println("Enter project id:");
-        final String projectId = scanner.nextLine();
-        getServiceLocator().getProjectService().delete(projectId);
-        getServiceLocator().getTaskService().deleteTasksByProjectId(projectId);
+
     }
 }

@@ -1,7 +1,6 @@
 package org.dragard.projectmanager.client.command;
 
-import org.dragard.projectmanager.server.Bootstrap;
-import org.dragard.projectmanager.server.api.command.Command;
+import org.dragard.projectmanager.client.api.command.Command;
 
 import java.util.Collection;
 
@@ -13,8 +12,7 @@ public class HelpCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        final Bootstrap bootstrap = (Bootstrap) getServiceLocator();
-        final Collection<Command> commandList = bootstrap.getCommandList();
+        final Collection<Command> commandList = getServiceLocator().getCommandList();
         for (Command command : commandList ) {
             if (!getServiceLocator().getAuthorizationService().isLogged() && command.isSecure()){
                 continue;

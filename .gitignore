@@ -2,4 +2,5 @@
 .idea
 target
 backup
-src/main/java/org/dragard/projectmanager/Tests.java
+server/src/main/java/org/dragard/projectmanager/Tests.java
+server/src/main/java/org/dragard/projectmanager/other

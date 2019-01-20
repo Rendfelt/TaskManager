@@ -3,11 +3,13 @@ package org.dragard.projectmanager.server;
 import org.dragard.projectmanager.server.api.ServiceLocator;
 import org.dragard.projectmanager.server.api.command.Command;
 import org.dragard.projectmanager.server.api.endpoint.AuthorizationEndpoint;
+import org.dragard.projectmanager.server.api.endpoint.ProjectEndpoint;
 import org.dragard.projectmanager.server.api.repository.ProjectRepository;
 import org.dragard.projectmanager.server.api.repository.TaskRepository;
 import org.dragard.projectmanager.server.api.repository.UserRepository;
 import org.dragard.projectmanager.server.api.service.*;
 import org.dragard.projectmanager.server.endpoint.AuthorizationEndpointImpl;
+import org.dragard.projectmanager.server.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.server.service.DomainServiceImpl;
 import org.dragard.projectmanager.server.entity.Project;
 import org.dragard.projectmanager.server.repository.ProjectRepositoryImpl;
@@ -17,6 +19,7 @@ import org.dragard.projectmanager.server.service.AuthorizationServiceImpl;
 import org.dragard.projectmanager.server.service.ProjectServiceImpl;
 import org.dragard.projectmanager.server.service.TaskServiceImpl;
 import org.dragard.projectmanager.server.service.UserServiceImpl;
+import org.dragard.projectmanager.server.util.UtilClass;
 
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
@@ -64,10 +67,8 @@ public class Bootstrap implements ServiceLocator {
             taskService.create("TaskName3", "TaskDescription3", project1.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
             taskService.create("TaskName4", "TaskDescription4", project2.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
             taskService.create("TaskName5", "TaskDescription5", project2.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            final byte[] testPassword = MessageDigest.getInstance("MD5").digest("test".getBytes(StandardCharsets.UTF_8));
-            userService.create("test", testPassword);
-            final byte[] rootPassword = MessageDigest.getInstance("MD5").digest("root".getBytes(StandardCharsets.UTF_8));
-            userService.create("root", rootPassword);
+            userService.create("test", UtilClass.getPassword("test"));
+            userService.create("root", UtilClass.getPassword("root"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +89,9 @@ public class Bootstrap implements ServiceLocator {
 
     public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
         AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(this);
-        Endpoint.publish("http://localhost:9090/task-manager", authorizationEndpoint);
+        Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
+        ProjectEndpoint projectEndpoint = new ProjectEndpointImpl(this);
+        Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
         initializeTestData();
         try {
             domainService.loadUserList();

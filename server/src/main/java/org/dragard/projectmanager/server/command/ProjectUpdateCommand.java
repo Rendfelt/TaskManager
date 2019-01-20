@@ -27,8 +27,8 @@ public class ProjectUpdateCommand extends AbstractCommand{
             }
             System.out.println("Enter project description");
             final String description = scanner.nextLine();
-            getServiceLocator().getProjectService().update(project.getId(), name, description,
-                    getServiceLocator().getAuthorizationService().getActiveUser().getId());
+            getServiceLocator().getProjectService().update(project.getId(), name, description
+            );
         } catch (NoNameException | NoElementWithIdException e) {
             e.printStackTrace();
         }

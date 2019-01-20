@@ -1,14 +1,15 @@
 package org.dragard.projectmanager.server.api.endpoint;
 
 import org.dragard.projectmanager.server.entity.AbstractEntity;
+import org.dragard.projectmanager.server.entity.Response;
 
 import java.util.Collection;
 
 public interface EntityEndpoint<E extends AbstractEntity> extends Endpoint{
 
-    String delete(String id);
+    Response delete(String id, String token);
 
-    String getView();
+    Response getView(String token);
 
-    String persist(Collection<E> elements);
+    Response persist(Collection<E> elements, String token);
 }

@@ -1,38 +1,42 @@
 package org.dragard.projectmanager.client.service;
 
-import org.dragard.projectmanager.client.api.ServiceLocator;
 import org.dragard.projectmanager.client.api.service.AuthorizationService;
 import org.dragard.projectmanager.client.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.client.endpoint.Response;
 
-import static org.dragard.projectmanager.client.util.UtilClass.checkResponse;
+import org.dragard.projectmanager.client.util.UtilClass;
+
+import java.nio.charset.StandardCharsets;
 
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
-    private final ServiceLocator serviceLocator;
     private String token;
 
-    public AuthorizationServiceImpl(ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    public AuthorizationEndpointImplService getAuthorizationEndpoint() {
+        return authorizationEndpoint;
+    }
+
+    private final AuthorizationEndpointImplService authorizationEndpoint;
+
+    public AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
         token = null;
+        this.authorizationEndpoint = authorizationEndpoint;
     }
 
     @Override
     public Response login(String login, byte[] password) throws Exception {
-        AuthorizationEndpointImplService authorizationEndpointService = new AuthorizationEndpointImplService();
-        Response response = authorizationEndpointService.getAuthorizationEndpointImplPort().login(login, password);
-        checkResponse(response);
+        Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().login(login, new String(password, StandardCharsets.UTF_8));
+        UtilClass.checkResponse(response);
         token = response.getToken();
         return response;
     }
 
     @Override
     public Response logout(String token) throws Exception {
+        Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().logout(token);
         this.token = null;
-        AuthorizationEndpointImplService authorizationEndpointService = new AuthorizationEndpointImplService();
-        Response response = authorizationEndpointService.getAuthorizationEndpointImplPort().logout(token);
-        checkResponse(response);
+        UtilClass.checkResponse(response);
         return response;
     }
 

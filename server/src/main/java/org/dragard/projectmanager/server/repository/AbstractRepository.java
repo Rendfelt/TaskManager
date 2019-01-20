@@ -30,13 +30,14 @@ public abstract class AbstractRepository<E extends AbstractEntity>
     }
 
     @Override
-    public void delete(String id) {
-        elements.remove(id);
+    public E delete(String id) {
+        return elements.remove(id);
     }
 
     @Override
-    public void merge(E element) {
+    public E merge(E element) {
         elements.put(element.getId(), element);
+        return element;
     }
 
 }

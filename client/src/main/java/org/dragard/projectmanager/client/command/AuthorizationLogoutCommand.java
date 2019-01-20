@@ -15,7 +15,7 @@ public class AuthorizationLogoutCommand extends AbstractCommand{
             final AuthorizationService as = getServiceLocator().getAuthorizationService();
             final Response response = as.logout(as.getToken());
             if (response.getMessage() != null){
-                System.out.println(response);
+                System.out.println(response.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();

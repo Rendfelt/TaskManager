@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface EntityService<E extends AbstractEntity> extends Service{
 
-    void delete(String id);
+    E delete(String id);
 
     Collection<E> getElements();
 

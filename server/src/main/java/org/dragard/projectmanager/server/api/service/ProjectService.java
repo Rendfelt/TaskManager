@@ -6,7 +6,7 @@ import org.dragard.projectmanager.server.exception.NoNameException;
 
 public interface ProjectService extends EntityService<Project> {
 
-    void create(String name, String description, String userId) throws NoNameException;
+    Project create(String name, String description, String userId) throws NoNameException;
 
-    void update(String id, String name, String description, String userId) throws NoNameException, NoElementWithIdException;
+    Project update(String id, String name, String description) throws NoNameException, NoElementWithIdException;
 }

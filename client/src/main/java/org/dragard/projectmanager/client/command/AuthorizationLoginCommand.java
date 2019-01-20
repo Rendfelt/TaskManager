@@ -3,9 +3,8 @@ package org.dragard.projectmanager.client.command;
 import org.dragard.projectmanager.client.endpoint.Response;
 import org.dragard.projectmanager.client.exception.NoNameException;
 import org.dragard.projectmanager.client.exception.TaskManagerException;
+import org.dragard.projectmanager.client.util.UtilClass;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.Scanner;
 
 public class AuthorizationLoginCommand extends AbstractCommand {
@@ -27,7 +26,7 @@ public class AuthorizationLoginCommand extends AbstractCommand {
                 throw new NoNameException();
             }
             System.out.println("Enter password:");
-            final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
+            final byte[] password = UtilClass.getPassword(scanner.nextLine());
             Response response = getServiceLocator().getAuthorizationService().login(login, password);
             if (response.getMessage() != null){
                 System.out.println(response.getMessage());

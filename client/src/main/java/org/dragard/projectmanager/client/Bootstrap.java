@@ -7,7 +7,10 @@ import org.dragard.projectmanager.client.api.service.ProjectService;
 import org.dragard.projectmanager.client.api.service.TaskService;
 import org.dragard.projectmanager.client.api.service.UserService;
 import org.dragard.projectmanager.client.command.*;
+import org.dragard.projectmanager.client.endpoint.AuthorizationEndpointImplService;
+import org.dragard.projectmanager.client.endpoint.ProjectEndpointImplService;
 import org.dragard.projectmanager.client.service.AuthorizationServiceImpl;
+import org.dragard.projectmanager.client.service.ProjectServiceImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -16,7 +19,7 @@ import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
-//    private final ProjectService projectService;
+    private final ProjectService projectService;
 //    private final TaskService taskService;
 //    private final UserService userService;
     private final AuthorizationService authorizationService;
@@ -33,8 +36,10 @@ public class Bootstrap implements ServiceLocator {
     public Bootstrap() {
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
-        //TODO: initialize Authorization service
-        authorizationService = new AuthorizationServiceImpl(this);
+        final AuthorizationEndpointImplService authorizationEndpointImplService = new AuthorizationEndpointImplService();
+        authorizationService = new AuthorizationServiceImpl(authorizationEndpointImplService);
+        final ProjectEndpointImplService projectEndpointImplService = new ProjectEndpointImplService();
+        projectService = new ProjectServiceImpl(projectEndpointImplService);
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
@@ -69,7 +74,7 @@ public class Bootstrap implements ServiceLocator {
 
     @Override
     public ProjectService getProjectService() {
-        return null;
+        return projectService;
     }
 
     @Override

@@ -7,7 +7,7 @@ import javax.jws.WebService;
 @WebService
 public interface AuthorizationEndpoint extends Endpoint{
 
-    Response login(String login, byte[] password);
+    Response login(String login, String password);
 
     Response logout(String token);
 }

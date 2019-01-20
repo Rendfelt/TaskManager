@@ -8,11 +8,11 @@ public interface Repository<E extends AbstractEntity> {
 
     E getElementById(final String id);
 
-    void merge(E element);
+    E merge(E element);
 
     void clearElements();
 
     Collection<E> getElements();
 
-    void delete(String id);
+    E delete(String id);
 }

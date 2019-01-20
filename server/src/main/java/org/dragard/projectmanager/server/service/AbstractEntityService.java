@@ -27,12 +27,12 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
-    public void delete(String id) {
+    public E delete(String id) {
         if (getRepository().getElementById(id) == null){
             System.out.println("No element deleted");
-            return;
+            return null;
         }
-        getRepository().delete(id);
+        return getRepository().delete(id);
     }
 
     @Override

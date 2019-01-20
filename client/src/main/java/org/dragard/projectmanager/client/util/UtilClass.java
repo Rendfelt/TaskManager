@@ -4,6 +4,9 @@ import org.dragard.projectmanager.client.endpoint.Response;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class UtilClass {
 
@@ -18,5 +21,13 @@ public class UtilClass {
         if (response.getException() != null) {
             throw exception;
         }
+    }
+
+    public static byte[] getPassword(String s) throws NoSuchAlgorithmException {
+        if (s == null || s.isEmpty()){
+            return null;
+        }
+        return new String(MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8))).getBytes(StandardCharsets.UTF_8);
+
     }
 }

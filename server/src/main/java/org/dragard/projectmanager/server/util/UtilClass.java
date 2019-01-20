@@ -28,9 +28,9 @@ public class UtilClass {
         return user.toString();
     }
 
-    public static boolean checkToken(String token, Response response) throws TaskManagerException {
+    public static boolean checkToken(String token, Response response) throws Exception {
         if (token == null){
-            throw new TaskManagerException("Invalid token, access denied");
+            throw new Exception("Invalid token, access denied");
         }
         return true;
     }

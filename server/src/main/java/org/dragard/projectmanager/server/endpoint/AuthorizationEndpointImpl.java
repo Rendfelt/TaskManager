@@ -58,6 +58,8 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
             e.printStackTrace();
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }

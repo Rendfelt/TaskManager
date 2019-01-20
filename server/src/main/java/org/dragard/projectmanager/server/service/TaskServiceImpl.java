@@ -18,18 +18,18 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
     }
 
     @Override
-    public void create(String name, String description, String projectId, String userId) throws NoNameException {
+    public Task create(String name, String description, String projectId, String userId) throws NoNameException {
         if (name == null || name.isEmpty()){
             throw new NoNameException();
         }
         if (description == null){
             description = "";
         }
-        getRepository().merge(new Task(UUID.randomUUID().toString(), name, description, projectId, userId));
+        return getRepository().merge(new Task(UUID.randomUUID().toString(), name, description, projectId, userId));
     }
 
     @Override
-    public void update(String id, String name, String description, String userId) throws NoNameException, NoElementWithIdException {
+    public Task update(String id, String name, String description, String userId) throws NoNameException, NoElementWithIdException {
         if (getRepository().getElementById(id) == null){
             throw new NoElementWithIdException();
         }
@@ -39,7 +39,7 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
         if (description == null){
             description = "";
         }
-        getRepository().merge(new Task(id, name, description, getRepository().getElementById(id).getProjectId(), userId));
+        return getRepository().merge(new Task(id, name, description, getRepository().getElementById(id).getProjectId(), userId));
     }
 
     @Override

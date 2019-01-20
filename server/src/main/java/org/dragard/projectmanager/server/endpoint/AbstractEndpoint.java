@@ -4,7 +4,7 @@ package org.dragard.projectmanager.server.endpoint;
 import org.dragard.projectmanager.server.Bootstrap;
 import org.dragard.projectmanager.server.api.endpoint.Endpoint;
 
-public class AbstractEndpoint
+public abstract class AbstractEndpoint
     implements Endpoint {
 
     private Bootstrap bootstrap;

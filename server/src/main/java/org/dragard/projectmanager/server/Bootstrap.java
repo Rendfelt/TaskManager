@@ -2,6 +2,7 @@ package org.dragard.projectmanager.server;
 
 import org.dragard.projectmanager.server.api.ServiceLocator;
 import org.dragard.projectmanager.server.api.command.Command;
+import org.dragard.projectmanager.server.api.endpoint.AuthorizationEndpoint;
 import org.dragard.projectmanager.server.api.repository.ProjectRepository;
 import org.dragard.projectmanager.server.api.repository.TaskRepository;
 import org.dragard.projectmanager.server.api.repository.UserRepository;
@@ -86,7 +87,8 @@ public class Bootstrap implements ServiceLocator {
     }
 
     public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
-        Endpoint.publish("http://localhost:9090/task-manager", new AuthorizationEndpointImpl());
+        AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(this);
+        Endpoint.publish("http://localhost:9090/task-manager", authorizationEndpoint);
         initializeTestData();
         try {
             domainService.loadUserList();

@@ -1,11 +1,13 @@
 package org.dragard.projectmanager.server.api.endpoint;
 
+import org.dragard.projectmanager.server.entity.Response;
+
 import javax.jws.WebService;
 
 @WebService
 public interface AuthorizationEndpoint extends Endpoint{
 
-    String login(String login, byte[] password);
+    Response login(String login, byte[] password);
 
-    String logout();
+    Response logout();
 }

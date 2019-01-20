@@ -11,9 +11,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
-public class UserLoginCommand extends AbstractCommand {
+public class AuthorizationLoginCommand extends AbstractCommand {
 
-    public UserLoginCommand() {
+    public AuthorizationLoginCommand() {
         super("login", "Login", false);
     }
 
@@ -32,7 +32,7 @@ public class UserLoginCommand extends AbstractCommand {
             System.out.println("Enter password:");
             final byte[] password = MessageDigest.getInstance("MD5").digest(scanner.nextLine().getBytes(StandardCharsets.UTF_8));
             getServiceLocator().getAuthorizationService().login(login, password);
-            new DomainServiceImpl(getServiceLocator()).loadSerialization();
+            getServiceLocator().getDomainService().loadSerialization();
         } catch (NoNameException | ClassNotFoundException | TaskManagerException | URISyntaxException | IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

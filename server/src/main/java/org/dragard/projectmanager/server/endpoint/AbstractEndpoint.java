@@ -16,7 +16,10 @@ public class AbstractEndpoint
         this.serviceLocator = serviceLocator;
     }
 
-    @Override
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        this.serviceLocator = serviceLocator;
+    }
+
     public ServiceLocator getServiceLocator() {
         return serviceLocator;
     }

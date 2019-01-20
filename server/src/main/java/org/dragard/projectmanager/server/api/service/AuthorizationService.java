@@ -5,7 +5,7 @@ import org.dragard.projectmanager.server.exception.TaskManagerException;
 
 public interface AuthorizationService extends Service{
 
-    void login(String login, byte[] password) throws TaskManagerException;
+    User login(String login, byte[] password) throws TaskManagerException;
 
     void logout();
 

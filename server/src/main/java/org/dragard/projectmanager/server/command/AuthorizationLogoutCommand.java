@@ -1,8 +1,8 @@
 package org.dragard.projectmanager.server.command;
 
-public class UserLogoutCommand extends AbstractCommand{
+public class AuthorizationLogoutCommand extends AbstractCommand{
 
-    public UserLogoutCommand() {
+    public AuthorizationLogoutCommand() {
         super("logout", "Logout", true);
     }
 

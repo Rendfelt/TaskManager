@@ -1,5 +1,7 @@
 package org.dragard.projectmanager.client.command;
 
+import org.dragard.projectmanager.client.api.service.AuthorizationService;
+
 public class ExitCommand extends AbstractCommand{
 
     public ExitCommand() {
@@ -8,7 +10,12 @@ public class ExitCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        getServiceLocator().getAuthorizationService().logout();
+        try {
+            AuthorizationService as = getServiceLocator().getAuthorizationService();
+            as.logout(as.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.exit(0);
     }
 }

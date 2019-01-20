@@ -1,10 +1,16 @@
 package org.dragard.projectmanager.client.api.service;
 
+import org.dragard.projectmanager.client.endpoint.Response;
+
 public interface AuthorizationService extends Service{
 
-    String login(String login, byte[] password);
+    Response login(String login, byte[] password) throws Exception;
 
-    String logout();
+    Response logout(String token) throws Exception;
 
     boolean isLogged();
+
+    String getToken();
+
+    void setToken(String token);
 }

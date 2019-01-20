@@ -27,8 +27,8 @@ public class Bootstrap implements ServiceLocator {
             ProjectCreateCommand.class, ProjectUpdateCommand.class, ProjectDeleteCommand.class,
             TaskCreateCommand.class, TaskUpdateCommand.class, TaskDeleteCommand.class,
             ExitCommand.class, HelpCommand.class, DataSaveCommand.class, DataLoadCommand.class,
-            UserChangePasswordCommand.class, UserCreateCommand.class, UserLoginCommand.class,
-            UserLogoutCommand.class, UserDeleteCurrentCommand.class};
+            UserChangePasswordCommand.class, UserCreateCommand.class, AuthorizationLoginCommand.class,
+            AuthorizationLogoutCommand.class, UserDeleteCurrentCommand.class};
 
     public Bootstrap() {
         commandList = new HashMap<>();

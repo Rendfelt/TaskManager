@@ -18,12 +18,13 @@ public class AuthorizationServiceImpl
     }
 
     @Override
-    public void login(String login, byte[] password) throws TaskManagerException {
+    public User login(String login, byte[] password) throws TaskManagerException {
         final User user = userService.getElementByLogin(login);
         if (user == null || !Arrays.equals(user.getPassword(), password)){
             throw new TaskManagerException("Bad login or password");
         }
         activeUser = user;
+        return user;
     }
 
     @Override

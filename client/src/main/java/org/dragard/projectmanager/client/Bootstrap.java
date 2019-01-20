@@ -9,8 +9,10 @@ import org.dragard.projectmanager.client.api.service.UserService;
 import org.dragard.projectmanager.client.command.*;
 import org.dragard.projectmanager.client.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.client.endpoint.ProjectEndpointImplService;
+import org.dragard.projectmanager.client.endpoint.TaskEndpointImplService;
 import org.dragard.projectmanager.client.service.AuthorizationServiceImpl;
 import org.dragard.projectmanager.client.service.ProjectServiceImpl;
+import org.dragard.projectmanager.client.service.TaskServiceImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -20,7 +22,7 @@ import java.util.*;
 public class Bootstrap implements ServiceLocator {
 
     private final ProjectService projectService;
-//    private final TaskService taskService;
+    private final TaskService taskService;
 //    private final UserService userService;
     private final AuthorizationService authorizationService;
     private final Map<String, Command> commandList;
@@ -36,10 +38,12 @@ public class Bootstrap implements ServiceLocator {
     public Bootstrap() {
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
-        final AuthorizationEndpointImplService authorizationEndpointImplService = new AuthorizationEndpointImplService();
-        authorizationService = new AuthorizationServiceImpl(authorizationEndpointImplService);
-        final ProjectEndpointImplService projectEndpointImplService = new ProjectEndpointImplService();
-        projectService = new ProjectServiceImpl(projectEndpointImplService);
+        final AuthorizationEndpointImplService authorizationEndpoint = new AuthorizationEndpointImplService();
+        authorizationService = new AuthorizationServiceImpl(authorizationEndpoint);
+        final ProjectEndpointImplService projectEndpoint = new ProjectEndpointImplService();
+        projectService = new ProjectServiceImpl(projectEndpoint);
+        final TaskEndpointImplService taskEndpoint = new TaskEndpointImplService();
+        taskService = new TaskServiceImpl(taskEndpoint);
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
@@ -70,7 +74,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
 
-    // TODO: 19.01.2019 implement methods
+
 
     @Override
     public ProjectService getProjectService() {
@@ -79,8 +83,10 @@ public class Bootstrap implements ServiceLocator {
 
     @Override
     public TaskService getTaskService() {
-        return null;
+        return taskService;
     }
+
+    // TODO: 19.01.2019 implement methods
 
     @Override
     public UserService getUserService() {

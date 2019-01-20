@@ -25,7 +25,7 @@ public class ProjectServiceImpl
 
     @Override
     public Response create(String name, String description, String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().create(name, description, token);
+        Response response = getProjectEndpoint().getProjectEndpointImplPort().createProject(name, description, token);
         UtilClass.checkResponse(response);
 
         return response;
@@ -33,7 +33,7 @@ public class ProjectServiceImpl
 
     @Override
     public Response update(String id, String name, String description, String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().update(id, name, description, token);
+        Response response = getProjectEndpoint().getProjectEndpointImplPort().updateProject(id, name, description, token);
         UtilClass.checkResponse(response);
 
         return response;
@@ -41,7 +41,7 @@ public class ProjectServiceImpl
 
     @Override
     public Response delete(String id, String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().delete(id, token);
+        Response response = getProjectEndpoint().getProjectEndpointImplPort().deleteProject(id, token);
         UtilClass.checkResponse(response);
 
         return response;
@@ -49,17 +49,17 @@ public class ProjectServiceImpl
 
     @Override
     public Response getView(String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().getView(token);
+        Response response = getProjectEndpoint().getProjectEndpointImplPort().getViewProject(token);
         UtilClass.checkResponse(response);
 
         return response;
     }
 
-    @Override
+/*    @Override
     public Response persist(List<Project> elements, String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().persist(elements, token);
+        Response response = getProjectEndpoint().getProjectEndpointImplPort().persistProject(elements, token);
         UtilClass.checkResponse(response);
 
         return response;
-    }
+    }*/
 }

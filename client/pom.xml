@@ -33,6 +33,7 @@
                             <goal>wsdl2java</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>generate-sources-project</id>
                         <phase>generate-sources</phase>
@@ -48,6 +49,7 @@
                             <goal>wsdl2java</goal>
                         </goals>
                     </execution>
+
                     <execution>
                         <id>generate-sources-task</id>
                         <phase>generate-sources</phase>

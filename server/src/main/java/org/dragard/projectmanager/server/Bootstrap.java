@@ -94,12 +94,12 @@ public class Bootstrap implements ServiceLocator {
     public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
         AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
-        ProjectEndpoint projectEndpoint = new ProjectEndpointImpl(this);
+        ProjectEndpointImpl projectEndpoint = new ProjectEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
         // TODO: 20.01.2019 Fix userEndpoint in future
-        UserEndpoint userEndpoint = new UserEndpointImpl();
-        Endpoint.publish("http://localhost:9090/task-manager/user", userEndpoint);
-        TaskEndpoint taskEndpoint = new TaskEndpointImpl(this);
+/*        UserEndpoint userEndpoint = new UserEndpointImpl();
+        Endpoint.publish("http://localhost:9090/task-manager/user", userEndpoint);*/
+        TaskEndpointImpl taskEndpoint = new TaskEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
         initializeTestData();
         try {

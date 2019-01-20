@@ -11,6 +11,6 @@ public interface EntityService<E extends AbstractEntity> extends Service{
 
     Response getView(String token) throws Exception;
 
-    Response persist(List<E> elements, String token) throws Exception;
+//    Response persist(List<E> elements, String token) throws Exception;
 
 }

@@ -1,6 +1,6 @@
 package org.dragard.projectmanager.server.other;
 
-import org.dragard.projectmanager.server.api.ServiceLocator;
+import org.dragard.projectmanager.server.Bootstrap;
 import org.dragard.projectmanager.server.api.endpoint.ProjectEndpoint;
 import org.dragard.projectmanager.server.endpoint.AbstractEndpoint;
 import org.dragard.projectmanager.server.entity.Project;
@@ -13,8 +13,8 @@ public class ProjectEndpointImpl extends AbstractEndpoint
     public ProjectEndpointImpl() {
     }
 
-    public ProjectEndpointImpl(ServiceLocator serviceLocator) {
-        super(serviceLocator);
+    public ProjectEndpointImpl(Bootstrap bootstrap) {
+        super(bootstrap);
     }
 
 

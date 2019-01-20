@@ -9,5 +9,5 @@ public interface AuthorizationEndpoint extends Endpoint{
 
     Response login(String login, byte[] password);
 
-    Response logout();
+    Response logout(String token);
 }

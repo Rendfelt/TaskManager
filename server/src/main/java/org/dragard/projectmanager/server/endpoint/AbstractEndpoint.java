@@ -1,26 +1,26 @@
 package org.dragard.projectmanager.server.endpoint;
 
 
-import org.dragard.projectmanager.server.api.ServiceLocator;
+import org.dragard.projectmanager.server.Bootstrap;
 import org.dragard.projectmanager.server.api.endpoint.Endpoint;
 
 public class AbstractEndpoint
     implements Endpoint {
 
-    private ServiceLocator serviceLocator;
+    private Bootstrap bootstrap;
 
     public AbstractEndpoint() {
     }
 
-    public AbstractEndpoint(ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    public AbstractEndpoint(Bootstrap bootstrap) {
+        this.bootstrap = bootstrap;
     }
 
-    public void setServiceLocator(ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    public void setBootstrap(Bootstrap bootstrap) {
+        this.bootstrap = bootstrap;
     }
 
-    public ServiceLocator getServiceLocator() {
-        return serviceLocator;
+    public Bootstrap getBootstrap() {
+        return bootstrap;
     }
 }

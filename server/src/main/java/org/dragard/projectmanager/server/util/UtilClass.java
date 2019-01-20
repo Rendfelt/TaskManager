@@ -23,4 +23,9 @@ public class UtilClass {
         return user.toString();
     }
 
+    public static boolean checkToken(String token){
+
+        return true;
+    }
+
 }

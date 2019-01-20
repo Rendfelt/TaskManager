@@ -5,9 +5,7 @@ import org.dragard.projectmanager.client.api.service.AuthorizationService;
 import org.dragard.projectmanager.client.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.client.endpoint.Response;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-import java.util.Arrays;
+import static org.dragard.projectmanager.client.util.UtilClass.checkResponse;
 
 public class AuthorizationServiceImpl
     implements AuthorizationService {
@@ -22,7 +20,6 @@ public class AuthorizationServiceImpl
 
     @Override
     public Response login(String login, byte[] password) throws Exception {
-        System.out.println(String.format("Logged in %s %s", login, Arrays.toString(password)));
         AuthorizationEndpointImplService authorizationEndpointService = new AuthorizationEndpointImplService();
         Response response = authorizationEndpointService.getAuthorizationEndpointImplPort().login(login, password);
         checkResponse(response);
@@ -30,21 +27,11 @@ public class AuthorizationServiceImpl
         return response;
     }
 
-    private void checkResponse(Response response) throws Exception{
-        if (response.getException() == null){
-            return;
-        }
-        Exception exception = (Exception) new ObjectInputStream(new ByteArrayInputStream(response.getException())).readObject();
-        if (response.getException() != null){
-            throw exception;
-        }
-    }
-
     @Override
     public Response logout(String token) throws Exception {
         this.token = null;
         AuthorizationEndpointImplService authorizationEndpointService = new AuthorizationEndpointImplService();
-        Response response = authorizationEndpointService.getAuthorizationEndpointImplPort().logout();
+        Response response = authorizationEndpointService.getAuthorizationEndpointImplPort().logout(token);
         checkResponse(response);
         return response;
     }

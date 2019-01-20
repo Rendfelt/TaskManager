@@ -5,30 +5,20 @@ import org.dragard.projectmanager.server.api.endpoint.AuthorizationEndpoint;
 import org.dragard.projectmanager.server.entity.Response;
 import org.dragard.projectmanager.server.entity.User;
 
-import static org.dragard.projectmanager.server.util.UtilClass.*;
+import org.dragard.projectmanager.server.util.UtilClass;
 
 import javax.jws.WebService;
 import java.util.Arrays;
 
 @WebService
-public class AuthorizationEndpointImpl
+public class AuthorizationEndpointImpl extends AbstractEndpoint
     implements AuthorizationEndpoint {
-
-    private Bootstrap bootstrap;
-
-    public Bootstrap getBootstrap() {
-        return bootstrap;
-    }
-
-    public void setBootstrap(Bootstrap bootstrap) {
-        this.bootstrap = bootstrap;
-    }
 
     public AuthorizationEndpointImpl() {
     }
 
     public AuthorizationEndpointImpl(Bootstrap bootstrap) {
-        this.bootstrap = bootstrap;
+        super(bootstrap);
     }
 
     @Override
@@ -40,16 +30,17 @@ public class AuthorizationEndpointImpl
             user = getBootstrap().getAuthorizationService().login(login, password);
         } catch (Exception e) {
             e.printStackTrace();
-            response.setException(serializeExceptionToByteArray(e));
+            response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
         }
         response.setMessage(String.format("Logged in %s %s", login, new String(password)));
-        response.setToken(createToken(user));
+        response.setToken(UtilClass.createToken(user));
         return response;
     }
 
     @Override
-    public Response logout() {
+    public Response logout(String token) {
+        UtilClass.checkToken(token);
         System.out.println("Logged out");
         getBootstrap().getAuthorizationService().logout();
         // TODO: 20.01.2019 tokens black list

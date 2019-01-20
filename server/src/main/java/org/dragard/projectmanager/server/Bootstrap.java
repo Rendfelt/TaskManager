@@ -4,12 +4,14 @@ import org.dragard.projectmanager.server.api.ServiceLocator;
 import org.dragard.projectmanager.server.api.command.Command;
 import org.dragard.projectmanager.server.api.endpoint.AuthorizationEndpoint;
 import org.dragard.projectmanager.server.api.endpoint.ProjectEndpoint;
+import org.dragard.projectmanager.server.api.endpoint.TaskEndpoint;
 import org.dragard.projectmanager.server.api.repository.ProjectRepository;
 import org.dragard.projectmanager.server.api.repository.TaskRepository;
 import org.dragard.projectmanager.server.api.repository.UserRepository;
 import org.dragard.projectmanager.server.api.service.*;
 import org.dragard.projectmanager.server.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.server.endpoint.ProjectEndpointImpl;
+import org.dragard.projectmanager.server.endpoint.TaskEndpointImpl;
 import org.dragard.projectmanager.server.service.DomainServiceImpl;
 import org.dragard.projectmanager.server.entity.Project;
 import org.dragard.projectmanager.server.repository.ProjectRepositoryImpl;
@@ -92,6 +94,8 @@ public class Bootstrap implements ServiceLocator {
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
         ProjectEndpoint projectEndpoint = new ProjectEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
+        TaskEndpoint taskEndpoint = new TaskEndpointImpl(this);
+        Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
         initializeTestData();
         try {
             domainService.loadUserList();

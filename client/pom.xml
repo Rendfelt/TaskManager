@@ -19,7 +19,7 @@
                 <version>3.2.7</version>
                 <executions>
                     <execution>
-                        <id>generate-sources</id>
+                        <id>generate-sources-auth</id>
                         <phase>generate-sources</phase>
                         <configuration>
                             <sourceRoot>${project.basedir}/src/main/java/</sourceRoot>
@@ -34,13 +34,28 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>generate-sources2</id>
+                        <id>generate-sources-project</id>
                         <phase>generate-sources</phase>
                         <configuration>
                             <sourceRoot>${project.basedir}/src/main/java/</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>http://localhost:9090/task-manager/project?wsdl</wsdl>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generate-sources-task</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${project.basedir}/src/main/java/</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>http://localhost:9090/task-manager/task?wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

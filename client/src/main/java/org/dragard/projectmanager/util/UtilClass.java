@@ -27,6 +27,7 @@ public class UtilClass {
         if (s == null || s.isEmpty()){
             return null;
         }
-        return new String(MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8)));
+        s = new String(MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8)));
+        return String.valueOf(s.hashCode());
     }
 }

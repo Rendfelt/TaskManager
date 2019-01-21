@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class User extends AbstractEntity{
 
+    private String password;
+
     public String getPassword() {
         return password;
     }
@@ -11,8 +13,6 @@ public class User extends AbstractEntity{
     public void setPassword(String password) {
         this.password = password;
     }
-
-    private String password;
 
     public User() {
     }

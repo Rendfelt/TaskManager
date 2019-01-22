@@ -62,7 +62,6 @@ public class ProjectEndpointImpl {
         try {
             UtilClass.checkToken(token, response);
             Project project = bootstrap.getProjectService().delete(id);
-            bootstrap.getTaskService().deleteTasksByProjectId(id);
             String message = "Project deleted: \n" + project.toString();
             System.out.println(message);
             response.setMessage(message);

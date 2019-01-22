@@ -2,17 +2,19 @@ package org.dragard.projectmanager.service;
 
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.api.service.ProjectService;
+import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Project;
-import org.dragard.projectmanager.exception.NoElementWithIdException;
-import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.UUID;
 
 public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
-    public ProjectServiceImpl(Repository<Project> repository) {
+    private TaskService taskService;
+
+    public ProjectServiceImpl(Repository<Project> repository, TaskService taskService) {
         super(repository);
+        this.taskService = taskService;
     }
 
     @Override
@@ -42,4 +44,10 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
         return getRepository().merge(new Project(id, name, description, project.getUserId()));
     }
 
+    @Override
+    public Project delete(String id) throws Exception {
+        Project project = super.delete(id);
+        taskService.deleteTasksByProjectId(project.getId());
+        return project;
+    }
 }

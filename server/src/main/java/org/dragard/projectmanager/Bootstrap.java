@@ -21,9 +21,6 @@ import org.dragard.projectmanager.service.UserServiceImpl;
 import org.dragard.projectmanager.util.UtilClass;
 
 import javax.xml.ws.Endpoint;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
@@ -41,7 +38,7 @@ public class Bootstrap implements ServiceLocator {
         final UserRepository userRepository = new UserJDBCRepositoryImpl();
         final ProjectRepository projectRepository = new ProjectJDBCRepositoryImpl(taskRepository);
         taskService = new TaskServiceImpl(taskRepository);
-        projectService = new ProjectServiceImpl(projectRepository);
+        projectService = new ProjectServiceImpl(projectRepository, taskRepository);
         userService = new UserServiceImpl(userRepository);
         authorizationService = new AuthorizationServiceImpl(userService);
         commandList = new HashMap<>();

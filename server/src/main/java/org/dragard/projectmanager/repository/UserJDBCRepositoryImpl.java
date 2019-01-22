@@ -4,6 +4,7 @@ import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.naming.OperationNotSupportedException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,5 +92,10 @@ public class UserJDBCRepositoryImpl
         }
         ps.close();
         return element;
+    }
+
+    @Override
+    public Collection<User> getElementsByUserId(String id) throws Exception {
+        throw new OperationNotSupportedException();
     }
 }

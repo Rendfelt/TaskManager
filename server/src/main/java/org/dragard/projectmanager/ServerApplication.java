@@ -2,10 +2,6 @@ package org.dragard.projectmanager;
 
 import org.dragard.projectmanager.command.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
-
 public class ServerApplication {
 
     private final static Class[] classes = {TaskShowAllCommand.class, ProjectShowAllCommand.class, ProjectShowAllCommand.class,
@@ -17,7 +13,7 @@ public class ServerApplication {
             DataXMLSaveCommand.class, DataJSONSaveCommand.class, DataXMLLoadCommand.class,
             DataJSONLoadCommand.class};
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
+    public static void main(String[] args) throws Exception {
         final Bootstrap bootstrap = new Bootstrap();
         bootstrap.registry(classes);
         bootstrap.run();

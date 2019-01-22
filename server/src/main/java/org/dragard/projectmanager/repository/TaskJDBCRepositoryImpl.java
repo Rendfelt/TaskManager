@@ -82,4 +82,22 @@ public class TaskJDBCRepositoryImpl
         ps.close();
         return task;
     }
+
+    @Override
+    public Collection<Task> getElementsByUserId(String id) throws Exception {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM `tasks` WHERE `userId` = ?");
+        ps.setString(1, id);
+        ResultSet rs = ps.executeQuery();
+        Collection<Task> collection = new ArrayList<>();
+        while (rs.next()){
+            collection.add(new Task(rs.getString("id"), rs.getString("name"),
+                    rs.getString("description"), rs.getString("projectId"),
+                    rs.getString("userId")));
+        }
+        if (collection.isEmpty()){
+            return null;
+        }
+        ps.close();
+        return collection;
+    }
 }

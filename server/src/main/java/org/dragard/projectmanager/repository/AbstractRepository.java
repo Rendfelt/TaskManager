@@ -39,5 +39,4 @@ public abstract class AbstractRepository<E extends AbstractEntity>
         elements.put(element.getId(), element);
         return element;
     }
-
 }

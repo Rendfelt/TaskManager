@@ -27,6 +27,13 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
+    public Collection<E> getElementsByUserId(String id) throws Exception {
+        return getRepository().getElementsByUserId(id);
+    }
+
+
+
+    @Override
     public E delete(String id) throws Exception {
         if (getRepository().getElementById(id) == null){
             System.out.println("No element deleted");

@@ -50,7 +50,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initializeTestData(){
-        /*try {
+        try {
             User test = userService.create("test", UtilClass.getPassword("test"));
             User root = userService.create("root", UtilClass.getPassword("root"));
             projectService.create("ProjectName1", "Description1", test.getId());
@@ -64,7 +64,7 @@ public class Bootstrap implements ServiceLocator {
             taskService.create("TaskName5", "TaskDescription5", project2.getId(), project2.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
@@ -80,7 +80,7 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException {
+    public void run() throws Exception {
         AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
         ProjectEndpointImpl projectEndpoint = new ProjectEndpointImpl(this);
@@ -90,7 +90,7 @@ public class Bootstrap implements ServiceLocator {
         Endpoint.publish("http://localhost:9090/task-manager/user", userEndpoint);*/
         TaskEndpointImpl taskEndpoint = new TaskEndpointImpl(this);
         Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
-        initializeTestData();
+//        initializeTestData();
         try {
             domainService.loadUserList();
         } catch (Exception e) {

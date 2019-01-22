@@ -79,7 +79,9 @@ public class TaskEndpointImpl{
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            Collection<Task> tasks = bootstrap.getTaskService().getElements();
+            Collection<Task> tasks = bootstrap.getTaskService().getElementsByUserId(
+                    bootstrap.getAuthorizationService().getActiveUser().getId()
+            );
             StringBuilder sb = new StringBuilder(String.format("\n%-40s%-40s%-40s%-100s\n", "uid", "projectId", "name", "description"));
             for (Task task: tasks){
                 sb.append(String.format("%-40s%-40s%-40s%-100s\n", task.getId(), task.getProjectId(), task.getName(), task.getDescription()));

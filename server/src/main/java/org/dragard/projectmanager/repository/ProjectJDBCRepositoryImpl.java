@@ -92,4 +92,21 @@ public class ProjectJDBCRepositoryImpl
         ps.close();
         return project;
     }
+
+    @Override
+    public Collection<Project> getElementsByUserId(String id) throws Exception {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM `projects` WHERE `userId` = ?");
+        ps.setString(1, id);
+        ResultSet rs = ps.executeQuery();
+        Collection<Project> collection = new ArrayList<>();
+        while (rs.next()){
+            collection.add(new Project(rs.getString("id"), rs.getString("name"),
+                    rs.getString("description"), rs.getString("userId")));
+        }
+        if (collection.isEmpty()){
+            return null;
+        }
+        ps.close();
+        return collection;
+    }
 }

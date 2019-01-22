@@ -79,7 +79,9 @@ public class ProjectEndpointImpl {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            Collection<Project> projects = bootstrap.getProjectService().getElements();
+            Collection<Project> projects = bootstrap.getProjectService().getElementsByUserId(
+                    bootstrap.getAuthorizationService().getActiveUser().getId()
+            );
             StringBuilder sb = new StringBuilder(String.format("\n%-40s%-40s%-100s\n", "uid", "name", "description"));
             for (Project project: projects){
                 sb.append(String.format("%-40s%-40s%-100s\n", project.getId(),project.getName(), project.getDescription()));

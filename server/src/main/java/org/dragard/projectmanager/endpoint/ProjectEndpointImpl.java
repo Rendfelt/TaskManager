@@ -6,6 +6,9 @@ import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 import java.util.Collection;
 
@@ -21,8 +24,8 @@ public class ProjectEndpointImpl {
         this.bootstrap = bootstrap;
     }
 
-    
-    public Response createProject(String name, String description, String token) {
+    @WebMethod(operationName = "createProject")
+    public @WebResult(name = "responce") Response createProject(@WebParam(name = "name")String name, @WebParam(name = "description")String description, @WebParam(name = "token")String token) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
@@ -39,7 +42,7 @@ public class ProjectEndpointImpl {
         return response;
     }
 
-    
+    @WebMethod(operationName = "updateProject")
     public Response updateProject(String id, String name, String description, String token) {
         Response response = new Response();
         try {
@@ -56,7 +59,7 @@ public class ProjectEndpointImpl {
         return response;
     }
 
-    
+    @WebMethod(operationName = "deleteProject")
     public Response deleteProject(String id, String token) {
         Response response = new Response();
         try {
@@ -73,7 +76,7 @@ public class ProjectEndpointImpl {
         return response;
     }
 
-    
+    @WebMethod(operationName = "getViewProject")
     public Response getViewProject(String token) {
         Response response = new Response();
         try {
@@ -94,11 +97,11 @@ public class ProjectEndpointImpl {
         return response;
     }
 
-    
+    @WebMethod(operationName = "persistProject")
     public Response persistProject(Collection<Project> elements, String token) {
         // TODO: 20.01.2019 Do smthing. or not.
         Response response = new Response();
-        try {
+        /*try {
             UtilClass.checkToken(token, response);
             for (Project project: elements){
                 System.out.println(project);
@@ -107,7 +110,7 @@ public class ProjectEndpointImpl {
             e.printStackTrace();
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
-        }
+        }*/
         return response;
     }
 }

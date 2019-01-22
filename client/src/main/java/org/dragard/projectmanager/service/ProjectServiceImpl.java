@@ -4,7 +4,6 @@ package org.dragard.projectmanager.service;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
-
 import org.dragard.projectmanager.util.UtilClass;
 
 public class ProjectServiceImpl

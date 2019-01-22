@@ -9,7 +9,7 @@ public class TaskShowAllCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         System.out.printf("\n%-40s%-40s%-40s%-100s\n", "uid", "project id", "name", "description");
         for (Task task :
                 getServiceLocator().getTaskService().getElements()) {

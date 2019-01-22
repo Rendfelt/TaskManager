@@ -11,7 +11,7 @@ import java.util.Map;
 public abstract class AbstractJDBCRepository<E extends AbstractEntity>
     implements Repository<E> {
 
-    protected AbstractJDBCRepository() {
+    /*protected AbstractJDBCRepository() {
         
     }
 
@@ -42,6 +42,6 @@ public abstract class AbstractJDBCRepository<E extends AbstractEntity>
     public E merge(E element) {
         // TODO: 22.01.2019  
         return null;
-    }
+    }*/
 
 }

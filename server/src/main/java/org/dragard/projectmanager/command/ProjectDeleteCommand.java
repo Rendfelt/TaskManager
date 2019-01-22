@@ -9,11 +9,19 @@ public class ProjectDeleteCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         Scanner scanner = getServiceLocator().getScanner();
         System.out.println("Enter project id:");
         final String projectId = scanner.nextLine();
-        getServiceLocator().getProjectService().delete(projectId);
-        getServiceLocator().getTaskService().deleteTasksByProjectId(projectId);
+        try {
+            getServiceLocator().getProjectService().delete(projectId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            getServiceLocator().getTaskService().deleteTasksByProjectId(projectId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

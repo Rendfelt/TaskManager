@@ -6,13 +6,13 @@ import java.util.Collection;
 
 public interface Repository<E extends AbstractEntity> {
 
-    E getElementById(final String id);
+    E getElementById(final String id) throws Exception;
 
-    E merge(E element);
+    E merge(E element) throws Exception;
 
     void clearElements();
 
-    Collection<E> getElements();
+    Collection<E> getElements() throws Exception;
 
-    E delete(String id);
+    E delete(String id) throws Exception;
 }

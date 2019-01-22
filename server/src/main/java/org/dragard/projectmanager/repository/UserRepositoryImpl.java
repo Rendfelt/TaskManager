@@ -7,11 +7,15 @@ public class UserRepositoryImpl extends AbstractRepository<User>
     implements UserRepository {
 
     @Override
-    public User getElementByLogin(String login) {
-        for (User user : getElements()) {
-            if (login.equals(user.getName())){
-                return user;
+    public User getElementByLogin(String login) throws Exception {
+        try {
+            for (User user : getElements()) {
+                if (login.equals(user.getName())){
+                    return user;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

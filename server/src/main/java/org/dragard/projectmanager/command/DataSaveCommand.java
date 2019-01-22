@@ -1,8 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class DataSaveCommand extends AbstractCommand {
 
     public DataSaveCommand() {
@@ -10,7 +7,7 @@ public class DataSaveCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() throws IOException, URISyntaxException {
+    public void execute() throws Exception {
         getServiceLocator().getDomainService().saveSerialization();
     }
 }

@@ -17,17 +17,17 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
-    public E getElementById(String id) {
+    public E getElementById(String id) throws Exception {
         return getRepository().getElementById(id);
     }
 
     @Override
-    public Collection<E> getElements() {
+    public Collection<E> getElements() throws Exception {
         return getRepository().getElements();
     }
 
     @Override
-    public E delete(String id) {
+    public E delete(String id) throws Exception {
         if (getRepository().getElementById(id) == null){
             System.out.println("No element deleted");
             return null;
@@ -36,7 +36,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
-    public void persist(Collection<E> elements) {
+    public void persist(Collection<E> elements) throws Exception {
         if (elements == null || elements.isEmpty()){
             return;
         }

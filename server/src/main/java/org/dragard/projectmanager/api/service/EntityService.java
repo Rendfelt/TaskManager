@@ -6,13 +6,13 @@ import java.util.Collection;
 
 public interface EntityService<E extends AbstractEntity> extends Service{
 
-    E delete(String id);
+    E delete(String id) throws Exception;
 
-    Collection<E> getElements();
+    Collection<E> getElements() throws Exception;
 
     void clearElements();
 
-    E getElementById(String id);
+    E getElementById(String id) throws Exception;
 
-    void persist(Collection<E> elements);
+    void persist(Collection<E> elements) throws Exception;
 }

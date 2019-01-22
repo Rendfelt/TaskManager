@@ -12,7 +12,7 @@ public class ProjectUpdateCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         try {
             final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter project id");
@@ -30,6 +30,8 @@ public class ProjectUpdateCommand extends AbstractCommand{
             getServiceLocator().getProjectService().update(project.getId(), name, description
             );
         } catch (NoNameException | NoElementWithIdException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

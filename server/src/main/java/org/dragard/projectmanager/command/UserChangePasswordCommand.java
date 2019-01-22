@@ -4,9 +4,6 @@ import org.dragard.projectmanager.exception.TaskManagerException;
 import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.util.UtilClass;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class UserChangePasswordCommand extends AbstractCommand{
@@ -16,7 +13,7 @@ public class UserChangePasswordCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() throws NoSuchAlgorithmException, URISyntaxException, IOException {
+    public void execute() throws Exception {
         final Scanner scanner = getServiceLocator().getScanner();
         System.out.println("Enter password:");
         final String password = UtilClass.getPassword(scanner.nextLine());

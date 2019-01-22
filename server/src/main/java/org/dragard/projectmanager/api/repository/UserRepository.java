@@ -4,5 +4,5 @@ import org.dragard.projectmanager.entity.User;
 
 public interface UserRepository extends Repository<User>{
 
-    User getElementByLogin(String login);
+    User getElementByLogin(String login) throws Exception;
 }

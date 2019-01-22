@@ -3,7 +3,6 @@ package org.dragard.projectmanager.service;
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Task;
-import org.dragard.projectmanager.exception.NoElementWithIdException;
 import org.dragard.projectmanager.exception.NoNameException;
 
 import java.util.ArrayList;
@@ -18,9 +17,9 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
     }
 
     @Override
-    public Task create(String name, String description, String projectId, String userId) throws NoNameException {
+    public Task create(String name, String description, String projectId, String userId) throws Exception {
         if (name == null || name.isEmpty()){
-            throw new NoNameException();
+            throw new Exception("Name is empty");
         }
         if (description == null){
             description = "";
@@ -29,12 +28,12 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
     }
 
     @Override
-    public Task update(String id, String name, String description, String userId) throws NoNameException, NoElementWithIdException {
+    public Task update(String id, String name, String description, String userId) throws Exception {
         if (getRepository().getElementById(id) == null){
-            throw new NoElementWithIdException();
+            throw new Exception("No element with id");
         }
         if (name == null || name.isEmpty()){
-            throw new NoNameException();
+            throw new Exception("Name is empty");
         }
         if (description == null){
             description = "";
@@ -43,8 +42,9 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
     }
 
     @Override
-    public void deleteTasksByProjectId(String projectId) {
-        final List<Task> taskList = new ArrayList<>(getRepository().getElements());
+    public void deleteTasksByProjectId(String projectId) throws Exception {
+        final List<Task> taskList;
+        taskList = new ArrayList<>(getRepository().getElements());
         for (Task task : taskList){
             if (task.getProjectId().equals(projectId)){
                 getRepository().delete(task.getId());

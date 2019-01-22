@@ -1,8 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class DataLoadCommand extends AbstractCommand {
 
     public DataLoadCommand() {
@@ -10,7 +7,7 @@ public class DataLoadCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() throws URISyntaxException, IOException, ClassNotFoundException {
+    public void execute() throws Exception {
         getServiceLocator().getDomainService().loadSerialization();
     }
 }

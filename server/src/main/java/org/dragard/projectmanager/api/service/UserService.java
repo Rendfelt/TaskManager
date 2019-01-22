@@ -6,7 +6,7 @@ public interface UserService extends EntityService<User>{
 
     User create(String name, String password) throws Exception;
 
-    User getElementByLogin(String login);
+    User getElementByLogin(String login) throws Exception;
 
     void changePassword(String password, User user) throws Exception;
 }

@@ -16,9 +16,9 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     }
 
     @Override
-    public Project create(String name, String description, String userId) throws NoNameException {
+    public Project create(String name, String description, String userId) throws Exception {
         if (name == null || name.isEmpty()){
-            throw new NoNameException();
+            throw new Exception("Name is empty");
         }
         if (description == null){
             description = "";
@@ -27,13 +27,14 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     }
 
     @Override
-    public Project update(String id, String name, String description) throws NoNameException, NoElementWithIdException {
+    public Project update(String id, String name, String description) throws Exception {
         if (getRepository().getElementById(id) == null){
-            throw new NoElementWithIdException();
+            throw new Exception("No element with id");
         }
-        Project project = getRepository().getElementById(id);
+        Project project = null;
+        project = getRepository().getElementById(id);
         if (name == null || name.isEmpty()){
-            throw new NoNameException();
+            throw new Exception("Name is empty");
         }
         if (description == null){
             description = "";

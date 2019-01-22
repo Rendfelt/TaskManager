@@ -25,8 +25,13 @@ public class DomainServiceImpl
 
     @Override
     public void saveUserList() throws URISyntaxException, IOException {
-        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
-                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        DomainEntity domainEntity = null;
+        try {
+            domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                    serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         final File saveFile = getUserListSaveFile();
         saveFile.createNewFile();
         final ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
@@ -34,7 +39,7 @@ public class DomainServiceImpl
     }
 
     @Override
-    public void loadUserList() throws URISyntaxException, IOException, ClassNotFoundException {
+    public void loadUserList() throws Exception {
         final File saveFile = getUserListSaveFile();
         if (!saveFile.exists()){
             throw new IOException("No saved data");
@@ -71,7 +76,11 @@ public class DomainServiceImpl
         }
         final ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveFile));
         DomainEntity domainEntity = (DomainEntity) ois.readObject();
-        loadInMemory(domainEntity);
+        try {
+            loadInMemory(domainEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,10 +98,14 @@ public class DomainServiceImpl
             throw new IOException("No saved data");
         }
         DomainEntity domainEntity = objectMapper.readValue(saveFile, DomainEntity.class);
-        loadInMemory(domainEntity);
+        try {
+            loadInMemory(domainEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loadInMemory(DomainEntity domainEntity){
+    private void loadInMemory(DomainEntity domainEntity) throws Exception {
         serviceLocator.getProjectService().clearElements();
         serviceLocator.getProjectService().persist(domainEntity.getProjectList());
         serviceLocator.getTaskService().clearElements();
@@ -103,8 +116,13 @@ public class DomainServiceImpl
 
     @Override
     public void saveSerialization() throws IOException, URISyntaxException {
-        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
-                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        DomainEntity domainEntity = null;
+        try {
+            domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                    serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         final File saveFile = getSaveFile();
         saveFile.createNewFile();
         final ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
@@ -122,8 +140,13 @@ public class DomainServiceImpl
     }
 
     private void saveMapper(ObjectWriter objectWriter, File saveFile) throws IOException {
-        DomainEntity domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
-                serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        DomainEntity domainEntity = null;
+        try {
+            domainEntity = new DomainEntity(serviceLocator.getProjectService().getElements(),
+                    serviceLocator.getTaskService().getElements(), serviceLocator.getUserService().getElements());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         saveFile.createNewFile();
         objectWriter.writeValue(new FileOutputStream(saveFile), domainEntity);
     }

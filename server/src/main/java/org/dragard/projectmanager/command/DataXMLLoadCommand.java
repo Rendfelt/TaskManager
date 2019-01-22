@@ -1,8 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class DataXMLLoadCommand extends AbstractCommand {
 
     public DataXMLLoadCommand() {
@@ -10,7 +7,7 @@ public class DataXMLLoadCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() throws IOException, URISyntaxException {
+    public void execute() throws Exception {
         getServiceLocator().getDomainService().loadXML();
     }
 }

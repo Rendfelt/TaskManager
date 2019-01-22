@@ -7,7 +7,7 @@ public interface DomainService extends Service {
 
     void saveUserList() throws URISyntaxException, IOException;
 
-    void loadUserList() throws URISyntaxException, IOException, ClassNotFoundException;
+    void loadUserList() throws Exception;
 
     void loadXML() throws URISyntaxException, IOException;
 

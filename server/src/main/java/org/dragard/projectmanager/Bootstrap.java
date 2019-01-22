@@ -10,11 +10,10 @@ import org.dragard.projectmanager.api.service.*;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.endpoint.TaskEndpointImpl;
+import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.repository.*;
 import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.entity.Project;
-import org.dragard.projectmanager.repository.ProjectRepositoryImpl;
-import org.dragard.projectmanager.repository.TaskRepositoryImpl;
-import org.dragard.projectmanager.repository.UserRepositoryImpl;
 import org.dragard.projectmanager.service.AuthorizationServiceImpl;
 import org.dragard.projectmanager.service.ProjectServiceImpl;
 import org.dragard.projectmanager.service.TaskServiceImpl;
@@ -38,9 +37,9 @@ public class Bootstrap implements ServiceLocator {
     private final Scanner scanner;
 
     public Bootstrap() {
-        final ProjectRepository projectRepository = new ProjectRepositoryImpl();
-        final TaskRepository taskRepository = new TaskRepositoryImpl();
-        final UserRepository userRepository = new UserRepositoryImpl();
+        final TaskRepository taskRepository = new TaskJDBCRepositoryImpl();
+        final UserRepository userRepository = new UserJDBCRepositoryImpl();
+        final ProjectRepository projectRepository = new ProjectJDBCRepositoryImpl(taskRepository);
         taskService = new TaskServiceImpl(taskRepository);
         projectService = new ProjectServiceImpl(projectRepository);
         userService = new UserServiceImpl(userRepository);
@@ -51,25 +50,21 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initializeTestData(){
-        try {
-
-            projectService.create("ProjectName1", "Description1", "ea4f8798-4868-4565-a243-d674d318d71a");
-            projectService.create("ProjectName2", "Description2", "ea4f8798-4868-4565-a243-d674d318d71a");
-            projectService.create("ProjectName3", "Description3", "ea4f8798-4868-4565-a243-d674d318d71a");
-            projectService.create("ProjectName4", "Description4", "ea4f8798-4868-4565-a243-d674d318d71a");
-            Iterator<Project> iterator = projectService.getElements().iterator();
-            final Project project1 = iterator.next();
-            final Project project2 = iterator.next();
-            taskService.create("TaskName1", "TaskDescription1", project1.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            taskService.create("TaskName2", "TaskDescription2", project1.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            taskService.create("TaskName3", "TaskDescription3", project1.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            taskService.create("TaskName4", "TaskDescription4", project2.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            taskService.create("TaskName5", "TaskDescription5", project2.getId(), "ea4f8798-4868-4565-a243-d674d318d71a");
-            userService.create("test", UtilClass.getPassword("test"));
-            userService.create("root", UtilClass.getPassword("root"));
+        /*try {
+            User test = userService.create("test", UtilClass.getPassword("test"));
+            User root = userService.create("root", UtilClass.getPassword("root"));
+            projectService.create("ProjectName1", "Description1", test.getId());
+            Project project1 = projectService.create("ProjectName2", "Description2", test.getId());
+            projectService.create("ProjectName3", "Description3", root.getId());
+            Project project2 = projectService.create("ProjectName4", "Description4", root.getId());
+            taskService.create("TaskName1", "TaskDescription1", project1.getId(), project1.getUserId());
+            taskService.create("TaskName2", "TaskDescription2", project1.getId(), project1.getUserId());
+            taskService.create("TaskName3", "TaskDescription3", project1.getId(), project1.getUserId());
+            taskService.create("TaskName4", "TaskDescription4", project2.getId(), project2.getUserId());
+            taskService.create("TaskName5", "TaskDescription5", project2.getId(), project2.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
@@ -107,7 +102,11 @@ public class Bootstrap implements ServiceLocator {
             final String input = scanner.nextLine().toLowerCase();
             Command command = commandList.get(input);
             if (command != null && (!command.isSecure() || authorizationService.isLogged())){
-                command.execute();
+                try {
+                    command.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {
                 System.out.println("Command not recognized. Try again, please");
             }

@@ -11,8 +11,9 @@ public class UserShowAllCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
-        final Collection<User> users = getServiceLocator().getUserService().getElements();
+    public void execute() throws Exception {
+        final Collection<User> users;
+        users = getServiceLocator().getUserService().getElements();
         for (User user :
                 users) {
             System.out.println(user.getName());

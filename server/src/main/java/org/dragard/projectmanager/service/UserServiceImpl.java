@@ -34,7 +34,7 @@ public class UserServiceImpl extends AbstractEntityService<User>
     }
 
     @Override
-    public User getElementByLogin(String login) {
+    public User getElementByLogin(String login) throws Exception {
         if (login == null || login.isEmpty()){
             return null;
         }

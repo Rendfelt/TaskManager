@@ -13,7 +13,7 @@ public class UserCreateCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         try {
             Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter user login:");

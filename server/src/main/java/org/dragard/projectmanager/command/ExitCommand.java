@@ -7,7 +7,7 @@ public class ExitCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         getServiceLocator().getAuthorizationService().logout();
         System.exit(0);
     }

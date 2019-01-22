@@ -13,7 +13,7 @@ public class TaskUpdateCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         try {
             final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter task id");
@@ -31,6 +31,8 @@ public class TaskUpdateCommand extends AbstractCommand{
             getServiceLocator().getTaskService().update(task.getId(), name, description,
                     getServiceLocator().getAuthorizationService().getActiveUser().getId());
         } catch (NoNameException | NoElementWithIdException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

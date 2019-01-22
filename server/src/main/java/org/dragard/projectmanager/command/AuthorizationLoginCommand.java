@@ -13,7 +13,7 @@ public class AuthorizationLoginCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         try {
             final Scanner scanner = getServiceLocator().getScanner();
             if (getServiceLocator().getAuthorizationService().isLogged()) {

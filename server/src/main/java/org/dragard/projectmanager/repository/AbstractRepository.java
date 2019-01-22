@@ -20,22 +20,22 @@ public abstract class AbstractRepository<E extends AbstractEntity>
     }
 
     @Override
-    public Collection<E> getElements() {
+    public Collection<E> getElements() throws Exception {
         return new ArrayList<>(elements.values());
     }
 
     @Override
-    public E getElementById(String id) {
+    public E getElementById(String id) throws Exception {
         return elements.get(id);
     }
 
     @Override
-    public E delete(String id) {
+    public E delete(String id) throws Exception {
         return elements.remove(id);
     }
 
     @Override
-    public E merge(E element) {
+    public E merge(E element) throws Exception {
         elements.put(element.getId(), element);
         return element;
     }

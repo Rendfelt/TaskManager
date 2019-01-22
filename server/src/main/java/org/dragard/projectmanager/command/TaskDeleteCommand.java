@@ -9,9 +9,13 @@ public class TaskDeleteCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         final Scanner scanner = getServiceLocator().getScanner();
         System.out.println("Enter task id:");
-        getServiceLocator().getTaskService().delete(scanner.nextLine());
+        try {
+            getServiceLocator().getTaskService().delete(scanner.nextLine());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

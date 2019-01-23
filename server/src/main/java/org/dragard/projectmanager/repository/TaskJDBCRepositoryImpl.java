@@ -35,8 +35,17 @@ public class TaskJDBCRepositoryImpl
 
     @Override
     public Task merge(Task element) throws Exception {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO `tasks` (`id`, `name`, `description`, `projectId`, `userId`) " +
-                "VALUES (?, ?, ?, ?, ?)");
+        final Task task = getElementById(element.getId());
+        final PreparedStatement ps;
+        if (task == null){
+            ps = connection.prepareStatement("INSERT INTO `tasks` (`id`, `name`, `description`, `projectId`, `userId`) " +
+                    "VALUES (?, ?, ?, ?, ?)");
+        } else {
+            ps = connection.prepareStatement("UPDATE `tasks` SET `id` = ?, `name` = ?, `description` = ?, " +
+                    "`projectId` = ?, `userId` = ? WHERE ID = ?");
+            ps.setString(6, element.getId());
+        }
+
         ps.setString(1, element.getId());
         ps.setString(2, element.getName());
         ps.setString(3, element.getDescription());

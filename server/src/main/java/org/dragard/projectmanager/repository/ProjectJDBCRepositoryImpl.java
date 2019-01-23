@@ -43,8 +43,15 @@ public class ProjectJDBCRepositoryImpl
 
     @Override
     public Project merge(Project element) throws Exception {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO `projects` (`id`, `name`, `description`, `userId`) " +
-                "VALUES (?, ?, ?, ?)");
+        final Project project = getElementById(element.getId());
+        final PreparedStatement ps;
+        if (project == null){
+            ps = connection.prepareStatement("INSERT INTO `projects` (`id`, `name`, `description`, `userId`) VALUES (?, ?, ?, ?)");
+        } else {
+            ps = connection.prepareStatement("UPDATE `projects` SET `id` = ?, `name` = ?, `description` = ?, userId = ? WHERE ID = ?");
+            ps.setString(5, element.getId());
+        }
+
         ps.setString(1, element.getId());
         ps.setString(2, element.getName());
         ps.setString(3, element.getDescription());
@@ -63,9 +70,9 @@ public class ProjectJDBCRepositoryImpl
 
     @Override
     public Collection<Project> getElements() throws Exception {
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM `projects`");
-        Collection<Project> collection = new ArrayList<>();
+        final Statement statement = connection.createStatement();
+        final ResultSet rs = statement.executeQuery("SELECT * FROM `projects`");
+        final Collection<Project> collection = new ArrayList<>();
         while (rs.next()){
             collection.add(new Project(rs.getString("id"), rs.getString("name"),
                     rs.getString("description"), rs.getString("userId")));
@@ -79,11 +86,11 @@ public class ProjectJDBCRepositoryImpl
 
     @Override
     public Project delete(String id) throws Exception {
-        Project project = getElementById(id);
-        PreparedStatement ps2 = connection.prepareStatement("DELETE FROM `tasks` WHERE `projectId` = ?");
+        final Project project = getElementById(id);
+        final PreparedStatement ps2 = connection.prepareStatement("DELETE FROM `tasks` WHERE `projectId` = ?");
         ps2.setString(1, id);
         ps2.executeUpdate();
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM `projects` WHERE `id` = ?");
+        final PreparedStatement ps = connection.prepareStatement("DELETE FROM `projects` WHERE `id` = ?");
         ps.setString(1, id);
         if (ps.executeUpdate() == 0){
             return null;

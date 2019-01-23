@@ -82,8 +82,15 @@ public class UserJDBCRepositoryImpl
 
     @Override
     public User merge(User element) throws Exception {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO `users` (`id`, `name`, `password`) " +
-                                                                "VALUES (?, ?, ?)");
+        final User user = getElementById(element.getId());
+        final PreparedStatement ps;
+        if (user == null){
+            ps = connection.prepareStatement("INSERT INTO `users` (`id`, `name`, `password`) VALUES (?, ?, ?)");
+        } else {
+            ps = connection.prepareStatement("UPDATE `users` SET `id` = ?, `name` = ?, `password` = ? " +
+                    "WHERE ID = ?");
+            ps.setString(4, element.getId());
+        }
         ps.setString(1, element.getId());
         ps.setString(2, element.getName());
         ps.setString(3, element.getPassword());

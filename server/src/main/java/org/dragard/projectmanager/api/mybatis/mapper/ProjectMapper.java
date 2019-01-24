@@ -15,7 +15,7 @@ public interface ProjectMapper extends JobEntityMapper<Project> {
     String getById = "select * from projects where id = #{id}";
     String delete = "DELETE from projects WHERE id = #{id}";
     String insert = "insert into projects (id, name, description, userId) values (#{id}, #{name}, #{description}, #{userId})";
-    String update = "UPDATE projects SET id = #{id}, name = #{name}, description = #{description}, userId = #{userId} WHERE id = #{id}";
+    String update = "UPDATE projects SET name = #{name}, description = #{description}, userId = #{userId} WHERE id = #{id}";
 
 
     @Override

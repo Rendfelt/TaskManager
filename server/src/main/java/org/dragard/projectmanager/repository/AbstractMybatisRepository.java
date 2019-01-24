@@ -3,7 +3,6 @@ package org.dragard.projectmanager.repository;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.dragard.projectmanager.api.mybatis.mapper.EntityMapper;
-import org.dragard.projectmanager.api.mybatis.mapper.JobEntityMapper;
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.entity.AbstractEntity;
 import org.dragard.projectmanager.util.UtilClass;

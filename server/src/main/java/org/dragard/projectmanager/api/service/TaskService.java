@@ -2,7 +2,7 @@ package org.dragard.projectmanager.api.service;
 
 import org.dragard.projectmanager.entity.Task;
 
-public interface TaskService extends EntityService<Task> {
+public interface TaskService extends JobEntityService<Task> {
 
     Task create(String name, String description, String projectId, String userId) throws Exception;
 

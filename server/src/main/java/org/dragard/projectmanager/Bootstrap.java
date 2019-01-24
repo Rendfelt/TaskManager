@@ -34,9 +34,9 @@ public class Bootstrap implements ServiceLocator {
     private final Scanner scanner;
 
     public Bootstrap() {
-        final TaskRepository taskRepository = new TaskJDBCRepositoryImpl();
-        final UserRepository userRepository = new UserJDBCRepositoryImpl();
-        final ProjectRepository projectRepository = new ProjectJDBCRepositoryImpl(taskRepository);
+        final TaskRepository taskRepository = new TaskMybatisRepositoryImpl();
+        final UserRepository userRepository = new UserMybatisRepositoryImpl();
+        final ProjectRepository projectRepository = new ProjectMybatisRepositoryImpl();
         taskService = new TaskServiceImpl(taskRepository);
         projectService = new ProjectServiceImpl(projectRepository, taskService);
         userService = new UserServiceImpl(userRepository);

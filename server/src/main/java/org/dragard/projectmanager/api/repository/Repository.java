@@ -14,7 +14,5 @@ public interface Repository<E extends AbstractEntity> {
 
     Collection<E> getElements() throws Exception;
 
-    Collection<E> getElementsByUserId(String id) throws Exception;
-
     E delete(String id) throws Exception;
 }

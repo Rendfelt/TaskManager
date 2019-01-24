@@ -7,6 +7,8 @@ import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.exception.TaskManagerException;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 @WebService
@@ -21,7 +23,12 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     }
 
     @Override
-    public Response changePassword(String oldPassword, String password, String token){
+    @WebMethod(operationName = "changePassword")
+    public Response changePassword(
+            @WebParam(name = "oldPassword") String oldPassword,
+            @WebParam(name = "password") String password,
+            @WebParam(name = "token") String token
+    ){
         Response response = new Response();
         try {
             final User user = getBootstrap().getAuthorizationService().getActiveUser();
@@ -42,7 +49,10 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     }
 
     @Override
-    public Response registerUser(String login, String password){
+    public Response registerUser(
+            @WebParam(name = "login") String login,
+            @WebParam(name = "password") String password
+    ){
         Response response = new Response();
         User user;
         try {
@@ -58,7 +68,10 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     }
 
     @Override
-    public Response login(String login, String password) {
+    public Response login(
+            @WebParam(name = "login") String login,
+            @WebParam(name = "password") String password
+    ) {
         Response response = new Response();
         try {
             final User user = getBootstrap().getAuthorizationService().login(login, password);
@@ -73,7 +86,9 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     }
 
     @Override
-    public Response logout(String token) {
+    public Response logout(
+            @WebParam(name = "token") String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);

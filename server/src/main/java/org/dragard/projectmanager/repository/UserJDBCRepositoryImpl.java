@@ -101,8 +101,4 @@ public class UserJDBCRepositoryImpl
         return element;
     }
 
-    @Override
-    public Collection<User> getElementsByUserId(String id) throws Exception {
-        throw new OperationNotSupportedException();
-    }
 }

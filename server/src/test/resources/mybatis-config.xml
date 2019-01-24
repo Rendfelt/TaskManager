@@ -17,5 +17,6 @@
     <mappers>
         <mapper class="org.dragard.projectmanager.api.mybatis.mapper.TaskMapper" />
         <mapper class="org.dragard.projectmanager.api.mybatis.mapper.ProjectMapper" />
+        <mapper class="org.dragard.projectmanager.api.mybatis.mapper.UserMapper" />
     </mappers>
 </configuration>

@@ -1,6 +1,7 @@
 package org.dragard.projectmanager.service;
 
 import org.dragard.projectmanager.api.service.AuthorizationService;
+import org.dragard.projectmanager.api.service.Service;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
 
@@ -17,30 +18,31 @@ public class AuthorizationServiceImpl
 
     private final AuthorizationEndpointImplService authorizationEndpoint;
 
-    public AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
+    private AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
         token = null;
         this.authorizationEndpoint = authorizationEndpoint;
     }
 
+    public static AuthorizationService getInstance(AuthorizationEndpointImplService authorizationEndpoint){
+        return (AuthorizationService) UtilClass.getServiceProxy(AuthorizationService.class, new AuthorizationServiceImpl(authorizationEndpoint));
+    }
+
     @Override
     public Response register(String login, String password) throws Exception {
-        Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().registerUser(login, password);
-        UtilClass.checkResponse(response);
-        return response;
+        return authorizationEndpoint.getAuthorizationEndpointImplPort().registerUser(login, password);
     }
 
     @Override
     public Response changePassword(String oldPassword, String password, String token) throws Exception {
-        Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().changePassword(oldPassword, password, token);
-        UtilClass.checkResponse(response);
-        return response;
+        return authorizationEndpoint.getAuthorizationEndpointImplPort().changePassword(oldPassword, password, token);
     }
 
     @Override
     public Response login(String login, String password) throws Exception {
         Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().login(login, password);
-        UtilClass.checkResponse(response);
-        token = response.getToken();
+        if (response.getToken() != null){
+            token = response.getToken();
+        }
         return response;
     }
 
@@ -48,7 +50,6 @@ public class AuthorizationServiceImpl
     public Response logout(String token) throws Exception {
         Response response = authorizationEndpoint.getAuthorizationEndpointImplPort().logout(token);
         this.token = null;
-        UtilClass.checkResponse(response);
         return response;
     }
 

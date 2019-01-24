@@ -23,8 +23,4 @@ public class UserRepositoryImpl extends AbstractRepository<User>
         return null;
     }
 
-    @Override
-    public Collection<User> getElementsByUserId(String id) throws Exception {
-        throw new OperationNotSupportedException();
-    }
 }

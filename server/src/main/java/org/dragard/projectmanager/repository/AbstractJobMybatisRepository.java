@@ -2,12 +2,12 @@ package org.dragard.projectmanager.repository;
 
 import org.apache.ibatis.session.SqlSession;
 import org.dragard.projectmanager.api.mybatis.mapper.JobEntityMapper;
-import org.dragard.projectmanager.api.repository.Repository;
+import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.entity.AbstractJobEntity;
 import java.util.Collection;
 
 public abstract class AbstractJobMybatisRepository<E extends AbstractJobEntity> extends AbstractMybatisRepository<E>
-    implements Repository<E> {
+    implements JobRepository<E> {
 
     protected AbstractJobMybatisRepository(Class mapper) {
         super(mapper);

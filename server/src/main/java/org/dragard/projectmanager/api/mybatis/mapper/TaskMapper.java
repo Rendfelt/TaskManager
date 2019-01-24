@@ -15,7 +15,7 @@ public interface TaskMapper extends JobEntityMapper<Task> {
     String getById = "select * from tasks where id = #{id}";
     String delete = "DELETE from tasks WHERE id = #{id}";
     String insert = "insert into tasks (id, name, description, projectId, userId) values (#{id}, #{name}, #{description}, #{projectId}, #{userId})";
-    String update = "UPDATE tasks SET id = #{id}, name = #{name}, description = #{description}, projectId = #{projectId}, userId = #{userId} WHERE id = #{id}";
+    String update = "UPDATE tasks SET name = #{name}, description = #{description}, projectId = #{projectId}, userId = #{userId} WHERE id = #{id}";
 
 
     @Override

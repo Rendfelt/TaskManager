@@ -1,5 +1,6 @@
 package org.dragard.projectmanager.service;
 
+import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
@@ -12,7 +13,7 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
 
     private TaskService taskService;
 
-    public ProjectServiceImpl(Repository<Project> repository, TaskService taskService) {
+    public ProjectServiceImpl(JobRepository<Project> repository, TaskService taskService) {
         super(repository);
         this.taskService = taskService;
     }

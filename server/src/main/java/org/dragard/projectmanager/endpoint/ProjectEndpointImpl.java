@@ -25,7 +25,11 @@ public class ProjectEndpointImpl {
     }
 
     @WebMethod(operationName = "createProject")
-    public @WebResult(name = "responce") Response createProject(@WebParam(name = "name")String name, @WebParam(name = "description")String description, @WebParam(name = "token")String token) {
+    public @WebResult(name = "response") Response createProject(
+            @WebParam(name = "name")String name,
+            @WebParam(name = "description")String description,
+            @WebParam(name = "token")String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);

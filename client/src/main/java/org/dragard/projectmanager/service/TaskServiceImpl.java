@@ -1,6 +1,8 @@
 package org.dragard.projectmanager.service;
 
+import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.TaskService;
+import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
 import org.dragard.projectmanager.endpoint.TaskEndpointImplService;
 import org.dragard.projectmanager.util.UtilClass;
@@ -10,10 +12,14 @@ public class TaskServiceImpl
 
     private TaskEndpointImplService taskEndpoint;
 
+    public static TaskService getInstance(TaskEndpointImplService taskEndpointImplService){
+        return (TaskService) UtilClass.getServiceProxy(TaskService.class, new TaskServiceImpl(taskEndpointImplService));
+    }
+
     public TaskServiceImpl() {
     }
 
-    public TaskServiceImpl(TaskEndpointImplService taskEndpoint) {
+    private TaskServiceImpl(TaskEndpointImplService taskEndpoint) {
         this.taskEndpoint = taskEndpoint;
     }
 
@@ -27,34 +33,22 @@ public class TaskServiceImpl
 
     @Override
     public Response create(String name, String description, String projectId, String token) throws Exception {
-        Response response = getTaskEndpoint().getTaskEndpointImplPort().createTask(name, description, projectId, token);
-        UtilClass.checkResponse(response);
-
-        return response;
+        return getTaskEndpoint().getTaskEndpointImplPort().createTask(name, description, projectId, token);
     }
 
     @Override
     public Response update(String id, String name, String description, String token) throws Exception {
-        Response response = getTaskEndpoint().getTaskEndpointImplPort().updateTask(id, name, description, token);
-        UtilClass.checkResponse(response);
-
-        return response;
+        return getTaskEndpoint().getTaskEndpointImplPort().updateTask(id, name, description, token);
     }
 
     @Override
     public Response delete(String id, String token) throws Exception {
-        Response response = getTaskEndpoint().getTaskEndpointImplPort().deleteTask(id, token);
-        UtilClass.checkResponse(response);
-
-        return response;
+        return getTaskEndpoint().getTaskEndpointImplPort().deleteTask(id, token);
     }
 
     @Override
     public Response getView(String token) throws Exception {
-        Response response = getTaskEndpoint().getTaskEndpointImplPort().getViewTask(token);
-        UtilClass.checkResponse(response);
-
-        return response;
+        return getTaskEndpoint().getTaskEndpointImplPort().getViewTask(token);
     }
 
 /*    @Override

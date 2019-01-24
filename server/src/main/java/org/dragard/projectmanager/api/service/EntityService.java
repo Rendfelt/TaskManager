@@ -6,8 +6,6 @@ import java.util.Collection;
 
 public interface EntityService<E extends AbstractEntity> extends Service{
 
-    Collection<E> getElementsByUserId(String id) throws Exception;
-
     E delete(String id) throws Exception;
 
     Collection<E> getElements() throws Exception;

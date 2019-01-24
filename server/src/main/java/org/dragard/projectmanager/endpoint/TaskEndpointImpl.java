@@ -13,24 +13,29 @@ import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService
-public class TaskEndpointImpl extends AbstractEntityEndpoint<Task>
-    implements TaskEndpoint {
+public class TaskEndpointImpl{
     
     public TaskEndpointImpl() {
     }
 
+    private Bootstrap bootstrap;
+
     public TaskEndpointImpl(Bootstrap bootstrap) {
-        super(bootstrap, Task.class);
+        this.bootstrap = bootstrap;
     }
 
-    @Override
     @WebMethod(operationName = "createTask")
-    public Response create(@WebParam(name = "name")String name, @WebParam(name = "description")String description, @WebParam(name = "projectId")String projectId, @WebParam(name = "token")String token) {
+    public Response createTask(
+            @WebParam(name = "name") String name,
+            @WebParam(name = "description") String description,
+            @WebParam(name = "projectId") String projectId,
+            @WebParam(name = "token") String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            User activeUser = getBootstrap().getAuthorizationService().getActiveUser();
-            Task cTask = getBootstrap().getTaskService()
+            User activeUser = bootstrap.getAuthorizationService().getActiveUser();
+            Task cTask = bootstrap.getTaskService()
                     .create(name, description, projectId, activeUser.getId());
             String message = "Task created: \n" + cTask.toString();
             System.out.println(message);
@@ -43,14 +48,18 @@ public class TaskEndpointImpl extends AbstractEntityEndpoint<Task>
         return response;
     }
 
-    @Override
     @WebMethod(operationName = "updateTask")
-    public Response update(String id, String name, String description, String token) {
+    public Response updateTask(
+            @WebParam(name = "id") String id,
+            @WebParam(name = "name") String name,
+            @WebParam(name = "description") String description,
+            @WebParam(name = "token") String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            Task task = getBootstrap().getTaskService().update(id, name, description,
-                    getBootstrap().getTaskService().getElementById(id).getProjectId());
+            Task task = bootstrap.getTaskService().update(id, name, description,
+                    bootstrap.getTaskService().getElementById(id).getProjectId());
             String message = "Task updated: \n" + task.toString();
             System.out.println(message);
             response.setMessage(message);
@@ -63,14 +72,14 @@ public class TaskEndpointImpl extends AbstractEntityEndpoint<Task>
     }
 
     @WebMethod(operationName = "deleteTask")
-    public Response deleteTask(String id, String token) {
-
-        return super.delete(id, token);
-
-        /*Response response = new Response();
+    public Response deleteTask(
+            @WebParam(name = "id") String id,
+            @WebParam(name = "token") String token
+    ) {
+        Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            Task task = getBootstrap().getTaskService().delete(id);
+            Task task = bootstrap.getTaskService().delete(id);
             String message = "Task deleted: \n" + task.toString();
             System.out.println(message);
             response.setMessage(message);
@@ -79,17 +88,18 @@ public class TaskEndpointImpl extends AbstractEntityEndpoint<Task>
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
         }
-        return response;*/
+        return response;
     }
 
-    @Override
     @WebMethod(operationName = "getViewTask")
-    public Response getView(String token) {
+    public Response getViewTask(
+            @WebParam(name = "token") String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);
-            Collection<Task> tasks = getBootstrap().getTaskService().getElementsByUserId(
-                    getBootstrap().getAuthorizationService().getActiveUser().getId()
+            Collection<Task> tasks = bootstrap.getTaskService().getElementsByUserId(
+                    bootstrap.getAuthorizationService().getActiveUser().getId()
             );
             StringBuilder sb = new StringBuilder(String.format("\n%-40s%-40s%-40s%-100s\n", "uid", "projectId", "name", "description"));
             for (Task task: tasks){
@@ -104,9 +114,11 @@ public class TaskEndpointImpl extends AbstractEntityEndpoint<Task>
         return response;
     }
 
-    @Override
     @WebMethod(operationName = "persistTask")
-    public Response persist(Collection<Task> elements, String token) {
+    public Response persistTask(
+            @WebParam(name = "elements") Collection<Task> elements,
+            @WebParam(name = "token") String token
+    ) {
         Response response = new Response();
         try {
             UtilClass.checkToken(token, response);

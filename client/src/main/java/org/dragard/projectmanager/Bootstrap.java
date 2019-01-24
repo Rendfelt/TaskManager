@@ -38,11 +38,11 @@ public class Bootstrap implements ServiceLocator {
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
         final AuthorizationEndpointImplService authorizationEndpoint = new AuthorizationEndpointImplService();
-        authorizationService = new AuthorizationServiceImpl(authorizationEndpoint);
+        authorizationService = AuthorizationServiceImpl.getInstance(authorizationEndpoint);
         final ProjectEndpointImplService projectEndpoint = new ProjectEndpointImplService();
-        projectService = new ProjectServiceImpl(projectEndpoint);
+        projectService = ProjectServiceImpl.getInstance(projectEndpoint);
         final TaskEndpointImplService taskEndpoint = new TaskEndpointImplService();
-        taskService = new TaskServiceImpl(taskEndpoint);
+        taskService = TaskServiceImpl.getInstance(taskEndpoint);
     }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {

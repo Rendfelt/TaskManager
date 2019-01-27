@@ -12,14 +12,16 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 @WebService
-public class AuthorizationEndpointImpl extends AbstractEndpoint
+public class AuthorizationEndpointImpl
     implements AuthorizationEndpoint {
+    
+    private Bootstrap bootstrap;
 
     public AuthorizationEndpointImpl() {
     }
 
     public AuthorizationEndpointImpl(Bootstrap bootstrap) {
-        super(bootstrap);
+        this.bootstrap = bootstrap;
     }
 
     @Override
@@ -31,13 +33,13 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     ){
         Response response = new Response();
         try {
-            final User user = getBootstrap().getAuthorizationService().getActiveUser();
+            final User user = bootstrap.getAuthorizationService().getActiveUser();
             UtilClass.checkToken(token, response);
             if (!user.getPassword().equals(oldPassword)){
                 response.setMessage("Bad password");
                 return response;
             }
-            getBootstrap().getUserService().changePassword(password, getBootstrap().getAuthorizationService().getActiveUser());
+            bootstrap.getUserService().changePassword(password, bootstrap.getAuthorizationService().getActiveUser());
             response.setMessage("Password changed successfully");
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +58,7 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
         Response response = new Response();
         User user;
         try {
-            user = getBootstrap().getUserService().create(login, password);
+            user = bootstrap.getUserService().create(login, password);
         } catch (Exception e) {
             e.printStackTrace();
             response.setException(UtilClass.serializeExceptionToByteArray(e));
@@ -71,17 +73,17 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
     public Response login(
             @WebParam(name = "login") String login,
             @WebParam(name = "password") String password
-    ) {
+    ) throws Exception {
         Response response = new Response();
-        try {
-            final User user = getBootstrap().getAuthorizationService().login(login, password);
+        /*try {*/
+            final User user = bootstrap.getAuthorizationService().login(login, password);
             response.setMessage(String.format("Logged in %s %s", user.getName(), user.getPassword()));
             response.setToken(UtilClass.createToken(user));
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             e.printStackTrace();
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
-        }
+        }*/
         return response;
     }
 
@@ -93,7 +95,7 @@ public class AuthorizationEndpointImpl extends AbstractEndpoint
         try {
             UtilClass.checkToken(token, response);
             System.out.println("Logged out");
-            getBootstrap().getAuthorizationService().logout();
+            bootstrap.getAuthorizationService().logout();
             // TODO: 20.01.2019 tokens black list
             response.setToken(null);
             response.setMessage("Logged out");

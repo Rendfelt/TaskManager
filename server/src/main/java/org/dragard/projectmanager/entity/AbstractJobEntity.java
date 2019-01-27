@@ -1,20 +1,23 @@
 package org.dragard.projectmanager.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+//@Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class AbstractJobEntity extends AbstractEntity{
 
+    @Column
     private String description;
+
+    @Column
     private String userId;
-
-    public AbstractJobEntity() {
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
     protected AbstractJobEntity(String id, String name, String description, String userId) {
         super(id, name);
@@ -28,11 +31,4 @@ public abstract class AbstractJobEntity extends AbstractEntity{
                 ", description='" + description + '\'';
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }

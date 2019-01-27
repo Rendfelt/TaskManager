@@ -11,7 +11,7 @@ public interface AuthorizationEndpoint extends Endpoint{
 
     Response registerUser(String login, String password);
 
-    Response login(String login, String password);
+    Response login(String login, String password) throws Exception;
 
     Response logout(String token);
 }

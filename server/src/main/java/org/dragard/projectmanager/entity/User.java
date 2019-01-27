@@ -1,21 +1,23 @@
 package org.dragard.projectmanager.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User extends AbstractEntity{
 
+    @Column
     private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User() {
-    }
 
     public User(String id, String name, String password) {
         super(id, name);

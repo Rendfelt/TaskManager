@@ -18,10 +18,5 @@ public class ProjectDeleteCommand extends AbstractCommand{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            getServiceLocator().getTaskService().deleteTasksByProjectId(projectId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

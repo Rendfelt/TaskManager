@@ -1,3 +1,4 @@
+/*
 package org.dragard;
 
 import static org.junit.Assert.assertTrue;
@@ -6,17 +7,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.dragard.projectmanager.Bootstrap;
-import org.dragard.projectmanager.api.repository.ProjectRepository;
-import org.dragard.projectmanager.api.repository.TaskRepository;
-import org.dragard.projectmanager.api.repository.UserRepository;
+import org.dragard.projectmanager.api.repository_old.ProjectRepository;
+import org.dragard.projectmanager.api.repository_old.TaskRepository;
+import org.dragard.projectmanager.api.repository_old.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.other.BatisTests;
-import org.dragard.projectmanager.repository.ProjectMybatisRepositoryImpl;
-import org.dragard.projectmanager.repository.TaskMybatisRepositoryImpl;
-import org.dragard.projectmanager.repository.UserMybatisRepositoryImpl;
+import org.dragard.projectmanager.repository_old.ProjectMybatisRepositoryImpl;
+import org.dragard.projectmanager.repository_old.TaskMybatisRepositoryImpl;
+import org.dragard.projectmanager.repository_old.UserMybatisRepositoryImpl;
 import org.dragard.projectmanager.util.UtilClass;
 import org.junit.Test;
 
@@ -27,14 +28,18 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.UUID;
 
+*/
 /**
  * Unit test for simple ProjectManager.
- */
+ *//*
+
 public class ProjectManagerTest
 {
-    /**
+    */
+/**
      * Rigorous Test :-)
-     */
+     *//*
+
     @Test
     public void shouldAnswerWithTrue()
     {
@@ -180,3 +185,4 @@ public class ProjectManagerTest
 
 }
 
+*/

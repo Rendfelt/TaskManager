@@ -1,11 +1,9 @@
-package org.dragard.projectmanager.repository;
+package org.dragard.projectmanager.repository_old;
 
 import org.apache.ibatis.session.SqlSession;
 import org.dragard.projectmanager.api.mybatis.mapper.UserMapper;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.entity.User;
-
-import java.util.Collection;
 
 public class UserMybatisRepositoryImpl extends AbstractMybatisRepository<User>
     implements UserRepository {

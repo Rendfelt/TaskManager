@@ -64,7 +64,7 @@ public class AuthorizationEndpointImpl
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
         }
-        response.setMessage(String.format("User created  id: %s  login: %s password: %s", user.getId(), user.getName(), user.getPassword()));
+        response.setMessage(String.format("User created  id: %s  login: %s password: %s", user.getId(), user.getLogin(), user.getPassword()));
 
         return response;
     }
@@ -77,7 +77,7 @@ public class AuthorizationEndpointImpl
         Response response = new Response();
         /*try {*/
             final User user = bootstrap.getAuthorizationService().login(login, password);
-            response.setMessage(String.format("Logged in %s %s", user.getName(), user.getPassword()));
+            response.setMessage(String.format("Logged in %s %s", user.getLogin(), user.getPassword()));
             response.setToken(UtilClass.createToken(user));
         /*} catch (Exception e) {
             e.printStackTrace();

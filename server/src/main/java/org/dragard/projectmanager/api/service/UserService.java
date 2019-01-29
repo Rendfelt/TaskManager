@@ -4,9 +4,9 @@ import org.dragard.projectmanager.entity.User;
 
 public interface UserService extends EntityService<User>{
 
-    User create(String name, String password) throws Exception;
+    User create(String login, String password) throws Exception;
 
     User getElementByLogin(String login) throws Exception;
 
-    void changePassword(String password, User user) throws Exception;
+    User changePassword(String password, User user) throws Exception;
 }

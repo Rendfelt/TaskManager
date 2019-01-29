@@ -8,11 +8,9 @@ public interface EntityService<E extends AbstractEntity> extends Service{
 
     E delete(String id) throws Exception;
 
-    Collection<E> getElements() throws Exception;
-
-    void clearElements();
+//    Collection<E> getElements() throws Exception;
 
     E getElementById(String id) throws Exception;
 
-    void persist(Collection<E> elements) throws Exception;
+//    void persist(Collection<E> elements) throws Exception;
 }

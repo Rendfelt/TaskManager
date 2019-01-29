@@ -13,7 +13,7 @@ public class ProjectShowAllCommand extends AbstractCommand {
         System.out.printf("\n%-40s%-40s%-100s\n", "uid", "name", "description");
         try {
             for (Project project :
-                    getServiceLocator().getProjectService().getElements()) {
+                    getServiceLocator().getProjectService().getElementsByUserId(getServiceLocator().getAuthorizationService().getActiveUser().getId())) {
                 System.out.printf("%-40s%-40s%-100s\n", project.getId(),project.getName(), project.getDescription());
             }
         } catch (Exception e) {

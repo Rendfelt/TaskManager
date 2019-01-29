@@ -1,10 +1,7 @@
-package org.dragard.projectmanager.repository;
+package org.dragard.projectmanager.repository_old;
 
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.entity.User;
-
-import javax.naming.OperationNotSupportedException;
-import java.util.Collection;
 
 public class UserRepositoryImpl extends AbstractRepository<User>
     implements UserRepository {

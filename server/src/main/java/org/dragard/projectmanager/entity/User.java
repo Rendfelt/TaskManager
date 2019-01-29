@@ -3,43 +3,31 @@ package org.dragard.projectmanager.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Objects;
+import lombok.ToString;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
+@ToString(callSuper = true, exclude = {"password"})
 @NoArgsConstructor
 public class User extends AbstractEntity{
 
-    @Column
+    @Column(unique = true, nullable = false)
+    private String login;
+
+    @Column(nullable = false)
     private String password;
 
-    public User(String id, String name, String password) {
-        super(id, name);
-        this.password = password;
+    public static User newInstance(String login, String password){
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setId(UUID.randomUUID().toString());
+        return user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final User user = (User) o;
-        return Objects.equals(getName(), user.getName());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getName());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                ", password='" + password + '\'';
-    }
 }

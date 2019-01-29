@@ -9,7 +9,5 @@ public class AuthorizationLogoutCommand extends AbstractCommand{
     @Override
     public void execute() throws Exception {
         getServiceLocator().getAuthorizationService().logout();
-        getServiceLocator().getProjectService().clearElements();
-        getServiceLocator().getTaskService().clearElements();
     }
 }

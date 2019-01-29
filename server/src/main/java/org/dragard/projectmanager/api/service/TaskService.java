@@ -7,6 +7,4 @@ public interface TaskService extends JobEntityService<Task> {
     Task create(String name, String description, String projectId, String userId) throws Exception;
 
     Task update(String id, String name, String description, String userId) throws Exception;
-
-    void deleteTasksByProjectId(String projectId) throws Exception;
 }

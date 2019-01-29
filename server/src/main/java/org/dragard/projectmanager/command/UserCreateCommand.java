@@ -1,6 +1,5 @@
 package org.dragard.projectmanager.command;
 
-import org.dragard.projectmanager.service.DomainServiceImpl;
 import org.dragard.projectmanager.exception.NoNameException;
 import org.dragard.projectmanager.util.UtilClass;
 
@@ -24,7 +23,6 @@ public class UserCreateCommand extends AbstractCommand{
             System.out.println("Enter password:");
             final String password = UtilClass.getPassword(scanner.nextLine());
             getServiceLocator().getUserService().create(login, password);
-            new DomainServiceImpl(getServiceLocator()).saveUserList();
         } catch (Exception e) {
             e.printStackTrace();
         }

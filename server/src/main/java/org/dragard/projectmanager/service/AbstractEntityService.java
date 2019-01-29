@@ -3,8 +3,9 @@ package org.dragard.projectmanager.service;
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.api.service.EntityService;
 import org.dragard.projectmanager.entity.AbstractEntity;
+import org.dragard.projectmanager.util.HibernateUtils;
 
-import java.util.Collection;
+import javax.persistence.EntityManager;
 
 public abstract class AbstractEntityService<E extends AbstractEntity>
     implements EntityService<E> {
@@ -12,30 +13,33 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     protected abstract Repository<E> getRepository();
 
     @Override
-    public void clearElements(){
-        getRepository().clearElements();
-    }
-
-    @Override
     public E getElementById(String id) throws Exception {
-        return getRepository().getElementById(id);
-    }
+        EntityManager entityManager = HibernateUtils.getSession();
+        entityManager.getTransaction().begin();
 
-    @Override
-    public Collection<E> getElements() throws Exception {
-        return getRepository().getElements();
+        E element = getRepository().getElementById(id, entityManager);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return element;
     }
 
     @Override
     public E delete(String id) throws Exception {
-        if (getRepository().getElementById(id) == null){
-            System.out.println("No element deleted");
-            return null;
+        EntityManager entityManager = HibernateUtils.getSession();
+        entityManager.getTransaction().begin();
+
+        if (getRepository().getElementById(id, entityManager) == null){
+            throw new Exception("No element deleted");
         }
-        return getRepository().delete(id);
+        E element = getRepository().delete(id, entityManager);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return element;
     }
 
-    @Override
+/*    @Override
     public void persist(Collection<E> elements) throws Exception {
         if (elements == null || elements.isEmpty()){
             return;
@@ -46,5 +50,5 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
                 getRepository().merge(element);
             }
         }
-    }
+    }*/
 }

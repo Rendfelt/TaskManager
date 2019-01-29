@@ -2,9 +2,13 @@ package org.dragard.projectmanager.api.repository;
 
 import org.dragard.projectmanager.entity.AbstractJobEntity;
 
-import java.util.Collection;
+import javax.persistence.EntityManager;
+import java.util.List;
 
 public interface JobRepository<E extends AbstractJobEntity> extends Repository<E> {
 
-    Collection<E> getElementsByUserId(String id) throws Exception;
+    List<E> getElementsByUserId(String id, EntityManager entityManager) throws Exception;
+
+
+
 }

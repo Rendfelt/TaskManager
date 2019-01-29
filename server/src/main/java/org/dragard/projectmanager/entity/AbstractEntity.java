@@ -1,22 +1,20 @@
 package org.dragard.projectmanager.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-
-//@Entity
+@MappedSuperclass
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public abstract class AbstractEntity
     implements Serializable {
 
@@ -24,12 +22,4 @@ public abstract class AbstractEntity
     @Id
     private String id;
 
-    @Column
-    private String name;
-
-    @Override
-    public String toString() {
-        return "id=" + id +
-                ", name='" + name + '\'';
-    }
 }

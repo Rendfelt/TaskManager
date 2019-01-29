@@ -1,3 +1,4 @@
+/*
 package org.dragard.projectmanager.command;
 
 import org.dragard.projectmanager.entity.User;
@@ -20,3 +21,4 @@ public class UserShowAllCommand extends AbstractCommand{
         }
     }
 }
+*/

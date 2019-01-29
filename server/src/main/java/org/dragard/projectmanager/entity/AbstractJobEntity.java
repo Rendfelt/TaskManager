@@ -3,32 +3,25 @@ package org.dragard.projectmanager.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
-//@Entity
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(callSuper = true)
 public abstract class AbstractJobEntity extends AbstractEntity{
 
-    @Column
+    private String name;
+
     private String description;
 
-    @Column
-    private String userId;
-
-    protected AbstractJobEntity(String id, String name, String description, String userId) {
-        super(id, name);
-        this.description = description;
-        this.userId = userId;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                ", description='" + description + '\'';
-    }
+    @ManyToOne
+    @JoinColumn(name="userId", nullable=false, updatable=false)
+    private User user;
 
 }

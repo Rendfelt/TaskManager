@@ -1,4 +1,4 @@
-package org.dragard.projectmanager.repository;
+package org.dragard.projectmanager.repository_old;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

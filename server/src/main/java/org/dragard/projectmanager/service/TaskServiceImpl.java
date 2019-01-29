@@ -1,19 +1,25 @@
 package org.dragard.projectmanager.service;
 
+import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
+import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.TaskService;
+import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
-import org.dragard.projectmanager.exception.NoNameException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.util.HibernateUtils;
+import javax.persistence.EntityManager;
 
 public class TaskServiceImpl extends AbstractJobEntityService<Task>
         implements TaskService {
 
-    public TaskServiceImpl(TaskRepository repository) {
+    private ProjectRepository projectRepository;
+    private UserRepository userRepository;
+
+    public TaskServiceImpl(TaskRepository repository, UserRepository userRepository, ProjectRepository projectRepository) {
         super(repository);
+        this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -24,12 +30,31 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
         if (description == null){
             description = "";
         }
-        return getRepository().merge(new Task(UUID.randomUUID().toString(), name, description, projectId, userId));
+
+        EntityManager entityManager = HibernateUtils.getSession();
+        entityManager.getTransaction().begin();
+
+        final Project project = projectRepository.getElementById(projectId, entityManager);
+        if (project == null){
+            throw new Exception("No project with id");
+        }
+        final User user = userRepository.getElementById(userId, entityManager);
+        if (user == null){
+            throw new Exception("No user with id");
+        }
+
+        final Task task = Task.newInstance(name, description, user, project);
+        final Task resultTask = getRepository().merge(task, entityManager);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return resultTask;
+
     }
 
     @Override
     public Task update(String id, String name, String description, String userId) throws Exception {
-        if (getRepository().getElementById(id) == null){
+        if (id == null || id.isEmpty()){
             throw new Exception("No element with id");
         }
         if (name == null || name.isEmpty()){
@@ -38,17 +63,21 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
         if (description == null){
             description = "";
         }
-        return getRepository().merge(new Task(id, name, description, getRepository().getElementById(id).getProjectId(), userId));
-    }
 
-    @Override
-    public void deleteTasksByProjectId(String projectId) throws Exception {
-        final List<Task> taskList;
-        taskList = new ArrayList<>(getRepository().getElements());
-        for (Task task : taskList){
-            if (task.getProjectId().equals(projectId)){
-                getRepository().delete(task.getId());
-            }
+        final EntityManager entityManager = HibernateUtils.getSession();
+        entityManager.getTransaction().begin();
+
+        final Task task = getRepository().getElementById(id, entityManager);
+        if (task == null){
+            throw new Exception("No element with id");
         }
+
+        task.setName(name);
+        task.setDescription(description);
+        final Task resultTask = getRepository().merge(task, entityManager);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return resultTask;
     }
 }

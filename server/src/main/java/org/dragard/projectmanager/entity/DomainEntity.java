@@ -1,3 +1,4 @@
+/*
 package org.dragard.projectmanager.entity;
 
 import lombok.AllArgsConstructor;
@@ -19,3 +20,4 @@ public class DomainEntity implements Serializable {
     private Collection<User> userList;
 
 }
+*/

@@ -1,4 +1,4 @@
-package org.dragard.projectmanager.repository;
+package org.dragard.projectmanager.repository_old;
 
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.entity.AbstractEntity;

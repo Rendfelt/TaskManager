@@ -27,7 +27,6 @@ public class AuthorizationLoginCommand extends AbstractCommand {
             System.out.println("Enter password:");
             final String password = UtilClass.getPassword(scanner.nextLine());
             getServiceLocator().getAuthorizationService().login(login, password);
-            getServiceLocator().getDomainService().loadSerialization();
         } catch (Exception e) {
             e.printStackTrace();
         }

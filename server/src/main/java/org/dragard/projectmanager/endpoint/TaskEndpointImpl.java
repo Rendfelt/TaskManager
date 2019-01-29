@@ -59,7 +59,7 @@ public class TaskEndpointImpl{
         try {
             UtilClass.checkToken(token, response);
             Task task = bootstrap.getTaskService().update(id, name, description,
-                    bootstrap.getTaskService().getElementById(id).getProjectId());
+                    bootstrap.getTaskService().getElementById(id).getProject().getId());
             String message = "Task updated: \n" + task.toString();
             System.out.println(message);
             response.setMessage(message);
@@ -103,7 +103,7 @@ public class TaskEndpointImpl{
             );
             StringBuilder sb = new StringBuilder(String.format("\n%-40s%-40s%-40s%-100s\n", "uid", "projectId", "name", "description"));
             for (Task task: tasks){
-                sb.append(String.format("%-40s%-40s%-40s%-100s\n", task.getId(), task.getProjectId(), task.getName(), task.getDescription()));
+                sb.append(String.format("%-40s%-40s%-40s%-100s\n", task.getId(), task.getProject().getId(), task.getName(), task.getDescription()));
             }
             response.setMessage(sb.toString());
         } catch (Exception e) {

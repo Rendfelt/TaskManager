@@ -3,6 +3,9 @@ package org.dragard.projectmanager;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.endpoint.AuthorizationEndpoint;
+import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
+import org.dragard.projectmanager.api.endpoint.service.ProjectEndpointService;
+import org.dragard.projectmanager.api.endpoint.service.TaskEndpointService;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.api.repository.UserRepository;
@@ -10,6 +13,9 @@ import org.dragard.projectmanager.api.service.*;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.endpoint.TaskEndpointImpl;
+import org.dragard.projectmanager.endpoint.service.AuthorizationEndpointServiceImpl;
+import org.dragard.projectmanager.endpoint.service.ProjectEndpointServiceImpl;
+import org.dragard.projectmanager.endpoint.service.TaskEndpointServiceImpl;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.repository.ProjectHibernateRepository;
 import org.dragard.projectmanager.repository.TaskHibernateRepository;
@@ -21,6 +27,7 @@ import org.dragard.projectmanager.service.UserServiceImpl;
 import org.dragard.projectmanager.util.UtilClass;
 
 import javax.xml.ws.Endpoint;
+import java.io.IOException;
 import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
@@ -28,12 +35,11 @@ public class Bootstrap implements ServiceLocator {
     private  ProjectService projectService;
     private  TaskService taskService;
     private  UserService userService;
-    private  DomainService domainService;
     private  AuthorizationService authorizationService;
     private  Map<String, Command> commandList;
     private  Scanner scanner;
 
-    public Bootstrap() {
+    public Bootstrap() throws Exception {
         final TaskRepository taskRepository = new TaskHibernateRepository();
         final UserRepository userRepository = new UserHibernateRepository();
         final ProjectRepository projectRepository = new ProjectHibernateRepository();
@@ -48,9 +54,13 @@ public class Bootstrap implements ServiceLocator {
     private void initializeTestData(){
         try {
             User test = userService.create("test", UtilClass.getPassword("test"));
+        } catch (Exception e) {
+
+        }
+        try {
             User root = userService.create("root", UtilClass.getPassword("root"));
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -68,14 +78,17 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    public void run() throws Exception {
-        AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(this);
+    public void run() {
+        AuthorizationEndpointServiceImpl authorizationEndpointService = new AuthorizationEndpointServiceImpl(this);
+        AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(authorizationEndpointService);
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
-        ProjectEndpointImpl projectEndpoint = new ProjectEndpointImpl(this);
+        ProjectEndpointServiceImpl projectEndpointService = new ProjectEndpointServiceImpl(this);
+        ProjectEndpointImpl projectEndpoint = new ProjectEndpointImpl(projectEndpointService);
         Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
-        TaskEndpointImpl taskEndpoint = new TaskEndpointImpl(this);
+        TaskEndpointServiceImpl taskEndpointService = new TaskEndpointServiceImpl(this);
+        TaskEndpointImpl taskEndpoint = new TaskEndpointImpl(taskEndpointService);
         Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
-//        initializeTestData();
+        initializeTestData();
 
         while (true) {
             System.out.println("\nEnter your command (enter \"help\" for list of commands)");
@@ -115,11 +128,6 @@ public class Bootstrap implements ServiceLocator {
     @Override
     public TaskService getTaskService() {
         return taskService;
-    }
-
-    @Override
-    public DomainService getDomainService() {
-        return domainService;
     }
 
     public AuthorizationService getAuthorizationService() {

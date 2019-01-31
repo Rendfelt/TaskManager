@@ -1,3 +1,4 @@
+/*
 package org.dragard.projectmanager.command;
 
 public class DataSaveCommand extends AbstractCommand {
@@ -11,3 +12,4 @@ public class DataSaveCommand extends AbstractCommand {
         getServiceLocator().getDomainService().saveSerialization();
     }
 }
+*/

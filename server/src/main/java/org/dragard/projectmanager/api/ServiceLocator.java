@@ -15,6 +15,4 @@ public interface ServiceLocator {
     AuthorizationService getAuthorizationService();
 
     Scanner getScanner();
-
-    DomainService getDomainService();
 }

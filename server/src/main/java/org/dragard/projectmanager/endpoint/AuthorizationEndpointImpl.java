@@ -1,27 +1,24 @@
 package org.dragard.projectmanager.endpoint;
 
-import org.dragard.projectmanager.Bootstrap;
+import lombok.NoArgsConstructor;
 import org.dragard.projectmanager.api.endpoint.AuthorizationEndpoint;
+import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
+import org.dragard.projectmanager.endpoint.service.AuthorizationEndpointServiceImpl;
 import org.dragard.projectmanager.entity.Response;
-import org.dragard.projectmanager.entity.User;
-import org.dragard.projectmanager.exception.TaskManagerException;
-import org.dragard.projectmanager.util.UtilClass;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+@NoArgsConstructor
 @WebService
 public class AuthorizationEndpointImpl
     implements AuthorizationEndpoint {
     
-    private Bootstrap bootstrap;
+    private AuthorizationEndpointServiceImpl authorizationEndpoint;
 
-    public AuthorizationEndpointImpl() {
-    }
-
-    public AuthorizationEndpointImpl(Bootstrap bootstrap) {
-        this.bootstrap = bootstrap;
+    public AuthorizationEndpointImpl(AuthorizationEndpointServiceImpl authorizationEndpoint) {
+        this.authorizationEndpoint = authorizationEndpoint;
     }
 
     @Override
@@ -31,23 +28,7 @@ public class AuthorizationEndpointImpl
             @WebParam(name = "password") String password,
             @WebParam(name = "token") String token
     ){
-        Response response = new Response();
-        try {
-            final User user = bootstrap.getAuthorizationService().getActiveUser();
-            UtilClass.checkToken(token, response);
-            if (!user.getPassword().equals(oldPassword)){
-                response.setMessage("Bad password");
-                return response;
-            }
-            bootstrap.getUserService().changePassword(password, bootstrap.getAuthorizationService().getActiveUser());
-            response.setMessage("Password changed successfully");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-
-        return response;
+        return authorizationEndpoint.changePassword(oldPassword, password, token);
     }
 
     @Override
@@ -55,18 +36,7 @@ public class AuthorizationEndpointImpl
             @WebParam(name = "login") String login,
             @WebParam(name = "password") String password
     ){
-        Response response = new Response();
-        User user;
-        try {
-            user = bootstrap.getUserService().create(login, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        response.setMessage(String.format("User created  id: %s  login: %s password: %s", user.getId(), user.getLogin(), user.getPassword()));
-
-        return response;
+        return authorizationEndpoint.registerUser(login, password);
     }
 
     @Override
@@ -74,38 +44,13 @@ public class AuthorizationEndpointImpl
             @WebParam(name = "login") String login,
             @WebParam(name = "password") String password
     ) throws Exception {
-        Response response = new Response();
-        /*try {*/
-            final User user = bootstrap.getAuthorizationService().login(login, password);
-            response.setMessage(String.format("Logged in %s %s", user.getLogin(), user.getPassword()));
-            response.setToken(UtilClass.createToken(user));
-        /*} catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }*/
-        return response;
+        return authorizationEndpoint.login(login, password);
     }
 
     @Override
     public Response logout(
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            System.out.println("Logged out");
-            bootstrap.getAuthorizationService().logout();
-            // TODO: 20.01.2019 tokens black list
-            response.setToken(null);
-            response.setMessage("Logged out");
-        } catch (TaskManagerException e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
+        return authorizationEndpoint.logout(token);
     }
 }

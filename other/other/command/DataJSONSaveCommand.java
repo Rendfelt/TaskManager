@@ -1,3 +1,4 @@
+/*
 package org.dragard.projectmanager.command;
 
 public class DataJSONSaveCommand extends AbstractCommand {
@@ -11,3 +12,4 @@ public class DataJSONSaveCommand extends AbstractCommand {
         getServiceLocator().getDomainService().saveJSON();
     }
 }
+*/

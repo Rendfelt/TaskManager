@@ -1,13 +1,12 @@
-package org.dragard.projectmanager.api.endpoint;
+package org.dragard.projectmanager.api.endpoint.service;
 
 import javafx.beans.NamedArg;
-import org.dragard.projectmanager.api.endpoint.service.EndpointService;
 import org.dragard.projectmanager.entity.Response;
 
 import javax.jws.WebService;
 
 @WebService
-public interface AuthorizationEndpoint extends Endpoint{
+public interface AuthorizationEndpointService extends EndpointService {
 
     Response changePassword(
             @NamedArg(value = "oldPassword") String oldPassword,

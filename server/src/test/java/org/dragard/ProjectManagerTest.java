@@ -177,8 +177,8 @@ public class ProjectManagerTest
 
     @Test
     public void test7() throws Exception{
-        Bootstrap bootstrap = new Bootstrap();
-        UserService us = bootstrap.getUserService();
+        Bootstrap serviceLocator = new Bootstrap();
+        UserService us = serviceLocator.getUserService();
         us.changePassword(UtilClass.getPassword("test"), us.getElementByLogin("test"));
         us.changePassword(UtilClass.getPassword("root"), us.getElementByLogin("root"));
     }

@@ -1,12 +1,15 @@
 package org.dragard.projectmanager.util;
 
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.dragard.projectmanager.api.endpoint.service.EndpointService;
+import org.dragard.projectmanager.api.service.AuthorizationService;
+import org.dragard.projectmanager.api.service.Service;
 import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.User;
 
 import java.io.*;
+import java.lang.reflect.Proxy;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -98,5 +101,21 @@ public class UtilClass {
 
     public static SqlSessionFactory getSqlSessionFactory() {
         return sqlSessionFactory;
+    }
+
+    public static EndpointService getEndpointProxy(Class clazz, EndpointService instance, AuthorizationService authorizationService){
+        final Class[] classes = new Class[] {clazz};
+        final ClassLoader classLoader = clazz.getClassLoader();
+        final EndpointServiceHandler endpointServiceHandler = new EndpointServiceHandler(instance, authorizationService);
+
+        return (EndpointService) Proxy.newProxyInstance(classLoader, classes, endpointServiceHandler);
+    }
+
+    public static Service getServiceProxy(Class clazz, Service instance, AuthorizationService authorizationService){
+        final Class[] classes = new Class[] {clazz};
+        final ClassLoader classLoader = clazz.getClassLoader();
+        final EndpointServiceHandler responseCheckHandler = new EndpointServiceHandler(instance, authorizationService);
+
+        return (Service) Proxy.newProxyInstance(classLoader, classes, responseCheckHandler);
     }
 }

@@ -1,3 +1,4 @@
+/*
 package org.dragard.projectmanager.command;
 
 public class DataXMLSaveCommand extends AbstractCommand {
@@ -11,3 +12,4 @@ public class DataXMLSaveCommand extends AbstractCommand {
         getServiceLocator().getDomainService().saveXML();
     }
 }
+*/

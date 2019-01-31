@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="arg0" type="{http://endpoint.projectmanager.dragard.org/}project" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="elements" type="{http://endpoint.projectmanager.dragard.org/}project" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="token" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -30,27 +30,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "persistProject", propOrder = {
-    "arg0",
-    "arg1"
+    "elements",
+    "token"
 })
 public class PersistProject {
 
-    protected List<Project> arg0;
-    protected String arg1;
+    protected List<Project> elements;
+    protected String token;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the elements property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the arg0 property.
+     * This is why there is not a <CODE>set</CODE> method for the elements property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getArg0().add(newItem);
+     *    getElements().add(newItem);
      * </pre>
      * 
      * 
@@ -60,35 +60,35 @@ public class PersistProject {
      * 
      * 
      */
-    public List<Project> getArg0() {
-        if (arg0 == null) {
-            arg0 = new ArrayList<Project>();
+    public List<Project> getElements() {
+        if (elements == null) {
+            elements = new ArrayList<Project>();
         }
-        return this.arg0;
+        return this.elements;
     }
 
     /**
-     * Gets the value of the arg1 property.
+     * Gets the value of the token property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg1() {
-        return arg1;
+    public String getToken() {
+        return token;
     }
 
     /**
-     * Sets the value of the arg1 property.
+     * Sets the value of the token property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg1(String value) {
-        this.arg1 = value;
+    public void setToken(String value) {
+        this.token = value;
     }
 
 }

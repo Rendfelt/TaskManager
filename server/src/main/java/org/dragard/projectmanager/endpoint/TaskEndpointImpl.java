@@ -1,27 +1,31 @@
 package org.dragard.projectmanager.endpoint;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.dragard.projectmanager.Bootstrap;
-import org.dragard.projectmanager.api.endpoint.TaskEndpoint;
+import org.dragard.projectmanager.api.endpoint.service.TaskEndpointService;
+import org.dragard.projectmanager.endpoint.service.TaskEndpointServiceImpl;
 import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.Task;
-import org.dragard.projectmanager.entity.User;
-import org.dragard.projectmanager.util.UtilClass;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.Collection;
 
+@NoArgsConstructor
 @WebService
 public class TaskEndpointImpl{
     
-    public TaskEndpointImpl() {
-    }
-
     private Bootstrap bootstrap;
 
-    public TaskEndpointImpl(Bootstrap bootstrap) {
-        this.bootstrap = bootstrap;
+    @Getter
+    @Setter
+    private TaskEndpointServiceImpl taskEndpoint;
+
+    public TaskEndpointImpl(TaskEndpointServiceImpl taskEndpoint) {
+        this.taskEndpoint = taskEndpoint;
     }
 
     @WebMethod(operationName = "createTask")
@@ -31,21 +35,7 @@ public class TaskEndpointImpl{
             @WebParam(name = "projectId") String projectId,
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            User activeUser = bootstrap.getAuthorizationService().getActiveUser();
-            Task cTask = bootstrap.getTaskService()
-                    .create(name, description, projectId, activeUser.getId());
-            String message = "Task created: \n" + cTask.toString();
-            System.out.println(message);
-            response.setMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        return response;
+        return taskEndpoint.create(name, description, projectId, token);
     }
 
     @WebMethod(operationName = "updateTask")
@@ -55,20 +45,7 @@ public class TaskEndpointImpl{
             @WebParam(name = "description") String description,
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            Task task = bootstrap.getTaskService().update(id, name, description,
-                    bootstrap.getTaskService().getElementById(id).getProject().getId());
-            String message = "Task updated: \n" + task.toString();
-            System.out.println(message);
-            response.setMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        return response;
+        return taskEndpoint.update(id, name, description, token);
     }
 
     @WebMethod(operationName = "deleteTask")
@@ -76,42 +53,14 @@ public class TaskEndpointImpl{
             @WebParam(name = "id") String id,
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            Task task = bootstrap.getTaskService().delete(id);
-            String message = "Task deleted: \n" + task.toString();
-            System.out.println(message);
-            response.setMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        return response;
+        return taskEndpoint.delete(id, token);
     }
 
     @WebMethod(operationName = "getViewTask")
     public Response getViewTask(
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            Collection<Task> tasks = bootstrap.getTaskService().getElementsByUserId(
-                    bootstrap.getAuthorizationService().getActiveUser().getId()
-            );
-            StringBuilder sb = new StringBuilder(String.format("\n%-40s%-40s%-40s%-100s\n", "uid", "projectId", "name", "description"));
-            for (Task task: tasks){
-                sb.append(String.format("%-40s%-40s%-40s%-100s\n", task.getId(), task.getProject().getId(), task.getName(), task.getDescription()));
-            }
-            response.setMessage(sb.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        return response;
+        return taskEndpoint.getView(token);
     }
 
     @WebMethod(operationName = "persistTask")
@@ -119,18 +68,7 @@ public class TaskEndpointImpl{
             @WebParam(name = "elements") Collection<Task> elements,
             @WebParam(name = "token") String token
     ) {
-        Response response = new Response();
-        try {
-            UtilClass.checkToken(token, response);
-            for (Task task: elements){
-                System.out.println(task);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setException(UtilClass.serializeExceptionToByteArray(e));
-            return response;
-        }
-        return response;
+        return taskEndpoint.persist(elements, token);
     }
 
 }

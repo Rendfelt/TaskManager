@@ -2,7 +2,6 @@ package org.dragard.projectmanager.endpoint;
 
 import lombok.NoArgsConstructor;
 import org.dragard.projectmanager.api.endpoint.AuthorizationEndpoint;
-import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
 import org.dragard.projectmanager.endpoint.service.AuthorizationEndpointServiceImpl;
 import org.dragard.projectmanager.entity.Response;
 

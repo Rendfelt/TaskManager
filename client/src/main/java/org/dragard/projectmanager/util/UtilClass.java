@@ -3,6 +3,7 @@ package org.dragard.projectmanager.util;
 import org.dragard.projectmanager.api.service.Service;
 import org.dragard.projectmanager.endpoint.Response;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Proxy;
@@ -26,8 +27,8 @@ public class UtilClass {
         if (s == null || s.isEmpty()){
             return null;
         }
-        s = new String(MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8)));
-        return String.valueOf(s.hashCode());
+        byte[] digest = MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8));
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
     public static Service getServiceProxy(Class clazz, Service instance){

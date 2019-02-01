@@ -1,5 +1,6 @@
 package org.dragard.projectmanager.util;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -27,7 +28,7 @@ public class UtilClass {
         if (s == null || s.isEmpty()){
             return null;
         }
-        s = new String(MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8)));
-        return String.valueOf(s.hashCode());
+        byte[] digest = MessageDigest.getInstance("MD5").digest(s.getBytes(StandardCharsets.UTF_8));
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 }

@@ -24,6 +24,7 @@ import org.dragard.projectmanager.service.AuthorizationServiceImpl;
 import org.dragard.projectmanager.service.ProjectServiceImpl;
 import org.dragard.projectmanager.service.TaskServiceImpl;
 import org.dragard.projectmanager.service.UserServiceImpl;
+import org.dragard.projectmanager.util.HibernateUtils;
 import org.dragard.projectmanager.util.UtilClass;
 
 import javax.xml.ws.Endpoint;
@@ -53,12 +54,12 @@ public class Bootstrap implements ServiceLocator {
 
     private void initializeTestData(){
         try {
-            User test = userService.create("test", UtilClass.getPassword("test"));
+            userService.create("test", UtilClass.getPassword("test"));
         } catch (Exception e) {
 
         }
         try {
-            User root = userService.create("root", UtilClass.getPassword("root"));
+            userService.create("root", UtilClass.getPassword("root"));
         } catch (Exception e) {
 
         }
@@ -79,6 +80,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
     public void run() {
+        HibernateUtils.getSession().close();
         AuthorizationEndpointServiceImpl authorizationEndpointService = new AuthorizationEndpointServiceImpl(this);
         AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(authorizationEndpointService);
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);

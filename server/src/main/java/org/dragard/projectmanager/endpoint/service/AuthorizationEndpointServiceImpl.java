@@ -73,14 +73,15 @@ public class AuthorizationEndpointServiceImpl
             @NamedArg(value = "password") String password
     ) throws Exception {
         Response response = new Response();
-        /*try {*/
+        try {
 //        response.setMessage(String.format("Logged in %s %s", user.getLogin(), user.getPassword()));
         response.setToken(serviceLocator.getAuthorizationService().login(login, password));
-        /*} catch (Exception e) {
+        System.out.println(response.getToken());
+        } catch (Exception e) {
             e.printStackTrace();
             response.setException(UtilClass.serializeExceptionToByteArray(e));
             return response;
-        }*/
+        }
         return response;
     }
 

@@ -16,12 +16,23 @@ public class ResponseCheckHandler
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object o = method.invoke(target, args);
-        if (!(o instanceof Response)){
-            return o;
+        Response response = null;
+        try {
+            Object o = method.invoke(target, args);
+            if (!(o instanceof Response)){
+                return o;
+            }
+            response = (Response) o;
+            UtilClass.checkResponse(response);
+        } catch (Exception e) {
+            String cause = e.getMessage();
+            while (e.getCause() != null){
+                cause = cause + " " + e.getCause().getMessage();
+                e = (Exception) e.getCause();
+
+            }
+            System.out.println(String.format("FAILED (%s)", cause));
         }
-        Response response = (Response) o;
-        UtilClass.checkResponse(response);
         return response;
     }
 }

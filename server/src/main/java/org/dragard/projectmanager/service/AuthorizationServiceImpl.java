@@ -10,8 +10,6 @@ import org.dragard.projectmanager.entity.User;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -33,7 +31,7 @@ public class AuthorizationServiceImpl
     public AuthorizationServiceImpl(UserService userService) throws Exception {
         this.userService = userService;
         Properties properties = new Properties();
-        properties.load(new FileInputStream(new File(Paths.get(this.getClass().getResource("/").toURI()).toFile(), PROPERTIES_FILE_NAME)));
+        properties.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME));
         key = properties.getProperty(PROPERTY_TOKEN_SECRET_KEY);
     }
 
@@ -65,7 +63,7 @@ public class AuthorizationServiceImpl
         return activeUser != null;
     }
 
-    private String createToken(User user) throws IOException {
+    private String createToken(User user){
         final Map<String, Object> tokenData = new HashMap<>();
         tokenData.put(TOKEN_DATA_USER_ID, user.getId());
         Date date = new Date();
@@ -81,7 +79,7 @@ public class AuthorizationServiceImpl
     }
 
     @Override
-    public String checkToken(String token) throws IOException {
+    public String checkToken(String token){
         DefaultClaims claims;
         try {
             claims = (DefaultClaims) Jwts.parser().setSigningKey(key).parse(token).getBody();
@@ -89,7 +87,7 @@ public class AuthorizationServiceImpl
             throw new RuntimeException("Token corrupted");
         }
         Long expiredDate = claims.get(TOKEN_DATA_TOKEN_EXPIRATION_DATE, Long.class);
-        if (expiredDate == null || new Date(expiredDate).after(new Date())){
+        if (expiredDate == null || new Date().after(new Date(expiredDate))){
             throw new RuntimeException("Invalid token");
         }
         return claims.get(TOKEN_DATA_USER_ID, String.class);

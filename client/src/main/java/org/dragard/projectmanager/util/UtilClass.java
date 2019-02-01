@@ -19,10 +19,7 @@ public class UtilClass {
         if (response.getException() == null) {
             return;
         }
-        Exception exception = (Exception) new ObjectInputStream(new ByteArrayInputStream(response.getException())).readObject();
-        if (response.getException() != null) {
-            throw exception;
-        }
+        throw (Exception) new ObjectInputStream(new ByteArrayInputStream(response.getException())).readObject();
     }
 
     public static String getPassword(String s) throws NoSuchAlgorithmException {

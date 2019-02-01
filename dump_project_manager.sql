@@ -19,6 +19,7 @@ CREATE DATABASE `project_manager`
   CHARACTER SET utf8
   COLLATE utf8_general_ci;
 
+USE `project_manager`;
 --
 -- Table structure for table `projects`
 --

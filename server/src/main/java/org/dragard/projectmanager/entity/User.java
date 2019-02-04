@@ -8,9 +8,9 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
+@Table(name = "users")
 @ToString(callSuper = true, exclude = {"password"})
 @NoArgsConstructor
 public class User extends AbstractEntity{

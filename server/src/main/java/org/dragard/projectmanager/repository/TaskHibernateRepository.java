@@ -2,12 +2,15 @@ package org.dragard.projectmanager.repository;
 
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.entity.Task;
+
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@ApplicationScoped
 public class TaskHibernateRepository extends AbstractJobEntityHibernateRepository<Task>
     implements TaskRepository {
 

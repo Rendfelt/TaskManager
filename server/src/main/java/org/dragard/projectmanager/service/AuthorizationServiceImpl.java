@@ -4,36 +4,45 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
+import lombok.Getter;
+import lombok.Setter;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Paths;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.io.IOException;
 import java.util.*;
 
+@Getter
+@Setter
+@ApplicationScoped
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
-    private User activeUser;
-    private final UserService userService;
+//    private User activeUser;
+
+    @Inject
+    private UserService userService;
 
     private final String TOKEN_DATA_TOKEN_EXPIRATION_DATE = "tokenExpirationDate";
     private final String TOKEN_DATA_TOKEN_CREATE_DATE = "tokenCreateDate";
     private final String TOKEN_DATA_USER_ID = "userId";
     private final String PROPERTIES_FILE_NAME = "config.properties";
     private final String PROPERTY_TOKEN_SECRET_KEY = "token.secretKey";
-    private final String key;
+    private String key;
 
-
-
-    public AuthorizationServiceImpl(UserService userService) throws Exception {
-        this.userService = userService;
+    public AuthorizationServiceImpl() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME));
         key = properties.getProperty(PROPERTY_TOKEN_SECRET_KEY);
     }
+
+/*    public AuthorizationServiceImpl(UserService userService) throws Exception {
+        this();
+        this.userService = userService;
+    }*/
 
     @Override
     public String login(String login, String password) throws Exception {
@@ -49,7 +58,7 @@ public class AuthorizationServiceImpl
 
     @Override
     public void logout() {
-        activeUser = null;
+//        activeUser = null;
     }
 
     @Override
@@ -60,7 +69,7 @@ public class AuthorizationServiceImpl
 
     @Override
     public boolean isLogged() {
-        return activeUser != null;
+        return false;
     }
 
     private String createToken(User user){

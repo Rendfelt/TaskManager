@@ -5,23 +5,26 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dragard.projectmanager.Bootstrap;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
 import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.User;
-import org.dragard.projectmanager.exception.TaskManagerException;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+@ApplicationScoped
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthorizationEndpointServiceImpl
     implements AuthorizationEndpointService {
 
     @Getter
     @Setter
-    private Bootstrap serviceLocator;
+    @Inject
+    private ServiceLocator serviceLocator;
 
-    public AuthorizationEndpointServiceImpl(Bootstrap serviceLocator) {
+    public AuthorizationEndpointServiceImpl(ServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
     }
 
@@ -71,11 +74,12 @@ public class AuthorizationEndpointServiceImpl
     public Response login(
             @NamedArg(value = "login") String login,
             @NamedArg(value = "password") String password
-    ) throws Exception {
+    ) {
         Response response = new Response();
         try {
 //        response.setMessage(String.format("Logged in %s %s", user.getLogin(), user.getPassword()));
-        response.setToken(serviceLocator.getAuthorizationService().login(login, password));
+        String token = serviceLocator.getAuthorizationService().login(login, password);
+        response.setToken(token);
         System.out.println(response.getToken());
         } catch (Exception e) {
             e.printStackTrace();

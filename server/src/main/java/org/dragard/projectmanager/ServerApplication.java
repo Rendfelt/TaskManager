@@ -1,24 +1,15 @@
 package org.dragard.projectmanager;
 
-import org.dragard.projectmanager.command.*;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 
 public class ServerApplication {
 
-    private final static Class[] classes = {
-            /*TaskShowAllCommand.class, ProjectShowAllCommand.class, ProjectShowAllCommand.class,
-            ProjectCreateCommand.class, ProjectUpdateCommand.class, ProjectDeleteCommand.class,
-            TaskCreateCommand.class, TaskUpdateCommand.class, TaskDeleteCommand.class,*/
-            ExitCommand.class, HelpCommand.class/*, DataSaveCommand.class, DataLoadCommand.class,
-            UserChangePasswordCommand.class, UserCreateCommand.class, AuthorizationLoginCommand.class,
-            AuthorizationLogoutCommand.class, UserDeleteCurrentCommand.class,
-            DataXMLSaveCommand.class, DataJSONSaveCommand.class, DataXMLLoadCommand.class,
-            DataJSONLoadCommand.class*/
-};
-
     public static void main(String[] args) throws Exception {
-        final Bootstrap bootstrap = new Bootstrap();
-        bootstrap.registry(classes);
-        bootstrap.run();
+        WeldContainer weld = new Weld().initialize();
+        weld.instance().select(Bootstrap.class).get().run();
+/*        final Bootstrap bootstrap = new Bootstrap();
+        bootstrap.run();*/
 
     }
 

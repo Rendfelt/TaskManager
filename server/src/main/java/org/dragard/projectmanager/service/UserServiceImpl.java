@@ -1,23 +1,34 @@
 package org.dragard.projectmanager.service;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.HibernateUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@ApplicationScoped
 public class UserServiceImpl extends AbstractEntityService<User>
     implements UserService {
 
-    private final UserRepository repository;
+    @Inject
+    private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository repository) {
+    /*public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-    }
+    }*/
 
+    @Override
     protected UserRepository getRepository() {
-        return repository;
+        return userRepository;
     }
 
     @Override

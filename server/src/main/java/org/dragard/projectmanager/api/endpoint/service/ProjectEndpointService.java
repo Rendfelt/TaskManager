@@ -4,6 +4,8 @@ import javafx.beans.NamedArg;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Response;
 
+import javax.jws.WebService;
+
 public interface ProjectEndpointService extends EntityEndpointService<Project> {
 
     Response create(

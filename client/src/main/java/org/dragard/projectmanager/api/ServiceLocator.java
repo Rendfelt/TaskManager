@@ -1,10 +1,7 @@
 package org.dragard.projectmanager.api;
 
 import org.dragard.projectmanager.api.command.Command;
-import org.dragard.projectmanager.api.service.AuthorizationService;
-import org.dragard.projectmanager.api.service.ProjectService;
-import org.dragard.projectmanager.api.service.TaskService;
-import org.dragard.projectmanager.api.service.UserService;
+import org.dragard.projectmanager.api.service.*;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -15,11 +12,9 @@ public interface ServiceLocator {
 
     TaskService getTaskService();
 
-    UserService getUserService();
+    InterfaceService getInterfaceService();
 
     AuthorizationService getAuthorizationService();
-
-    Scanner getScanner();
 
     Collection<Command> getCommandList();
 }

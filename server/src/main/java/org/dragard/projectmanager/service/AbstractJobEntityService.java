@@ -10,15 +10,8 @@ import java.util.List;
 public abstract class AbstractJobEntityService<E extends AbstractJobEntity> extends AbstractEntityService<E>
     implements JobEntityService<E> {
 
-    private final JobRepository<E> repository;
-
-    protected AbstractJobEntityService(JobRepository<E> repository) {
-        this.repository = repository;
-    }
-
-    protected JobRepository<E> getRepository() {
-        return repository;
-    }
+    @Override
+    protected abstract JobRepository<E> getRepository();
 
     @Override
     public List<E> getElementsByUserId(String userId) throws Exception {

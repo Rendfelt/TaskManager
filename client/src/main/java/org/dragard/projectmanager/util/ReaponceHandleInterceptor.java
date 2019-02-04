@@ -1,24 +1,21 @@
 package org.dragard.projectmanager.util;
 
+import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.endpoint.Response;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
 
-public class ResponseCheckHandler
-    implements InvocationHandler {
+@Interceptor
+@ResponceHandle
+public class ReaponceHandleInterceptor {
 
-    private Object target;
-
-    public ResponseCheckHandler(Object target) {
-        this.target = target;
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    @AroundInvoke
+    public Object handleResponce(InvocationContext ctx) throws Exception{
         Response response = null;
         try {
-            final Object o = method.invoke(target, args);
+            final Object o = ctx.proceed();
             if (!(o instanceof Response)){
                 return o;
             }

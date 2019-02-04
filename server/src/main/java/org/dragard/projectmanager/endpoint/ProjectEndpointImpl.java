@@ -3,6 +3,7 @@ package org.dragard.projectmanager.endpoint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dragard.projectmanager.api.endpoint.ProjectEndpoint;
 import org.dragard.projectmanager.api.endpoint.service.ProjectEndpointService;
 import org.dragard.projectmanager.endpoint.service.ProjectEndpointServiceImpl;
 import org.dragard.projectmanager.entity.Project;
@@ -14,27 +15,28 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import java.util.Collection;
 
-@NoArgsConstructor
 @WebService
-public class ProjectEndpointImpl {
-    
-    @Getter
-    @Setter
-    private ProjectEndpointServiceImpl projectEndpoint;
+@NoArgsConstructor
+public class ProjectEndpointImpl
+    implements ProjectEndpoint {
 
-    public ProjectEndpointImpl(ProjectEndpointServiceImpl projectEndpoint) {
+    private ProjectEndpointService projectEndpoint;
+
+    public ProjectEndpointImpl(ProjectEndpointService projectEndpoint) {
         this.projectEndpoint = projectEndpoint;
     }
 
+    @Override
     @WebMethod(operationName = "createProject")
     public @WebResult(name = "response") Response createProject(
-            @WebParam(name = "name")String name,
-            @WebParam(name = "description")String description,
-            @WebParam(name = "token")String token
+            @WebParam(name = "name") String name,
+            @WebParam(name = "description") String description,
+            @WebParam(name = "token") String token
     ) {
         return projectEndpoint.create(name, description, token);
     }
 
+    @Override
     @WebMethod(operationName = "updateProject")
     public Response updateProject(
             @WebParam(name = "id") String id,
@@ -44,6 +46,7 @@ public class ProjectEndpointImpl {
         return projectEndpoint.update(id, name, description, token);
     }
 
+    @Override
     @WebMethod(operationName = "deleteProject")
     public Response deleteProject(
             @WebParam(name = "id") String id,
@@ -51,12 +54,14 @@ public class ProjectEndpointImpl {
         return projectEndpoint.delete(id, token);
     }
 
+    @Override
     @WebMethod(operationName = "getViewProject")
     public Response getViewProject(
             @WebParam(name = "token") String token) {
         return projectEndpoint.getView(token);
     }
 
+    @Override
     @WebMethod(operationName = "persistProject")
     public Response persistProject(
             @WebParam(name = "elements") Collection<Project> elements,

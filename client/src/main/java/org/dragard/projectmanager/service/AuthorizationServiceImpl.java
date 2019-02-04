@@ -1,5 +1,10 @@
 package org.dragard.projectmanager.service;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.Service;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
@@ -7,18 +12,22 @@ import org.dragard.projectmanager.endpoint.Response;
 
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+
+@ResponceHandle
+@ApplicationScoped
+@NoArgsConstructor
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
     private String token;
 
-    public AuthorizationEndpointImplService getAuthorizationEndpoint() {
-        return authorizationEndpoint;
-    }
+    @Getter
+    @Setter
+    private AuthorizationEndpointImplService authorizationEndpoint;
 
-    private final AuthorizationEndpointImplService authorizationEndpoint;
-
-    private AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
+    protected AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
         token = null;
         this.authorizationEndpoint = authorizationEndpoint;
     }

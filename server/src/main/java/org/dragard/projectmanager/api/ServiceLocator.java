@@ -1,10 +1,13 @@
 package org.dragard.projectmanager.api;
 
+import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.service.*;
 
-import java.util.Scanner;
+import java.util.Collection;
 
 public interface ServiceLocator {
+
+    Collection<Command> getCommandList();
 
     ProjectService getProjectService();
 
@@ -14,5 +17,5 @@ public interface ServiceLocator {
 
     AuthorizationService getAuthorizationService();
 
-    Scanner getScanner();
+    String getNewLine();
 }

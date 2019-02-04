@@ -1,8 +1,15 @@
 package org.dragard.projectmanager.util;
 
+import org.dragard.projectmanager.api.annotation.Preferred;
+import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.Service;
+import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
+import org.dragard.projectmanager.service.AuthorizationServiceImpl;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -38,4 +45,13 @@ public class UtilClass {
 
         return (Service) Proxy.newProxyInstance(classLoader, classes, responseCheckHandler);
     }
+
+    @Produces
+    @Preferred
+    @ApplicationScoped
+    public static AuthorizationService getAuthorizationService(AuthorizationServiceImpl authorizationService) {
+        authorizationService.setAuthorizationEndpoint(new AuthorizationEndpointImplService());
+        return authorizationService;
+    }
+
 }

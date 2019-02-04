@@ -1,6 +1,7 @@
 package org.dragard.projectmanager.service;
 
 
+import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImplService;
@@ -8,21 +9,25 @@ import org.dragard.projectmanager.endpoint.Response;
 import org.dragard.projectmanager.endpoint.TaskEndpointImplService;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ResponceHandle
+@ApplicationScoped
 public class ProjectServiceImpl
     implements ProjectService {
 
-    public static ProjectService getInstance(ProjectEndpointImplService projectEndpointImplService){
+   /* public static ProjectService getInstance(ProjectEndpointImplService projectEndpointImplService){
         return (ProjectService) UtilClass.getServiceProxy(ProjectService.class, new ProjectServiceImpl(projectEndpointImplService));
-    }
+    }*/
+
+    private final ProjectEndpointImplService projectEndpoint;
 
     public ProjectEndpointImplService getProjectEndpoint() {
         return projectEndpoint;
     }
 
-    private final ProjectEndpointImplService projectEndpoint;
-
-    private ProjectServiceImpl(ProjectEndpointImplService projectEndpoint) {
-        this.projectEndpoint = projectEndpoint;
+    protected ProjectServiceImpl() {
+        this.projectEndpoint = new ProjectEndpointImplService();
     }
 
     @Override

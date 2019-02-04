@@ -3,7 +3,9 @@ package org.dragard.projectmanager.api.endpoint.service;
 import javafx.beans.NamedArg;
 import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.Task;
+import javax.jws.WebService;
 
+@WebService
 public interface TaskEndpointService extends EntityEndpointService<Task> {
 
     Response create(

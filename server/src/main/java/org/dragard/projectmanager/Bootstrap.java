@@ -1,53 +1,65 @@
 package org.dragard.projectmanager;
 
+import lombok.NoArgsConstructor;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.endpoint.AuthorizationEndpoint;
+import org.dragard.projectmanager.api.endpoint.ProjectEndpoint;
+import org.dragard.projectmanager.api.endpoint.TaskEndpoint;
 import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
 import org.dragard.projectmanager.api.endpoint.service.ProjectEndpointService;
 import org.dragard.projectmanager.api.endpoint.service.TaskEndpointService;
-import org.dragard.projectmanager.api.repository.ProjectRepository;
-import org.dragard.projectmanager.api.repository.TaskRepository;
-import org.dragard.projectmanager.api.repository.UserRepository;
+import org.dragard.projectmanager.api.event.ConsoleReadEvent;
 import org.dragard.projectmanager.api.service.*;
+import org.dragard.projectmanager.command.ExitCommand;
+import org.dragard.projectmanager.command.HelpCommand;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.endpoint.TaskEndpointImpl;
-import org.dragard.projectmanager.endpoint.service.AuthorizationEndpointServiceImpl;
-import org.dragard.projectmanager.endpoint.service.ProjectEndpointServiceImpl;
-import org.dragard.projectmanager.endpoint.service.TaskEndpointServiceImpl;
-import org.dragard.projectmanager.entity.User;
-import org.dragard.projectmanager.repository.ProjectHibernateRepository;
-import org.dragard.projectmanager.repository.TaskHibernateRepository;
-import org.dragard.projectmanager.repository.UserHibernateRepository;
-import org.dragard.projectmanager.service.AuthorizationServiceImpl;
-import org.dragard.projectmanager.service.ProjectServiceImpl;
-import org.dragard.projectmanager.service.TaskServiceImpl;
-import org.dragard.projectmanager.service.UserServiceImpl;
-import org.dragard.projectmanager.util.HibernateUtils;
+import org.dragard.projectmanager.event.ConsoleReadEventImpl;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.xml.ws.Endpoint;
-import java.io.IOException;
 import java.util.*;
 
-public class Bootstrap implements ServiceLocator {
+@ApplicationScoped
+public class Bootstrap
+    implements ServiceLocator {
 
+    @Inject
     private  ProjectService projectService;
+
+    @Inject
     private  TaskService taskService;
+
+    @Inject
     private  UserService userService;
+
+    @Inject
     private  AuthorizationService authorizationService;
+
+    @Inject
+    private AuthorizationEndpointService authorizationEndpointService;
+
+    @Inject
+    private ProjectEndpointService projectEndpointService;
+
+    @Inject
+    private TaskEndpointService taskEndpointService;
+
     private  Map<String, Command> commandList;
+
     private  Scanner scanner;
 
-    public Bootstrap() throws Exception {
-        final TaskRepository taskRepository = new TaskHibernateRepository();
-        final UserRepository userRepository = new UserHibernateRepository();
-        final ProjectRepository projectRepository = new ProjectHibernateRepository();
-        taskService = new TaskServiceImpl(taskRepository, userRepository, projectRepository);
-        projectService = new ProjectServiceImpl(projectRepository, taskRepository, userRepository);
-        userService = new UserServiceImpl(userRepository);
-        authorizationService = new AuthorizationServiceImpl(userService);
+    private final static Class[] classes = {
+            ExitCommand.class, HelpCommand.class
+    };
+
+    public Bootstrap() {
         commandList = new HashMap<>();
         scanner = new Scanner(System.in);
     }
@@ -56,12 +68,12 @@ public class Bootstrap implements ServiceLocator {
         try {
             userService.create("test", UtilClass.getPassword("test"));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         try {
             userService.create("root", UtilClass.getPassword("root"));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -72,40 +84,55 @@ public class Bootstrap implements ServiceLocator {
         commandList.put(command.getName(), command);
     }
 
-    public void registry(Class[] clazzes) throws IllegalAccessException, InstantiationException {
-        for (Class clazz:
-             clazzes) {
+    public void registry() throws IllegalAccessException, InstantiationException {
+        for (Class clazz : classes) {
             registry(clazz);
         }
     }
 
-    public void run() {
-        HibernateUtils.getSession().close();
-        AuthorizationEndpointServiceImpl authorizationEndpointService = new AuthorizationEndpointServiceImpl(this);
+    private void initialize(){
+        try {
+            registry();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         AuthorizationEndpoint authorizationEndpoint = new AuthorizationEndpointImpl(authorizationEndpointService);
         Endpoint.publish("http://localhost:9090/task-manager/auth", authorizationEndpoint);
-        ProjectEndpointServiceImpl projectEndpointService = new ProjectEndpointServiceImpl(this);
-        ProjectEndpointImpl projectEndpoint = new ProjectEndpointImpl(projectEndpointService);
-        Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
-        TaskEndpointServiceImpl taskEndpointService = new TaskEndpointServiceImpl(this);
-        TaskEndpointImpl taskEndpoint = new TaskEndpointImpl(taskEndpointService);
-        Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
-        initializeTestData();
+        System.out.println("http://localhost:9090/task-manager/auth");
 
-        while (true) {
-            System.out.println("\nEnter your command (enter \"help\" for list of commands)");
-            final String input = scanner.nextLine().toLowerCase();
-            Command command = commandList.get(input);
-            if (command != null && (!command.isSecure() || authorizationService.isLogged())){
-                try {
-                    command.execute();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Command not recognized. Try again, please");
+        ProjectEndpoint projectEndpoint = new ProjectEndpointImpl(projectEndpointService);
+        Endpoint.publish("http://localhost:9090/task-manager/project", projectEndpoint);
+        System.out.println("http://localhost:9090/task-manager/project");
+
+        TaskEndpoint taskEndpoint = new TaskEndpointImpl(taskEndpointService);
+        Endpoint.publish("http://localhost:9090/task-manager/task", taskEndpoint);
+        System.out.println("http://localhost:9090/task-manager/task");
+        initializeTestData();
+    }
+
+    @Inject
+    private Event<String> stringEvent;
+
+    public void run() {
+        initialize();
+        stringEvent.fire("");
+    }
+
+    private void ConsoleHandler(@Observes String message){
+        System.out.println("\nEnter your command (enter \"help\" for list of commands)");
+        final String input = scanner.nextLine().toLowerCase();
+        Command command = commandList.get(input);
+        if (command != null && (!command.isSecure() || authorizationService.isLogged())){
+            try {
+                command.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        } else {
+            System.out.println("Command not recognized. Try again, please");
         }
+        stringEvent.fire("");
     }
 
     @Override
@@ -114,10 +141,11 @@ public class Bootstrap implements ServiceLocator {
     }
 
     @Override
-    public Scanner getScanner() {
-        return scanner;
+    public String getNewLine() {
+        return scanner.nextLine();
     }
 
+    @Override
     public Collection<Command> getCommandList() {
         return Collections.unmodifiableCollection(commandList.values());
     }
@@ -132,6 +160,7 @@ public class Bootstrap implements ServiceLocator {
         return taskService;
     }
 
+    @Override
     public AuthorizationService getAuthorizationService() {
         return authorizationService;
     }

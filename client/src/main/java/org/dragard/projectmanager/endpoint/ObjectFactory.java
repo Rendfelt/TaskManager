@@ -28,14 +28,10 @@ public class ObjectFactory {
     private final static QName _CreateTaskResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "createTaskResponse");
     private final static QName _DeleteTask_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "deleteTask");
     private final static QName _DeleteTaskResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "deleteTaskResponse");
-    private final static QName _GetTaskEndpoint_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "getTaskEndpoint");
-    private final static QName _GetTaskEndpointResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "getTaskEndpointResponse");
     private final static QName _GetViewTask_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "getViewTask");
     private final static QName _GetViewTaskResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "getViewTaskResponse");
     private final static QName _PersistTask_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "persistTask");
     private final static QName _PersistTaskResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "persistTaskResponse");
-    private final static QName _SetTaskEndpoint_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "setTaskEndpoint");
-    private final static QName _SetTaskEndpointResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "setTaskEndpointResponse");
     private final static QName _UpdateTask_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "updateTask");
     private final static QName _UpdateTaskResponse_QNAME = new QName("http://endpoint.projectmanager.dragard.org/", "updateTaskResponse");
 
@@ -79,22 +75,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTaskEndpoint }
-     * 
-     */
-    public GetTaskEndpoint createGetTaskEndpoint() {
-        return new GetTaskEndpoint();
-    }
-
-    /**
-     * Create an instance of {@link GetTaskEndpointResponse }
-     * 
-     */
-    public GetTaskEndpointResponse createGetTaskEndpointResponse() {
-        return new GetTaskEndpointResponse();
-    }
-
-    /**
      * Create an instance of {@link GetViewTask }
      * 
      */
@@ -127,22 +107,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SetTaskEndpoint }
-     * 
-     */
-    public SetTaskEndpoint createSetTaskEndpoint() {
-        return new SetTaskEndpoint();
-    }
-
-    /**
-     * Create an instance of {@link SetTaskEndpointResponse }
-     * 
-     */
-    public SetTaskEndpointResponse createSetTaskEndpointResponse() {
-        return new SetTaskEndpointResponse();
-    }
-
-    /**
      * Create an instance of {@link UpdateTask }
      * 
      */
@@ -164,22 +128,6 @@ public class ObjectFactory {
      */
     public Response createResponse() {
         return new Response();
-    }
-
-    /**
-     * Create an instance of {@link TaskEndpointServiceImpl }
-     * 
-     */
-    public TaskEndpointServiceImpl createTaskEndpointServiceImpl() {
-        return new TaskEndpointServiceImpl();
-    }
-
-    /**
-     * Create an instance of {@link Bootstrap }
-     * 
-     */
-    public Bootstrap createBootstrap() {
-        return new Bootstrap();
     }
 
     /**
@@ -243,24 +191,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetTaskEndpoint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://endpoint.projectmanager.dragard.org/", name = "getTaskEndpoint")
-    public JAXBElement<GetTaskEndpoint> createGetTaskEndpoint(GetTaskEndpoint value) {
-        return new JAXBElement<GetTaskEndpoint>(_GetTaskEndpoint_QNAME, GetTaskEndpoint.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetTaskEndpointResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://endpoint.projectmanager.dragard.org/", name = "getTaskEndpointResponse")
-    public JAXBElement<GetTaskEndpointResponse> createGetTaskEndpointResponse(GetTaskEndpointResponse value) {
-        return new JAXBElement<GetTaskEndpointResponse>(_GetTaskEndpointResponse_QNAME, GetTaskEndpointResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetViewTask }{@code >}}
      * 
      */
@@ -294,24 +224,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://endpoint.projectmanager.dragard.org/", name = "persistTaskResponse")
     public JAXBElement<PersistTaskResponse> createPersistTaskResponse(PersistTaskResponse value) {
         return new JAXBElement<PersistTaskResponse>(_PersistTaskResponse_QNAME, PersistTaskResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SetTaskEndpoint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://endpoint.projectmanager.dragard.org/", name = "setTaskEndpoint")
-    public JAXBElement<SetTaskEndpoint> createSetTaskEndpoint(SetTaskEndpoint value) {
-        return new JAXBElement<SetTaskEndpoint>(_SetTaskEndpoint_QNAME, SetTaskEndpoint.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SetTaskEndpointResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://endpoint.projectmanager.dragard.org/", name = "setTaskEndpointResponse")
-    public JAXBElement<SetTaskEndpointResponse> createSetTaskEndpointResponse(SetTaskEndpointResponse value) {
-        return new JAXBElement<SetTaskEndpointResponse>(_SetTaskEndpointResponse_QNAME, SetTaskEndpointResponse.class, null, value);
     }
 
     /**

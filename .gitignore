@@ -1,6 +1,7 @@
 *.iml
 .idea
 target
+other
 backup
 server/target
 client/target

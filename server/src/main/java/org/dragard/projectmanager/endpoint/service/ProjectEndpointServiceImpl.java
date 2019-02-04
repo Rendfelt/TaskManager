@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dragard.projectmanager.Bootstrap;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.endpoint.service.ProjectEndpointService;
 import org.dragard.projectmanager.entity.Project;
@@ -12,19 +11,19 @@ import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.UtilClass;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collection;
 
+@ApplicationScoped
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectEndpointServiceImpl
     implements ProjectEndpointService {
 
     @Getter
     @Setter
-    private Bootstrap serviceLocator;
-
-    public ProjectEndpointServiceImpl(Bootstrap serviceLocator) {
-        this.serviceLocator = serviceLocator;
-    }
+    @Inject
+    private ServiceLocator serviceLocator;
 
     @Override
     public Response create(String name, String description, String token) {

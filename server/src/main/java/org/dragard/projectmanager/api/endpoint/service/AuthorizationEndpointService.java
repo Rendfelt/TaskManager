@@ -5,7 +5,6 @@ import org.dragard.projectmanager.entity.Response;
 
 import javax.jws.WebService;
 
-@WebService
 public interface AuthorizationEndpointService extends EndpointService {
 
     Response changePassword(

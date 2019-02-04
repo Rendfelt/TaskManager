@@ -4,11 +4,13 @@ import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.entity.User;
 import org.jetbrains.annotations.NotNull;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+@ApplicationScoped
 public class UserHibernateRepository extends AbstractEntityHibernateRepository<User>
 implements UserRepository {
 

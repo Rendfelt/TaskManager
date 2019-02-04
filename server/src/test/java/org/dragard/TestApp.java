@@ -14,5 +14,7 @@ public class TestApp {
     public void test(){
         byte[] digest = MessageDigest.getInstance("MD5").digest("root".getBytes(StandardCharsets.UTF_8));
         System.out.println(DatatypeConverter.printHexBinary(digest).toUpperCase());
+        byte[] digest2 = MessageDigest.getInstance("MD5").digest("test".getBytes(StandardCharsets.UTF_8));
+        System.out.println(DatatypeConverter.printHexBinary(digest2).toUpperCase());
     }
 }

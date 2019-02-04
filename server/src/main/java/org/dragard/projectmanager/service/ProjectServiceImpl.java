@@ -1,6 +1,10 @@
 package org.dragard.projectmanager.service;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.dragard.projectmanager.api.repository.JobRepository;
+import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.ProjectService;
@@ -11,20 +15,35 @@ import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @ApplicationScoped
 public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
+    @Inject
+    private ProjectRepository projectRepository;
+
+    @Inject
     private TaskRepository taskRepository;
+
+    @Inject
     private UserRepository userRepository;
 
-    public ProjectServiceImpl(JobRepository<Project> repository, TaskRepository taskRepository, UserRepository userRepository) {
-        super(repository);
+/*    public ProjectServiceImpl(ProjectRepository repository, TaskRepository taskRepository, UserRepository userRepository) {
+        this.projectRepository = repository;
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+    }*/
+
+    @Override
+    protected JobRepository<Project> getRepository() {
+        return projectRepository;
     }
 
     @Override

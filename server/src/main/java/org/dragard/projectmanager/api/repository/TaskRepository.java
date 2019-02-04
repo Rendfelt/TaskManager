@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TaskRepository extends JobRepository<Task>{
 
-    List<Task> getElementsByProjectId(String id, EntityManager entityManager) throws Exception;
+    List<Task> getElementsByProjectId(String id, EntityManager entityManager);
 }

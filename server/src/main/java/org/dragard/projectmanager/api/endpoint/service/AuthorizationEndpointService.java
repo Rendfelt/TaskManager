@@ -21,7 +21,7 @@ public interface AuthorizationEndpointService extends EndpointService {
     Response login(
             @NamedArg(value = "login") String login,
             @NamedArg(value = "password") String password
-    ) throws Exception;
+    );
 
     Response logout(
             @NamedArg(value = "token") String token

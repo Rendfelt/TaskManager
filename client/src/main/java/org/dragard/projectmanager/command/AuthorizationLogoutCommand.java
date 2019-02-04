@@ -11,14 +11,10 @@ public class AuthorizationLogoutCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        try {
-            final AuthorizationService as = getServiceLocator().getAuthorizationService();
-            final Response response = as.logout(as.getToken());
-            if (response.getMessage() != null){
-                System.out.println(response.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        final AuthorizationService as = getServiceLocator().getAuthorizationService();
+        final Response response = as.logout(as.getToken());
+        if (response.getMessage() != null){
+            System.out.println(response.getMessage());
         }
     }
 }

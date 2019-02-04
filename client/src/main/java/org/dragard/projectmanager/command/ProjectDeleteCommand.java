@@ -13,9 +13,8 @@ public class ProjectDeleteCommand extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter project id:");
-            final String id = scanner.nextLine();
+            final String id = getServiceLocator().getInterfaceService().getNewLine();
             Response response = getServiceLocator().getProjectService().delete(id, getServiceLocator().getAuthorizationService().getToken());
             if (response.getMessage() != null) {
                 System.out.println(response.getMessage());

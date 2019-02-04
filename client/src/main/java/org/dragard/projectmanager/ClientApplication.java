@@ -9,13 +9,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class ClientApplication {
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchAlgorithmException, IOException, URISyntaxException {
-/*        final Bootstrap bootstrap = new Bootstrap();
-        bootstrap.run();*/
-
+    public static void main(String[] args) throws Exception{
         WeldContainer weld = new Weld().initialize();
         weld.instance().select(Bootstrap.class).get().run();
-
     }
 
 }

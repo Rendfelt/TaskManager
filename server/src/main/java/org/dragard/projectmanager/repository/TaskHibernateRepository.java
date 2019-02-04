@@ -19,7 +19,7 @@ public class TaskHibernateRepository extends AbstractJobEntityHibernateRepositor
     }
 
     @Override
-    public List<Task> getElementsByProjectId(String id, EntityManager entityManager) throws Exception {
+    public List<Task> getElementsByProjectId(String id, EntityManager entityManager){
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Task> taskCriteriaQuery = cb.createQuery(Task.class);
         Root<Task> taskRoot = taskCriteriaQuery.from(Task.class);

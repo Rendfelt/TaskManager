@@ -14,14 +14,13 @@ public class ProjectCreateCommand extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter project name:");
-            final String name = scanner.nextLine();
+            final String name = getServiceLocator().getInterfaceService().getNewLine();
             if (name.isEmpty()){
                 throw new NoNameException();
             }
             System.out.println("Enter project description:");
-            final String description = scanner.nextLine();
+            final String description = getServiceLocator().getInterfaceService().getNewLine();
             Response response = getServiceLocator().getProjectService().create(name, description,
                     getServiceLocator().getAuthorizationService().getToken());
             if (response.getMessage() != null) {

@@ -1,6 +1,7 @@
 package org.dragard.projectmanager;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.annotation.Preferred;
@@ -23,11 +24,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @ApplicationScoped
+@NoArgsConstructor
 public class Bootstrap implements ServiceLocator {
 
+    @Getter
     @Inject
     private ProjectService projectService;
 
+    @Getter
     @Inject
     private TaskService taskService;
 
@@ -43,24 +47,14 @@ public class Bootstrap implements ServiceLocator {
     @Preferred
     private AuthorizationService authorizationService;
 
-    private final Map<String, Command> commandList;
+    private final Map<String, Command> commandList = new HashMap<>();
 
     private final static Class[] classes = {TaskShowAllCommand.class, ProjectShowAllCommand.class, ProjectShowAllCommand.class,
             ProjectCreateCommand.class, ProjectUpdateCommand.class, ProjectDeleteCommand.class,
             TaskCreateCommand.class, TaskUpdateCommand.class, TaskDeleteCommand.class,
-            ExitCommand.class, HelpCommand.class, DataSaveCommand.class, DataLoadCommand.class,
+            ExitCommand.class, HelpCommand.class, DataSaveCommand.class,
             AuthorizationRegister.class, AuthorizationLoginCommand.class,
             AuthorizationLogoutCommand.class, AuthorizationChangePassword.class};
-
-    public Bootstrap() {
-        commandList = new HashMap<>();
-        final AuthorizationEndpointImplService authorizationEndpoint = new AuthorizationEndpointImplService();
-//        authorizationService = AuthorizationServiceImpl.getInstance(authorizationEndpoint);
-        final ProjectEndpointImplService projectEndpoint = new ProjectEndpointImplService();
-        projectService = ProjectServiceImpl.getInstance(projectEndpoint);
-        final TaskEndpointImplService taskEndpoint = new TaskEndpointImplService();
-        taskService = TaskServiceImpl.getInstance(taskEndpoint);
-    }
 
     private void registry(Class clazz) throws IllegalAccessException, InstantiationException {
         Command command = (Command) clazz.newInstance();
@@ -75,7 +69,7 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    public void run() throws NoSuchAlgorithmException, IOException, URISyntaxException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void run() throws Exception {
         registry();
         while (true) {
             System.out.println("\nEnter your command (enter \"help\" for list of commands)");
@@ -87,16 +81,6 @@ public class Bootstrap implements ServiceLocator {
                 System.out.println("Command not recognized. Try again, please");
             }
         }
-    }
-
-    @Override
-    public ProjectService getProjectService() {
-        return projectService;
-    }
-
-    @Override
-    public TaskService getTaskService() {
-        return taskService;
     }
 
     @Override

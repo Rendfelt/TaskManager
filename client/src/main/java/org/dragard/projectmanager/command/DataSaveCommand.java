@@ -8,6 +8,6 @@ public class DataSaveCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-
+        System.out.println("Operation not supported");
     }
 }

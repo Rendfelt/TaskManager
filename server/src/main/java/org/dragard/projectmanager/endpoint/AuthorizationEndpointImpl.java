@@ -43,7 +43,7 @@ public class AuthorizationEndpointImpl
     public Response login(
             @WebParam(name = "login") String login,
             @WebParam(name = "password") String password
-    ) throws Exception {
+    ) {
         return authorizationEndpoint.login(login, password);
     }
 

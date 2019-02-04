@@ -13,13 +13,12 @@ public class ProjectUpdateCommand extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter project id");
-            String id = scanner.nextLine();
+            String id = getServiceLocator().getInterfaceService().getNewLine();
             System.out.println("Enter project name:");
-            final String name = scanner.nextLine();
+            final String name = getServiceLocator().getInterfaceService().getNewLine();
             System.out.println("Enter project description");
-            final String description = scanner.nextLine();
+            final String description = getServiceLocator().getInterfaceService().getNewLine();
             Response response = getServiceLocator().getProjectService().update(id, name, description,
                     getServiceLocator().getAuthorizationService().getToken());
             if (response.getMessage() != null) {

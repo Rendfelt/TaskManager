@@ -13,7 +13,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     protected abstract Repository<E> getRepository();
 
     @Override
-    public E getElementById(String id) throws Exception {
+    public E getElementById(String id) {
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
@@ -25,12 +25,12 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
-    public E delete(String id) throws Exception {
+    public E delete(String id){
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
         if (getRepository().getElementById(id, entityManager) == null){
-            throw new Exception("No element deleted");
+            throw new RuntimeException("No element deleted");
         }
         E element = getRepository().delete(id, entityManager);
 

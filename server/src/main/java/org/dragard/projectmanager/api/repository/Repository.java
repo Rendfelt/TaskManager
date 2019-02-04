@@ -7,9 +7,9 @@ import java.util.Collection;
 
 public interface Repository<E extends AbstractEntity> {
 
-    E getElementById(String id, EntityManager entityManager) throws Exception;
+    E getElementById(String id, EntityManager entityManager);
 
-    E merge(E element, EntityManager entityManager) throws Exception;
+    E merge(E element, EntityManager entityManager);
 
-    E delete(String id, EntityManager entityManager) throws Exception;
+    E delete(String id, EntityManager entityManager);
 }

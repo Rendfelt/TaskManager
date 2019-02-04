@@ -96,7 +96,7 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     }
 
     @Override
-    public Project delete(String id) throws Exception {
+    public Project delete(String id){
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 

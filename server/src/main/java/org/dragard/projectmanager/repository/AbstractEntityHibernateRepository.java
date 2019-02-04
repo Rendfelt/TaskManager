@@ -18,17 +18,17 @@ public abstract class AbstractEntityHibernateRepository<E extends AbstractEntity
     }
 
     @Override
-    public E getElementById(String id, EntityManager entityManager) throws Exception {
+    public E getElementById(String id, EntityManager entityManager) {
         return entityManager.find(clazz, id);
     }
 
     @Override
-    public E merge(E element, EntityManager entityManager) throws Exception {
+    public E merge(E element, EntityManager entityManager) {
         return entityManager.merge(element);
     }
 
     @Override
-    public E delete(String id, EntityManager entityManager) throws Exception {
+    public E delete(String id, EntityManager entityManager) {
         E element = getElementById(id, entityManager);
         entityManager.remove(element);
         return element;

@@ -14,11 +14,10 @@ public class AuthorizationChangePassword extends AbstractCommand{
     @Override
     public void execute() {
         try {
-            final Scanner scanner = getServiceLocator().getScanner();
             System.out.println("Enter old password:");
-            final String oldPassword = scanner.nextLine();
+            final String oldPassword = getServiceLocator().getInterfaceService().getNewLine();
             System.out.println("Enter new password:");
-            final String password = UtilClass.getPassword(scanner.nextLine());
+            final String password = getServiceLocator().getInterfaceService().getNewLine();
             Response response = getServiceLocator().getAuthorizationService().changePassword(oldPassword, password,
                     getServiceLocator().getAuthorizationService().getToken());
             if (response.getMessage() != null){

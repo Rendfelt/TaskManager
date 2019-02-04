@@ -1,6 +1,5 @@
 package org.dragard.projectmanager;
 
-import lombok.NoArgsConstructor;
 import org.dragard.projectmanager.api.ServiceLocator;
 import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.endpoint.AuthorizationEndpoint;
@@ -9,14 +8,12 @@ import org.dragard.projectmanager.api.endpoint.TaskEndpoint;
 import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointService;
 import org.dragard.projectmanager.api.endpoint.service.ProjectEndpointService;
 import org.dragard.projectmanager.api.endpoint.service.TaskEndpointService;
-import org.dragard.projectmanager.api.event.ConsoleReadEvent;
 import org.dragard.projectmanager.api.service.*;
 import org.dragard.projectmanager.command.ExitCommand;
 import org.dragard.projectmanager.command.HelpCommand;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.endpoint.TaskEndpointImpl;
-import org.dragard.projectmanager.event.ConsoleReadEventImpl;
 import org.dragard.projectmanager.util.UtilClass;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -119,7 +116,7 @@ public class Bootstrap
         stringEvent.fire("");
     }
 
-    private void ConsoleHandler(@Observes String message){
+    private void handleConsoleEvent(@Observes String message){
         System.out.println("\nEnter your command (enter \"help\" for list of commands)");
         final String input = scanner.nextLine().toLowerCase();
         Command command = commandList.get(input);

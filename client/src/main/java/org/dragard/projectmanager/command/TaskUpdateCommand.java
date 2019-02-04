@@ -12,21 +12,16 @@ public class TaskUpdateCommand extends AbstractCommand{
 
     @Override
     public void execute() {
-        Scanner scanner = getServiceLocator().getScanner();
-        try {
-            System.out.println("Enter task id");
-            final String id = scanner.nextLine();
-            System.out.println("Enter task name:");
-            final String name = scanner.nextLine();
-            System.out.println("Enter task description");
-            final String description = scanner.nextLine();
-            Response response = getServiceLocator().getTaskService().update(id, name, description,
-                    getServiceLocator().getAuthorizationService().getToken());
-            if (response.getMessage() != null) {
-                System.out.println(response.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        System.out.println("Enter task id");
+        final String id = getServiceLocator().getInterfaceService().getNewLine();
+        System.out.println("Enter task name:");
+        final String name = getServiceLocator().getInterfaceService().getNewLine();
+        System.out.println("Enter task description");
+        final String description = getServiceLocator().getInterfaceService().getNewLine();
+        Response response = getServiceLocator().getTaskService().update(id, name, description,
+                getServiceLocator().getAuthorizationService().getToken());
+        if (response.getMessage() != null) {
+            System.out.println(response.getMessage());
         }
     }
 }

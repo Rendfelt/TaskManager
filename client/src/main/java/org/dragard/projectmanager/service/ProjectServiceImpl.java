@@ -1,6 +1,8 @@
 package org.dragard.projectmanager.service;
 
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
@@ -16,15 +18,8 @@ import javax.enterprise.context.ApplicationScoped;
 public class ProjectServiceImpl
     implements ProjectService {
 
-   /* public static ProjectService getInstance(ProjectEndpointImplService projectEndpointImplService){
-        return (ProjectService) UtilClass.getServiceProxy(ProjectService.class, new ProjectServiceImpl(projectEndpointImplService));
-    }*/
-
+    @Getter(value = AccessLevel.PROTECTED)
     private final ProjectEndpointImplService projectEndpoint;
-
-    public ProjectEndpointImplService getProjectEndpoint() {
-        return projectEndpoint;
-    }
 
     protected ProjectServiceImpl() {
         this.projectEndpoint = new ProjectEndpointImplService();
@@ -41,12 +36,12 @@ public class ProjectServiceImpl
     }
 
     @Override
-    public Response delete(String id, String token) throws Exception {
+    public Response delete(String id, String token) {
         return getProjectEndpoint().getProjectEndpointImplPort().deleteProject(id, token);
     }
 
     @Override
-    public Response getView(String token) throws Exception {
+    public Response getView(String token) {
         return getProjectEndpoint().getProjectEndpointImplPort().getViewProject(token);
     }
 

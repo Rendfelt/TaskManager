@@ -13,7 +13,9 @@ public class ProjectShowAllCommand extends AbstractCommand {
         try {
             Response response = getServiceLocator().getProjectService().getView(
                     getServiceLocator().getAuthorizationService().getToken());
-            System.out.println(response.getMessage());
+            if (response.getMessage() != null) {
+                System.out.println(response.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

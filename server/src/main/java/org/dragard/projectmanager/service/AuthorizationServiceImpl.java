@@ -13,6 +13,7 @@ import org.dragard.projectmanager.entity.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Getter
@@ -20,8 +21,6 @@ import java.util.*;
 @ApplicationScoped
 public class AuthorizationServiceImpl
     implements AuthorizationService {
-
-//    private User activeUser;
 
     @Inject
     private UserService userService;
@@ -35,14 +34,11 @@ public class AuthorizationServiceImpl
 
     public AuthorizationServiceImpl() throws IOException {
         Properties properties = new Properties();
-        properties.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME));
+        InputStream is = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
+        properties.load(is);
         key = properties.getProperty(PROPERTY_TOKEN_SECRET_KEY);
+        is.close();
     }
-
-/*    public AuthorizationServiceImpl(UserService userService) throws Exception {
-        this();
-        this.userService = userService;
-    }*/
 
     @Override
     public String login(String login, String password) throws Exception {
@@ -58,11 +54,12 @@ public class AuthorizationServiceImpl
 
     @Override
     public void logout() {
+        // TODO: 04.02.2019 Realization
 //        activeUser = null;
     }
 
     @Override
-    public User getActiveUser(String token) throws Exception {
+    public User getActiveUser(String token){
         DefaultClaims claims = (DefaultClaims) Jwts.parser().setSigningKey(key).parse(token).getBody();
         return userService.getElementById(claims.get(TOKEN_DATA_USER_ID, String.class));
     }
@@ -72,13 +69,17 @@ public class AuthorizationServiceImpl
         return false;
     }
 
+    public String refreshToken(String userId){
+        return createToken(userService.getElementById(userId));
+    }
+
     private String createToken(User user){
         final Map<String, Object> tokenData = new HashMap<>();
         tokenData.put(TOKEN_DATA_USER_ID, user.getId());
         Date date = new Date();
         tokenData.put(TOKEN_DATA_TOKEN_CREATE_DATE, date.getTime());
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 30);
+        calendar.add(Calendar.MINUTE, 10);
         tokenData.put(TOKEN_DATA_TOKEN_EXPIRATION_DATE, calendar.getTimeInMillis());
         System.out.println(calendar.getTimeInMillis());
         JwtBuilder jwtBuilder = Jwts.builder();
@@ -87,6 +88,9 @@ public class AuthorizationServiceImpl
         return jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact();
     }
 
+    /**
+     * @return userId from token
+     * */
     @Override
     public String checkToken(String token){
         DefaultClaims claims;

@@ -15,9 +15,9 @@ public interface AuthorizationService extends Service{
 
     void logout();
 
-    User getActiveUser(String token) throws Exception;
+    User getActiveUser(String token);
 
     boolean isLogged();
 
-    String checkToken(String token) throws IOException;
+    String checkToken(String token);
 }

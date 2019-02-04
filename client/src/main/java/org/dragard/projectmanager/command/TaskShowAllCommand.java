@@ -10,12 +10,10 @@ public class TaskShowAllCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        try {
-            Response response = getServiceLocator().getTaskService().getView(
-                    getServiceLocator().getAuthorizationService().getToken());
+        Response response = getServiceLocator().getTaskService().getView(
+                getServiceLocator().getAuthorizationService().getToken());
+        if (response.getMessage() != null) {
             System.out.println(response.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

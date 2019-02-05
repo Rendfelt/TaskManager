@@ -1,19 +1,26 @@
 package org.dragard.projectmanager.service;
 
+import javafx.beans.NamedArg;
+import org.dragard.projectmanager.api.annotation.NotEmpty;
+import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.repository.Repository;
 import org.dragard.projectmanager.api.service.EntityService;
 import org.dragard.projectmanager.entity.AbstractEntity;
 import org.dragard.projectmanager.util.HibernateUtils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.EntityManager;
 
+@NullAndEmptyChecker
 public abstract class AbstractEntityService<E extends AbstractEntity>
     implements EntityService<E> {
 
     protected abstract Repository<E> getRepository();
 
     @Override
-    public E getElementById(String id) {
+    public E getElementById(
+            @NamedArg(value = "id") @Nullable @NotEmpty String id
+    ) {
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
@@ -25,7 +32,9 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     }
 
     @Override
-    public E delete(String id){
+    public E delete(
+            @NamedArg(value = "id") @Nullable @NotEmpty String id
+    ){
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 

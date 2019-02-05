@@ -1,8 +1,11 @@
 package org.dragard.projectmanager.service;
 
+import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dragard.projectmanager.api.annotation.NotEmpty;
+import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
@@ -23,6 +26,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ApplicationScoped
+@NullAndEmptyChecker
 public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
@@ -35,22 +39,17 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     @Inject
     private UserRepository userRepository;
 
-/*    public ProjectServiceImpl(ProjectRepository repository, TaskRepository taskRepository, UserRepository userRepository) {
-        this.projectRepository = repository;
-        this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
-    }*/
-
     @Override
     protected JobRepository<Project> getRepository() {
         return projectRepository;
     }
 
     @Override
-    public Project create(@Nullable String name, @Nullable String description, String userId) throws Exception {
-        if (name == null || name.isEmpty()){
-            throw new Exception("Name is empty");
-        }
+    public Project create(
+            @NamedArg(value = "name") @Nullable @NotEmpty String name,
+            @NamedArg(value = "description") String description,
+            @NamedArg(value = "name") @Nullable @NotEmpty String userId
+    ) throws Exception {
         if (description == null){
             description = "";
         }
@@ -67,10 +66,11 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     }
 
     @Override
-    public Project update(String id, String name, String description) throws Exception {
-        if (id == null || id.isEmpty()){
-            throw new Exception("No element with id");
-        }
+    public Project update(
+            @NamedArg(value = "id") @Nullable @NotEmpty String id,
+            @NamedArg(value = "name") @Nullable @NotEmpty String name,
+            @NamedArg(value = "description") String description
+    ) throws Exception {
         final EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
@@ -78,13 +78,9 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
         if (project == null){
             throw new Exception("No element with id");
         }
-        if (name == null || name.isEmpty()){
-            throw new Exception("Name is empty");
-        }
         if (description == null){
             description = "";
         }
-
         project.setName(name);
         project.setDescription(description);
         final Project resultProject = getRepository().merge(project, entityManager);
@@ -96,14 +92,15 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     }
 
     @Override
-    public Project delete(String id){
+    public Project delete(
+            @NamedArg(value = "id") @Nullable @NotEmpty String id
+    ){
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
         Project project = getRepository().getElementById(id, entityManager);
         if (project == null){
-            System.out.println("No element deleted");
-            return null;
+            throw new RuntimeException("No element deleted");
         }
         List<Task> taskList = taskRepository.getElementsByProjectId(id, entityManager);
         if (taskList != null && !taskList.isEmpty()){

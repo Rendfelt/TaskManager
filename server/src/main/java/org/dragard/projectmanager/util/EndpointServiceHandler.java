@@ -38,11 +38,7 @@ public class EndpointServiceHandler
                 if (annotation instanceof NamedArg){
                     NamedArg namedArgAnnotation = (NamedArg) annotation;
                     if ("token".equals(namedArgAnnotation.value())){
-                        try {
-                            authorizationService.checkToken(namedArgAnnotation.value());
-                        } catch (IOException e) {
-                            throw new RuntimeException("Access denied");
-                        }
+                        authorizationService.checkToken(namedArgAnnotation.value());
                     }
                 }
 

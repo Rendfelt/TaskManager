@@ -1,12 +1,16 @@
 package org.dragard.projectmanager.service;
 
+import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dragard.projectmanager.api.annotation.NotEmpty;
+import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.HibernateUtils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,15 +20,12 @@ import javax.persistence.EntityManager;
 @Setter
 @NoArgsConstructor
 @ApplicationScoped
+@NullAndEmptyChecker
 public class UserServiceImpl extends AbstractEntityService<User>
     implements UserService {
 
     @Inject
     private UserRepository userRepository;
-
-    /*public UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
-    }*/
 
     @Override
     protected UserRepository getRepository() {
@@ -32,15 +33,12 @@ public class UserServiceImpl extends AbstractEntityService<User>
     }
 
     @Override
-    public User create(String login, String password) throws Exception {
-        if (login == null || login.isEmpty()){
-            throw new Exception("Login is empty");
-        }
-        if (password == null || password.isEmpty()){
-            throw new Exception("Password is empty");
-        }
+    public User create(
+            @NamedArg (value = "login") @Nullable @NotEmpty String login,
+            @NamedArg (value = "password") @Nullable @NotEmpty String password
+    ) throws Exception {
         if (getElementByLogin(login) != null){
-            throw new Exception("Login is occupied");
+            throw new RuntimeException("Login is occupied");
         }
 
         final EntityManager entityManager = HibernateUtils.getSession();
@@ -56,11 +54,9 @@ public class UserServiceImpl extends AbstractEntityService<User>
     }
 
     @Override
-    public User getElementByLogin(String login) throws Exception {
-        if (login == null || login.isEmpty()){
-            return null;
-        }
-
+    public User getElementByLogin(
+            @NamedArg (value = "login") @Nullable @NotEmpty String login
+    ) throws Exception {
         final EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 
@@ -73,11 +69,10 @@ public class UserServiceImpl extends AbstractEntityService<User>
     }
 
     @Override
-    public User changePassword(String password, User user) throws Exception {
-        if (password == null || password.isEmpty()){
-            throw new Exception("Password is empty");
-        }
-
+    public User changePassword(
+            @NamedArg (value = "password") @Nullable @NotEmpty String password,
+            @NamedArg (value = "user") @Nullable User user
+    ) throws Exception {
         final EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
 

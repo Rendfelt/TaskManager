@@ -4,11 +4,15 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
+import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.Setter;
+import org.dragard.projectmanager.api.annotation.NotEmpty;
+import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
+import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,6 +23,7 @@ import java.util.*;
 @Getter
 @Setter
 @ApplicationScoped
+@NullAndEmptyChecker
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
@@ -41,10 +46,9 @@ public class AuthorizationServiceImpl
     }
 
     @Override
-    public String login(String login, String password) throws Exception {
-        if (login == null || login.isEmpty() || password == null || password.isEmpty()){
-            throw new RuntimeException("Bad login or password");
-        }
+    public String login(
+            @NamedArg(value = "login") @Nullable @NotEmpty String login,
+            @NamedArg(value = "password") @Nullable @NotEmpty String password) throws Exception {
         final User user = userService.getElementByLogin(login);
         if (user == null || !user.getPassword().equals(password)){
             throw new RuntimeException("Bad login or password");
@@ -59,7 +63,9 @@ public class AuthorizationServiceImpl
     }
 
     @Override
-    public User getActiveUser(String token){
+    public User getActiveUser(
+            @NamedArg(value = "token") @Nullable @NotEmpty String token
+    ){
         DefaultClaims claims = (DefaultClaims) Jwts.parser().setSigningKey(key).parse(token).getBody();
         return userService.getElementById(claims.get(TOKEN_DATA_USER_ID, String.class));
     }
@@ -69,11 +75,15 @@ public class AuthorizationServiceImpl
         return false;
     }
 
-    public String refreshToken(String userId){
+    public String refreshToken(
+            @NamedArg(value = "userId") @Nullable @NotEmpty String userId
+    ){
         return createToken(userService.getElementById(userId));
     }
 
-    private String createToken(User user){
+    private String createToken(
+            @NamedArg(value = "user") @Nullable User user
+    ){
         final Map<String, Object> tokenData = new HashMap<>();
         tokenData.put(TOKEN_DATA_USER_ID, user.getId());
         Date date = new Date();
@@ -92,7 +102,9 @@ public class AuthorizationServiceImpl
      * @return userId from token
      * */
     @Override
-    public String checkToken(String token){
+    public String checkToken(
+            @NamedArg(value = "token") @Nullable @NotEmpty String token
+    ){
         DefaultClaims claims;
         try {
             claims = (DefaultClaims) Jwts.parser().setSigningKey(key).parse(token).getBody();

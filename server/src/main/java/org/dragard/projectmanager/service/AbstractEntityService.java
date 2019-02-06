@@ -1,9 +1,10 @@
 package org.dragard.projectmanager.service;
 
 import javafx.beans.NamedArg;
+import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
-import org.dragard.projectmanager.api.repository.Repository;
+import org.dragard.projectmanager.api.repository.IRepository;
 import org.dragard.projectmanager.api.service.EntityService;
 import org.dragard.projectmanager.entity.AbstractEntity;
 import org.dragard.projectmanager.util.HibernateUtils;
@@ -15,20 +16,13 @@ import javax.persistence.EntityManager;
 public abstract class AbstractEntityService<E extends AbstractEntity>
     implements EntityService<E> {
 
-    protected abstract Repository<E> getRepository();
+    protected abstract IRepository<E> getRepository();
 
     @Override
     public E getElementById(
             @NamedArg(value = "id") @Nullable @NotEmpty String id
     ) {
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        E element = getRepository().getElementById(id, entityManager);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return element;
+        return getRepository().findBy(id);
     }
 
     @Override
@@ -37,11 +31,11 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     ){
         EntityManager entityManager = HibernateUtils.getSession();
         entityManager.getTransaction().begin();
-
-        if (getRepository().getElementById(id, entityManager) == null){
+        E element = getRepository().findBy(id);
+        if (element == null){
             throw new RuntimeException("No element deleted");
         }
-        E element = getRepository().delete(id, entityManager);
+        getRepository().remove(element);
 
         entityManager.getTransaction().commit();
         entityManager.close();

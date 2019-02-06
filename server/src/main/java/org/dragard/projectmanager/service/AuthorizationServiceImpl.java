@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
+import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;

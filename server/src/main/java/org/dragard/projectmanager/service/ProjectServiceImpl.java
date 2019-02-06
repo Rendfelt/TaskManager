@@ -4,8 +4,10 @@ import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
+import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
@@ -14,30 +16,35 @@ import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
+import org.dragard.projectmanager.repository.ProjectDSRepository;
+import org.dragard.projectmanager.repository.TaskDSRepository;
+import org.dragard.projectmanager.repository.UserDSRepository;
 import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Getter
 @Setter
+@Transactional
 @NoArgsConstructor
 @ApplicationScoped
 @NullAndEmptyChecker
 public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
-    @Inject
-    private ProjectRepository projectRepository;
+    @Inject @Preferred
+    private TaskDSRepository taskRepository;
 
-    @Inject
-    private TaskRepository taskRepository;
+    @Inject @Preferred
+    private ProjectDSRepository projectRepository;
 
-    @Inject
-    private UserRepository userRepository;
+    @Inject @Preferred
+    private UserDSRepository userRepository;
 
     @Override
     protected JobRepository<Project> getRepository() {
@@ -49,20 +56,14 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
             @NamedArg(value = "name") @Nullable @NotEmpty String name,
             @NamedArg(value = "description") String description,
             @NamedArg(value = "name") @Nullable @NotEmpty String userId
-    ) throws Exception {
+    ) {
         if (description == null){
             description = "";
         }
 
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
+        final Project project = Project.newInstance(name, description, userRepository.findBy(userId));
 
-        final Project project = Project.newInstance(name, description, userRepository.getElementById(userId, entityManager));
-        Project project2 = getRepository().merge(project, entityManager);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return project2;
+        return getRepository().merge(project);
     }
 
     @Override
@@ -70,51 +71,35 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
             @NamedArg(value = "id") @Nullable @NotEmpty String id,
             @NamedArg(value = "name") @Nullable @NotEmpty String name,
             @NamedArg(value = "description") String description
-    ) throws Exception {
-        final EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        final Project project = getRepository().getElementById(id, entityManager);
+    ) {
+        final Project project = getRepository().findBy(id);
         if (project == null){
-            throw new Exception("No element with id");
+            throw new RuntimeException("No element with id");
         }
         if (description == null){
             description = "";
         }
         project.setName(name);
         project.setDescription(description);
-        final Project resultProject = getRepository().merge(project, entityManager);
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-        return resultProject;
+        return getRepository().merge(project);
     }
 
     @Override
     public Project delete(
             @NamedArg(value = "id") @Nullable @NotEmpty String id
     ){
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        Project project = getRepository().getElementById(id, entityManager);
+        Project project = getRepository().findBy(id);
         if (project == null){
             throw new RuntimeException("No element deleted");
         }
-        List<Task> taskList = taskRepository.getElementsByProjectId(id, entityManager);
+        List<Task> taskList = taskRepository.getElementsByProjectId(id);
         if (taskList != null && !taskList.isEmpty()){
             for (Task t : taskList){
-                taskRepository.delete(t.getId(), entityManager);
+                taskRepository.remove(t);
             }
         }
-
-        Project project1 = getRepository().delete(id, entityManager);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-
-        return project1;
+        getRepository().remove(project);
+        return project;
     }
 }

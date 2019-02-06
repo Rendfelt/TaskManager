@@ -17,9 +17,6 @@ public class NullPointerAndStringEmptyChecker {
 
     @AroundInvoke
     public Object checkNull(InvocationContext ctx) throws Exception{
-
-        System.out.println(ctx.getMethod().getName() + "     " + ctx.getTarget().getClass().getSimpleName());
-
         final Annotation[][] annotations = ctx.getMethod().getParameterAnnotations();
         boolean nullable;
         boolean notEmpty;

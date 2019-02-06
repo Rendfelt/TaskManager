@@ -1,8 +1,10 @@
 package org.dragard.projectmanager.service;
 
 import javafx.beans.NamedArg;
+import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
+import org.dragard.projectmanager.api.repository.IRepository;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.service.JobEntityService;
 import org.dragard.projectmanager.entity.AbstractJobEntity;

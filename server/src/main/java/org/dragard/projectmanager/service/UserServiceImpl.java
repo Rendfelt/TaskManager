@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
+import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
@@ -15,16 +16,18 @@ import org.jetbrains.annotations.Nullable;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @Getter
 @Setter
+@Transactional
 @NoArgsConstructor
 @ApplicationScoped
 @NullAndEmptyChecker
 public class UserServiceImpl extends AbstractEntityService<User>
     implements UserService {
 
-    @Inject
+    @Inject @Preferred
     private UserRepository userRepository;
 
     @Override

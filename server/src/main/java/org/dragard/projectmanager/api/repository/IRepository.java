@@ -1,0 +1,12 @@
+package org.dragard.projectmanager.api.repository;
+
+import org.apache.deltaspike.data.api.FullEntityRepository;
+import org.dragard.projectmanager.entity.AbstractEntity;
+import org.dragard.projectmanager.entity.Task;
+
+import javax.persistence.EntityManager;
+import java.util.Collection;
+
+public interface IRepository<E extends AbstractEntity> extends FullEntityRepository<E, String> {
+
+}

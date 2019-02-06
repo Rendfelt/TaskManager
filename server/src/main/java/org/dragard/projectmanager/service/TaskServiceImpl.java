@@ -4,8 +4,10 @@ import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
+import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.repository.ProjectRepository;
 import org.dragard.projectmanager.api.repository.TaskRepository;
@@ -14,29 +16,34 @@ import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.entity.User;
+import org.dragard.projectmanager.repository.ProjectDSRepository;
+import org.dragard.projectmanager.repository.TaskDSRepository;
+import org.dragard.projectmanager.repository.UserDSRepository;
 import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @Getter
 @Setter
+@Transactional
 @NoArgsConstructor
 @ApplicationScoped
 @NullAndEmptyChecker
 public class TaskServiceImpl extends AbstractJobEntityService<Task>
         implements TaskService {
 
-    @Inject
-    private TaskRepository taskRepository;
+    @Inject @Preferred
+    private TaskDSRepository taskRepository;
 
-    @Inject
-    private ProjectRepository projectRepository;
+    @Inject @Preferred
+    private ProjectDSRepository projectRepository;
 
-    @Inject
-    private UserRepository userRepository;
+    @Inject @Preferred
+    private UserDSRepository userRepository;
 
     @Override
     protected JobRepository<Task> getRepository() {
@@ -54,24 +61,16 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
             description = "";
         }
 
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        final Project project = projectRepository.getElementById(projectId, entityManager);
+        final Project project = projectRepository.findBy(projectId);
         if (project == null){
             throw new Exception("No project with id");
         }
-        final User user = userRepository.getElementById(userId, entityManager);
+        final User user = userRepository.findBy(userId);
         if (user == null){
             throw new Exception("No user with id");
         }
-
         final Task task = Task.newInstance(name, description, user, project);
-        final Task resultTask = getRepository().merge(task, entityManager);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return resultTask;
+        return getRepository().merge(task);
 
     }
 
@@ -81,25 +80,16 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
             @NamedArg(value = "login") @Nullable @NotEmpty String name,
             @NamedArg (value = "description") String description,
             @NamedArg (value = "userId") @Nullable @NotEmpty String userId
-    ) throws Exception {
+    ){
         if (description == null){
             description = "";
         }
-
-        final EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        final Task task = getRepository().getElementById(id, entityManager);
+        final Task task = getRepository().findBy(id);
         if (task == null){
-            throw new Exception("No element with id");
+            throw new RuntimeException("No element with id");
         }
-
         task.setName(name);
         task.setDescription(description);
-        final Task resultTask = getRepository().merge(task, entityManager);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return resultTask;
+        return getRepository().merge(task);
     }
 }

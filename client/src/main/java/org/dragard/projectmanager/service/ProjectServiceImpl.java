@@ -26,12 +26,12 @@ public class ProjectServiceImpl
     }
 
     @Override
-    public Response create(String name, String description, String token) throws Exception {
+    public Response create(String name, String description, String token) {
         return getProjectEndpoint().getProjectEndpointImplPort().createProject(name, description, token);
     }
 
     @Override
-    public Response update(String id, String name, String description, String token) throws Exception {
+    public Response update(String id, String name, String description, String token) {
         return getProjectEndpoint().getProjectEndpointImplPort().updateProject(id, name, description, token);
     }
 

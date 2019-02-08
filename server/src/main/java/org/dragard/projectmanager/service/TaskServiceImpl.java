@@ -4,14 +4,9 @@ import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.annotation.Preferred;
-import org.dragard.projectmanager.api.repository.JobRepository;
-import org.dragard.projectmanager.api.repository.ProjectRepository;
-import org.dragard.projectmanager.api.repository.TaskRepository;
-import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
@@ -19,13 +14,11 @@ import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.repository.ProjectDSRepository;
 import org.dragard.projectmanager.repository.TaskDSRepository;
 import org.dragard.projectmanager.repository.UserDSRepository;
-import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 @Getter
 @Setter
@@ -46,7 +39,7 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
     private UserDSRepository userRepository;
 
     @Override
-    protected JobRepository<Task> getRepository() {
+    protected TaskDSRepository getRepository() {
         return taskRepository;
     }
 
@@ -71,7 +64,6 @@ public class TaskServiceImpl extends AbstractJobEntityService<Task>
         }
         final Task task = Task.newInstance(name, description, user, project);
         return getRepository().merge(task);
-
     }
 
     @Override

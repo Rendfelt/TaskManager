@@ -1,29 +1,26 @@
 package org.dragard.projectmanager.util;
 
 import lombok.SneakyThrows;
-import org.hibernate.Session;
+import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
 import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class HibernateUtils {
 
     private static SessionFactory sessionFactory;
 
-    static {
-
-    }
-
-    public static Session getSession(){
+    @Produces
+    @TransactionScoped
+    public static EntityManager getSession(){
         if (sessionFactory != null){
             return sessionFactory.openSession();
         }

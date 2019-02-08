@@ -7,9 +7,9 @@ import io.jsonwebtoken.impl.DefaultClaims;
 import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
-import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
@@ -21,13 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-@Getter
-@Setter
+@Transactional
 @ApplicationScoped
 @NullAndEmptyChecker
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
+    @Getter
+    @Setter
     @Inject
     private UserService userService;
 

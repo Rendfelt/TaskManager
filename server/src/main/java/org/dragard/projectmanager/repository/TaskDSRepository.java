@@ -13,5 +13,5 @@ import java.util.List;
 @Preferred
 public interface TaskDSRepository extends JobRepository<Task> {
 
-    List<Task> getElementsByProjectId(String id);
+    List<Task> findByProject_id(String id);
 }

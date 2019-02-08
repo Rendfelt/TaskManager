@@ -4,28 +4,20 @@ import javafx.beans.NamedArg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.annotation.Preferred;
-import org.dragard.projectmanager.api.repository.JobRepository;
-import org.dragard.projectmanager.api.repository.ProjectRepository;
-import org.dragard.projectmanager.api.repository.TaskRepository;
-import org.dragard.projectmanager.api.repository.UserRepository;
 import org.dragard.projectmanager.api.service.ProjectService;
-import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
 import org.dragard.projectmanager.repository.ProjectDSRepository;
 import org.dragard.projectmanager.repository.TaskDSRepository;
 import org.dragard.projectmanager.repository.UserDSRepository;
-import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Getter
@@ -47,7 +39,7 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     private UserDSRepository userRepository;
 
     @Override
-    protected JobRepository<Project> getRepository() {
+    protected ProjectDSRepository getRepository() {
         return projectRepository;
     }
 
@@ -93,7 +85,7 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
         if (project == null){
             throw new RuntimeException("No element deleted");
         }
-        List<Task> taskList = taskRepository.getElementsByProjectId(id);
+        List<Task> taskList = taskRepository.findByProject_id(id);
         if (taskList != null && !taskList.isEmpty()){
             for (Task t : taskList){
                 taskRepository.remove(t);

@@ -1,18 +1,19 @@
 package org.dragard.projectmanager.util;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.transaction.TransactionScoped;
 
 public class EntityManagerProducer {
 
-    @PersistenceContext(unitName = "primary")
-    private EntityManager entityManager;
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
 
-    @ApplicationScoped
+    @TransactionScoped
     @Produces
     public EntityManager getEntityManager() {
-        return entityManager;
+        return entityManagerFactory.createEntityManager();
     }
 }

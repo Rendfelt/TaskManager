@@ -2,6 +2,7 @@ package org.dragard.projectmanager.service;
 
 import javafx.beans.NamedArg;
 import org.apache.deltaspike.data.api.FullEntityRepository;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.repository.IRepository;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.EntityManager;
 
+@Transactional
 @NullAndEmptyChecker
 public abstract class AbstractEntityService<E extends AbstractEntity>
     implements EntityService<E> {
@@ -29,16 +31,11 @@ public abstract class AbstractEntityService<E extends AbstractEntity>
     public E delete(
             @NamedArg(value = "id") @Nullable @NotEmpty String id
     ){
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
         E element = getRepository().findBy(id);
         if (element == null){
             throw new RuntimeException("No element deleted");
         }
         getRepository().remove(element);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
         return element;
     }
 

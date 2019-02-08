@@ -42,7 +42,7 @@ public class AuthorizationEndpointServiceImpl
                 response.setMessage("Bad password");
                 return response;
             }
-            serviceLocator.getUserService().changePassword(password, activeUser);
+            serviceLocator.getUserService().changePassword(password, activeUser.getId());
             response.setMessage("Password changed successfully");
         } catch (Exception e) {
             e.printStackTrace();

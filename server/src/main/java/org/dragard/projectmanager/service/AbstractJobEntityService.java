@@ -1,19 +1,19 @@
 package org.dragard.projectmanager.service;
 
 import javafx.beans.NamedArg;
-import org.apache.deltaspike.data.api.FullEntityRepository;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
-import org.dragard.projectmanager.api.repository.IRepository;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.service.JobEntityService;
 import org.dragard.projectmanager.entity.AbstractJobEntity;
-import org.dragard.projectmanager.util.HibernateUtils;
 import org.jetbrains.annotations.Nullable;
 
-import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+@Transactional
 @NullAndEmptyChecker
 public abstract class AbstractJobEntityService<E extends AbstractJobEntity> extends AbstractEntityService<E>
     implements JobEntityService<E> {
@@ -28,17 +28,10 @@ public abstract class AbstractJobEntityService<E extends AbstractJobEntity> exte
         if (userId == null || userId.isEmpty()){
             throw new Exception("Bad user id");
         }
-        EntityManager entityManager = HibernateUtils.getSession();
-        entityManager.getTransaction().begin();
-
-        List<E> elements = getRepository().getElementsByUserId(userId, entityManager);
+        Collection<E> elements = getRepository().findByUser_id(userId);
         if (elements == null || elements.isEmpty()){
             throw new Exception("No element by this userId");
         }
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-        return elements;
+        return new ArrayList<>(elements);
     }
 }

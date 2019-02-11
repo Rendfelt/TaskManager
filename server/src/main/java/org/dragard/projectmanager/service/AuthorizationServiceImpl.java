@@ -6,24 +6,26 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import javafx.beans.NamedArg;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 @Transactional
-@ApplicationScoped
+@Component
 @NullAndEmptyChecker
+@NoArgsConstructor
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
@@ -35,22 +37,24 @@ public class AuthorizationServiceImpl
     private final String TOKEN_DATA_TOKEN_EXPIRATION_DATE = "tokenExpirationDate";
     private final String TOKEN_DATA_TOKEN_CREATE_DATE = "tokenCreateDate";
     private final String TOKEN_DATA_USER_ID = "userId";
-    private final String PROPERTIES_FILE_NAME = "config.properties";
     private final String PROPERTY_TOKEN_SECRET_KEY = "token.secretKey";
     private String key;
 
-    public AuthorizationServiceImpl() throws IOException {
-        Properties properties = new Properties();
-        InputStream is = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
-        properties.load(is);
+    @Inject
+    @Setter
+    @Qualifier("token")
+    private Properties properties;
+
+    @PostConstruct
+    public void init(){
         key = properties.getProperty(PROPERTY_TOKEN_SECRET_KEY);
-        is.close();
     }
 
     @Override
     public String login(
             @NamedArg(value = "login") @Nullable @NotEmpty String login,
-            @NamedArg(value = "password") @Nullable @NotEmpty String password) throws Exception {
+            @NamedArg(value = "password") @Nullable @NotEmpty String password
+    ) {
         final User user = userService.getElementByLogin(login);
         if (user == null || !user.getPassword().equals(password)){
             throw new RuntimeException("Bad login or password");

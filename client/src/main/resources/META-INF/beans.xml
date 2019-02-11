@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
     <interceptors>
 
-        <class>org.dragard.projectmanager.util.ReaponceHandleInterceptor</class>
+        <class>org.dragard.projectmanager.util.ServiceInterceptor</class>
 
     </interceptors>
 </beans>

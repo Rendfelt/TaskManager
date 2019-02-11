@@ -6,29 +6,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
-import org.dragard.projectmanager.api.annotation.Preferred;
+import org.dragard.projectmanager.repository.UserRepository;
 import org.dragard.projectmanager.api.service.UserService;
 import org.dragard.projectmanager.entity.User;
-import org.dragard.projectmanager.repository.UserDSRepository;
 import org.jetbrains.annotations.Nullable;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
-import javax.enterprise.context.ApplicationScoped;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.inject.Inject;
 
 @Getter
 @Setter
 @Transactional
 @NoArgsConstructor
-@ApplicationScoped
+@Component
 @NullAndEmptyChecker
 public class UserServiceImpl extends AbstractEntityService<User>
     implements UserService {
 
-    @Inject @Preferred
-    private UserDSRepository userRepository;
+    @Inject
+    private UserRepository userRepository;
 
     @Override
-    protected UserDSRepository getRepository() {
+    protected UserRepository getRepository() {
         return userRepository;
     }
 
@@ -41,7 +41,7 @@ public class UserServiceImpl extends AbstractEntityService<User>
             throw new RuntimeException("Login is occupied");
         }
         final User user = User.newInstance(login, password);
-        return getRepository().merge(user);
+        return getRepository().save(user);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class UserServiceImpl extends AbstractEntityService<User>
             @NamedArg (value = "password") @Nullable @NotEmpty String password,
             @NamedArg (value = "userId") @Nullable String userId
     ) {
-        final User user1 = getRepository().findBy(userId);
+        final User user1 = getRepository().findById(userId).orElse(null);
         if (user1 == null){
             throw new RuntimeException("No user");
         }
         user1.setPassword(password);
-        return getRepository().merge(user1);
+        return getRepository().save(user1);
     }
 
 

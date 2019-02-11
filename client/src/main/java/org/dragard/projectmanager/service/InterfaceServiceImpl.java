@@ -1,11 +1,10 @@
 package org.dragard.projectmanager.service;
 
 import org.dragard.projectmanager.api.service.InterfaceService;
-
-import javax.enterprise.context.ApplicationScoped;
+import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
-@ApplicationScoped
+@Component
 public class InterfaceServiceImpl
     implements InterfaceService {
 

@@ -11,7 +11,7 @@ public interface AuthorizationService extends Service{
     String login(
             @NamedArg(value = "login") String login,
             @NamedArg(value = "password") String password
-    ) throws Exception;
+    );
 
     void logout();
 

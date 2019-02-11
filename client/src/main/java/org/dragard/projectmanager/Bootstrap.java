@@ -8,22 +8,12 @@ import org.dragard.projectmanager.api.annotation.Preferred;
 import org.dragard.projectmanager.api.command.Command;
 import org.dragard.projectmanager.api.service.*;
 import org.dragard.projectmanager.command.*;
-import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
-import org.dragard.projectmanager.endpoint.ProjectEndpointImplService;
-import org.dragard.projectmanager.endpoint.TaskEndpointImplService;
-import org.dragard.projectmanager.service.AuthorizationServiceImpl;
-import org.dragard.projectmanager.service.ProjectServiceImpl;
-import org.dragard.projectmanager.service.TaskServiceImpl;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-@ApplicationScoped
+@Component
 @NoArgsConstructor
 public class Bootstrap implements ServiceLocator {
 
@@ -44,7 +34,6 @@ public class Bootstrap implements ServiceLocator {
     @Getter
     @Setter
     @Inject
-    @Preferred
     private AuthorizationService authorizationService;
 
     private final Map<String, Command> commandList = new HashMap<>();

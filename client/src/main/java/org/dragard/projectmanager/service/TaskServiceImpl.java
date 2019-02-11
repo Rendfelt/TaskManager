@@ -1,25 +1,18 @@
 package org.dragard.projectmanager.service;
 
 import org.dragard.projectmanager.api.annotation.ResponceHandle;
-import org.dragard.projectmanager.api.service.AuthorizationService;
 import org.dragard.projectmanager.api.service.TaskService;
-import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
 import org.dragard.projectmanager.endpoint.TaskEndpointImplService;
-import org.dragard.projectmanager.util.UtilClass;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
 
-@ResponceHandle
-@ApplicationScoped
+//@ResponceHandle
+@Component
 public class TaskServiceImpl
     implements TaskService {
 
     private TaskEndpointImplService taskEndpoint;
-
-    /*public static TaskService getInstance(TaskEndpointImplService taskEndpointImplService){
-        return (TaskService) UtilClass.getServiceProxy(TaskService.class, new TaskServiceImpl(taskEndpointImplService));
-    }*/
 
     protected TaskServiceImpl() {
         this.taskEndpoint = new TaskEndpointImplService();
@@ -49,11 +42,4 @@ public class TaskServiceImpl
         return getTaskEndpoint().getTaskEndpointImplPort().getViewTask(token);
     }
 
-/*    @Override
-    public Response persist(List elements, String token) throws Exception {
-        Response response = getTaskEndpoint().getTaskEndpointImplPort().persistTask(elements, token);
-        UtilClass.checkResponse(response);
-
-        return response;
-    }*/
 }

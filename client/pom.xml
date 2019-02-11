@@ -12,6 +12,10 @@
     <artifactId>client</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+
+    </dependencies>
+
     <build>
         <plugins>
 

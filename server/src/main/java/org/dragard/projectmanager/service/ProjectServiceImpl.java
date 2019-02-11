@@ -6,17 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
-import org.dragard.projectmanager.api.annotation.Preferred;
+import org.dragard.projectmanager.repository.ProjectRepository;
+import org.dragard.projectmanager.repository.UserRepository;
 import org.dragard.projectmanager.api.service.ProjectService;
 import org.dragard.projectmanager.entity.Project;
 import org.dragard.projectmanager.entity.Task;
-import org.dragard.projectmanager.repository.ProjectDSRepository;
-import org.dragard.projectmanager.repository.TaskDSRepository;
-import org.dragard.projectmanager.repository.UserDSRepository;
+import org.dragard.projectmanager.repository.TaskRepository;
 import org.jetbrains.annotations.Nullable;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -24,22 +23,22 @@ import java.util.List;
 @Setter
 @Transactional
 @NoArgsConstructor
-@ApplicationScoped
+@Component
 @NullAndEmptyChecker
 public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     implements ProjectService {
 
-    @Inject @Preferred
-    private TaskDSRepository taskRepository;
+    @Inject
+    private TaskRepository taskRepository;
 
-    @Inject @Preferred
-    private ProjectDSRepository projectRepository;
+    @Inject
+    private ProjectRepository projectRepository;
 
-    @Inject @Preferred
-    private UserDSRepository userRepository;
+    @Inject
+    private UserRepository userRepository;
 
     @Override
-    protected ProjectDSRepository getRepository() {
+    protected ProjectRepository getRepository() {
         return projectRepository;
     }
 
@@ -47,15 +46,15 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
     public Project create(
             @NamedArg(value = "name") @Nullable @NotEmpty String name,
             @NamedArg(value = "description") String description,
-            @NamedArg(value = "name") @Nullable @NotEmpty String userId
+            @NamedArg(value = "userId") @Nullable @NotEmpty String userId
     ) {
         if (description == null){
             description = "";
         }
 
-        final Project project = Project.newInstance(name, description, userRepository.findBy(userId));
+        final Project project = Project.newInstance(name, description, userRepository.findById(userId).orElse(null));
 
-        return getRepository().merge(project);
+        return getRepository().save(project);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
             @NamedArg(value = "name") @Nullable @NotEmpty String name,
             @NamedArg(value = "description") String description
     ) {
-        final Project project = getRepository().findBy(id);
+        final Project project = getRepository().findById(id).orElse(null);
         if (project == null){
             throw new RuntimeException("No element with id");
         }
@@ -74,24 +73,24 @@ public class ProjectServiceImpl extends AbstractJobEntityService<Project>
         project.setName(name);
         project.setDescription(description);
 
-        return getRepository().merge(project);
+        return getRepository().save(project);
     }
 
     @Override
     public Project delete(
             @NamedArg(value = "id") @Nullable @NotEmpty String id
     ){
-        Project project = getRepository().findBy(id);
+        Project project = getRepository().findById(id).orElse(null);
         if (project == null){
             throw new RuntimeException("No element deleted");
         }
         List<Task> taskList = taskRepository.findByProject_id(id);
         if (taskList != null && !taskList.isEmpty()){
             for (Task t : taskList){
-                taskRepository.remove(t);
+                taskRepository.delete(t);
             }
         }
-        getRepository().remove(project);
+        getRepository().delete(project);
         return project;
     }
 }

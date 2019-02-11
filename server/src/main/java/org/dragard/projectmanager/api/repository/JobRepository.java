@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface JobRepository<E extends AbstractJobEntity> extends IRepository<E> {
 
-    List<E> findByUser_id(String id) throws Exception;
+    List<E> findByUser_id(String id);
 
 }

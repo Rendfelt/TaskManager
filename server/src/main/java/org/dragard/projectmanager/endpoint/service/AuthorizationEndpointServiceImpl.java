@@ -10,11 +10,10 @@ import org.dragard.projectmanager.api.endpoint.service.AuthorizationEndpointServ
 import org.dragard.projectmanager.entity.Response;
 import org.dragard.projectmanager.entity.User;
 import org.dragard.projectmanager.util.UtilClass;
-
-import javax.enterprise.context.ApplicationScoped;
+import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 
-@ApplicationScoped
+@Component
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthorizationEndpointServiceImpl
     implements AuthorizationEndpointService {

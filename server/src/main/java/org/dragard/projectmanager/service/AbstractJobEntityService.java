@@ -1,13 +1,13 @@
 package org.dragard.projectmanager.service;
 
 import javafx.beans.NamedArg;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.dragard.projectmanager.api.annotation.NotEmpty;
 import org.dragard.projectmanager.api.annotation.NullAndEmptyChecker;
 import org.dragard.projectmanager.api.repository.JobRepository;
 import org.dragard.projectmanager.api.service.JobEntityService;
 import org.dragard.projectmanager.entity.AbstractJobEntity;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;

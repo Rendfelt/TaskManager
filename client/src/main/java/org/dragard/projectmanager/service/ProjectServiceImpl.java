@@ -3,18 +3,12 @@ package org.dragard.projectmanager.service;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.api.service.ProjectService;
-import org.dragard.projectmanager.api.service.TaskService;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
-import org.dragard.projectmanager.endpoint.TaskEndpointImplService;
-import org.dragard.projectmanager.util.UtilClass;
+import org.springframework.stereotype.Component;
 
-import javax.enterprise.context.ApplicationScoped;
-
-@ResponceHandle
-@ApplicationScoped
+@Component
 public class ProjectServiceImpl
     implements ProjectService {
 
@@ -45,11 +39,4 @@ public class ProjectServiceImpl
         return getProjectEndpoint().getProjectEndpointImplPort().getViewProject(token);
     }
 
-/*    @Override
-    public Response persist(List<Project> elements, String token) throws Exception {
-        Response response = getProjectEndpoint().getProjectEndpointImplPort().persistProject(elements, token);
-        UtilClass.checkResponse(response);
-
-        return response;
-    }*/
 }

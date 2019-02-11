@@ -15,15 +15,12 @@ import org.dragard.projectmanager.endpoint.AuthorizationEndpointImpl;
 import org.dragard.projectmanager.endpoint.ProjectEndpointImpl;
 import org.dragard.projectmanager.endpoint.TaskEndpointImpl;
 import org.dragard.projectmanager.util.UtilClass;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
+import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import javax.xml.ws.Endpoint;
 import java.util.*;
 
-@ApplicationScoped
+@Component
 public class Bootstrap
     implements ServiceLocator {
 
@@ -108,28 +105,22 @@ public class Bootstrap
         initializeTestData();
     }
 
-    @Inject
-    private Event<String> stringEvent;
-
     public void run() {
         initialize();
-        stringEvent.fire("");
-    }
-
-    private void handleConsoleEvent(@Observes String message){
-        System.out.println("\nEnter your command (enter \"help\" for list of commands)");
-        final String input = scanner.nextLine().toLowerCase();
-        Command command = commandList.get(input);
-        if (command != null && (!command.isSecure() || authorizationService.isLogged())){
-            try {
-                command.execute();
-            } catch (Exception e) {
-                e.printStackTrace();
+        while (true){
+            System.out.println("\nEnter your command (enter \"help\" for list of commands)");
+            final String input = scanner.nextLine().toLowerCase();
+            Command command = commandList.get(input);
+            if (command != null && (!command.isSecure() || authorizationService.isLogged())){
+                try {
+                    command.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Command not recognized. Try again, please");
             }
-        } else {
-            System.out.println("Command not recognized. Try again, please");
         }
-        stringEvent.fire("");
     }
 
     @Override

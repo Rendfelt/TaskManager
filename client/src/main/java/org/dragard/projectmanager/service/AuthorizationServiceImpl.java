@@ -1,24 +1,13 @@
 package org.dragard.projectmanager.service;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.api.service.AuthorizationService;
-import org.dragard.projectmanager.api.service.Service;
 import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
-import org.dragard.projectmanager.endpoint.Exception_Exception;
 import org.dragard.projectmanager.endpoint.Response;
+import org.springframework.stereotype.Component;
 
-import org.dragard.projectmanager.util.UtilClass;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-
-@ResponceHandle
-@ApplicationScoped
-@NoArgsConstructor
+@Component
 public class AuthorizationServiceImpl
     implements AuthorizationService {
 
@@ -28,14 +17,10 @@ public class AuthorizationServiceImpl
     @Setter
     private AuthorizationEndpointImplService authorizationEndpoint;
 
-    protected AuthorizationServiceImpl(AuthorizationEndpointImplService authorizationEndpoint) {
+    protected AuthorizationServiceImpl() {
         token = null;
-        this.authorizationEndpoint = authorizationEndpoint;
+        this.authorizationEndpoint = new AuthorizationEndpointImplService();
     }
-
-   /* public static AuthorizationService getInstance(AuthorizationEndpointImplService authorizationEndpoint){
-        return (AuthorizationService) UtilClass.getServiceProxy(AuthorizationService.class, new AuthorizationServiceImpl(authorizationEndpoint));
-    }*/
 
     @Override
     public Response register(String login, String password) {

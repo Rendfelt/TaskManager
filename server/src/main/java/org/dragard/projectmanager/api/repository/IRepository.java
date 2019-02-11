@@ -1,8 +1,9 @@
 package org.dragard.projectmanager.api.repository;
 
-import org.apache.deltaspike.data.api.FullEntityRepository;
 import org.dragard.projectmanager.entity.AbstractEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IRepository<E extends AbstractEntity> extends FullEntityRepository<E, String> {
+
+public interface IRepository<E extends AbstractEntity> extends JpaRepository<E, String> {
 
 }

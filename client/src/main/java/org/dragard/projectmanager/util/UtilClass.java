@@ -7,9 +7,6 @@ import org.dragard.projectmanager.endpoint.AuthorizationEndpointImplService;
 import org.dragard.projectmanager.endpoint.Response;
 import org.dragard.projectmanager.service.AuthorizationServiceImpl;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -38,20 +35,20 @@ public class UtilClass {
         return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
-    public static Service getServiceProxy(Class clazz, Service instance){
+/*    public static Service getServiceProxy(Class clazz, Service instance){
         final Class[] classes = new Class[] {clazz};
         final ClassLoader classLoader = clazz.getClassLoader();
         final ResponseCheckHandler responseCheckHandler = new ResponseCheckHandler(instance);
 
         return (Service) Proxy.newProxyInstance(classLoader, classes, responseCheckHandler);
-    }
+    }*/
 
-    @Produces
+/*    @Produces
     @Preferred
     @ApplicationScoped
     public static AuthorizationService getAuthorizationService(AuthorizationServiceImpl authorizationService) {
         authorizationService.setAuthorizationEndpoint(new AuthorizationEndpointImplService());
         return authorizationService;
-    }
+    }*/
 
 }

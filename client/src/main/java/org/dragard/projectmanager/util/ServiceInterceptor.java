@@ -2,19 +2,15 @@ package org.dragard.projectmanager.util;
 
 import lombok.AccessLevel;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.dragard.projectmanager.api.ServiceLocator;
-import org.dragard.projectmanager.api.annotation.ResponceHandle;
 import org.dragard.projectmanager.endpoint.Response;
 
 import javax.inject.Inject;
 
-//@Interceptor
-//@ResponceHandle
 @Aspect
 public class ServiceInterceptor {
 
@@ -25,9 +21,6 @@ public class ServiceInterceptor {
     @Pointcut("execution(org.dragard.projectmanager.endpoint.Response " +
             "org.dragard.projectmanager.service.*.*(..))")
     public void servicePointcut(){}
-/*
-    @Pointcut("execution(* org.dragard.spring.projectmanager.service.*.*(User)) && args(user)")
-    public void servicePointcut2(User user){}*/
 
     @Around("servicePointcut()")
     public Object handleResponce(ProceedingJoinPoint jp) throws Exception{
